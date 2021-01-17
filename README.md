@@ -1,4 +1,5 @@
 # Entropy
+A real-time collaborative diagram editor using Websockets and React. Entropy enables users to communicate visually in real-time.
 
 ## Available Scripts
 
