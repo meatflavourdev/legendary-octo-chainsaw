@@ -9,7 +9,7 @@ import {
 import Home from "./Home";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import Editor from "./Editor";
+import Editor from "./Editor/Editor";
 import Error from "./Error";
 
 function RouteHandler() {
