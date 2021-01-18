@@ -16,7 +16,7 @@ function RouteHandler() {
   return (
     <Router>
       <div>
-        <ul>
+        <ul className="navbar">
           <li>
             <Link to="/">Landing Page</Link>
           </li>
