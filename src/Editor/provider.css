@@ -1,0 +1,10 @@
+.providerflow {
+  height: 36em;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.reactflow-wrapper {
+  height: 100%;
+  width: 100%;
+}
