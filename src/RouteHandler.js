@@ -24,7 +24,7 @@ function RouteHandler() {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/signup"><button>Signup</button></Link>
           </li>
           <li>
             <Link to="/app">Editor</Link>
