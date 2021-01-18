@@ -16,3 +16,10 @@
   width: 100%;
   border-bottom: 1px solid black;
 }
+
+.info {
+  position: absolute;
+  z-index: 1000;
+  right: 2em;
+  text-align: end;
+}
