@@ -15,29 +15,6 @@ import Error from "./Error";
 function RouteHandler() {
   return (
     <Router>
-      <div>
-        <ul className="navbar">
-          <li>
-            <Link to="/">Landing Page</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup"><button>Signup</button></Link>
-          </li>
-          <li>
-            <Link to="/app">Editor</Link>
-          </li>
-          <li>
-            <Link to="/error">Error Page (placeholder)</Link>
-          </li>
-          <li>
-            <Link to="/11b18ea5-bfdf-4421-a1a0-3609692408fd">Example link to document with UUID</Link>
-          </li>
-        </ul>
-
-        <hr />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login">
@@ -56,7 +33,6 @@ function RouteHandler() {
             <Editor />
           </Route>
         </Switch>
-      </div>
     </Router>
   );
 }
