@@ -1,10 +1,10 @@
-import TestApp from "./TestApp";
+import TestApp from "./YjsIntegration";
 
 function Error() {
   return (
     <div>
       <h2>Error</h2>
-      <TestApp />
+      <p>Nothing to see here yet.</p>
     </div>
   );
 }
