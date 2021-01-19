@@ -28,9 +28,9 @@ code {
   width: 100%;
 }
 
-#normal_login {
+#normal_login, #normal_signup {
   margin: auto;
   position: relative;
-  top:200px;
+  top:150px;
   padding: 24px;
 }

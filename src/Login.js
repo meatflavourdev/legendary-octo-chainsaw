@@ -26,7 +26,7 @@ function Login() {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please enter your Email!',
           },
         ]}
       >
@@ -37,7 +37,7 @@ function Login() {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: 'Please enter a Password!',
           },
         ]}
       >
