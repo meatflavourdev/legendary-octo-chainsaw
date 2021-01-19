@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Link } from "react-router-dom";
@@ -32,8 +30,8 @@ function SignUp() {
           },
         ]}
       >
-        <Input 
-        prefix={<UserOutlined className="site-form-item-icon" />} 
+        <Input
+        prefix={<UserOutlined className="site-form-item-icon" />}
         placeholder="Username" />
       </Form.Item>
 
@@ -47,8 +45,8 @@ function SignUp() {
           },
         ]}
       >
-        <Input 
-        prefix={<UserOutlined className="site-form-item-icon" />} 
+        <Input
+        prefix={<UserOutlined className="site-form-item-icon" />}
         placeholder="Email" />
       </Form.Item>
 
@@ -84,7 +82,7 @@ function SignUp() {
           placeholder="Confirm Password"
         />
       </Form.Item>
-      
+
       {/* A JSX comment */}
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
