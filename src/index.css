@@ -14,6 +14,9 @@ code {
 
 .login-form {
   max-width: 300px;
+  border: 1px solid lightgray;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
 }
 .login-form-forgot {
   float: right;
@@ -28,5 +31,6 @@ code {
 #normal_login {
   margin: auto;
   position: relative;
-  top: 200px;
+  top:200px;
+  padding: 24px;
 }
