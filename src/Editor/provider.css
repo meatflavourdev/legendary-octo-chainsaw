@@ -1,0 +1,25 @@
+.providerflow {
+  height: 36em;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.reactflow-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.info {
+  position: absolute;
+  z-index: 1000;
+  right: 2em;
+  text-align: end;
+}
