@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import ProviderFlow from './ProviderFlow';
 
 function Editor() {
   let { doc_id } = useParams();
@@ -10,8 +11,11 @@ function Editor() {
   }
   return (
     <div>
-      <h2>Editor</h2>
-        {doc}
+      <div class="info">
+        <h2>Editor</h2>
+        <h3>{doc}</h3>
+      </div>
+      <ProviderFlow />
     </div>
   );
 }

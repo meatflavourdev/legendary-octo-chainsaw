@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import Home from "./Home";
@@ -15,48 +14,14 @@ import Error from "./Error";
 function RouteHandler() {
   return (
     <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Landing Page</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup"><button>Signup</button></Link>
-          </li>
-          <li>
-            <Link to="/app">Editor</Link>
-          </li>
-          <li>
-            <Link to="/error">Error Page (placeholder)</Link>
-          </li>
-          <li>
-            <Link to="/11b18ea5-bfdf-4421-a1a0-3609692408fd">Example link to document with UUID</Link>
-          </li>
-        </ul>
-
-        <hr />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/app">
-            <Editor />
-          </Route>
-          <Route path="/error">
-            <Error />
-          </Route>
-          <Route path="/:doc_id" >
-            <Editor />
-          </Route>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/app" component={Editor} />
+          <Route exact path="/error" component={Error} />
+          <Route path="/:doc_id" component={Editor} />
         </Switch>
-      </div>
     </Router>
   );
 }
