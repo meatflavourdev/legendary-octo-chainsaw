@@ -17,21 +17,11 @@ function RouteHandler() {
     <Router>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/app">
-            <Editor />
-          </Route>
-          <Route path="/error">
-            <Error />
-          </Route>
-          <Route path="/:doc_id" >
-            <Editor />
-          </Route>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/app" component={Editor} />
+          <Route exact path="/error" component={Error} />
+          <Route path="/:doc_id" component={Editor} />
         </Switch>
     </Router>
   );
