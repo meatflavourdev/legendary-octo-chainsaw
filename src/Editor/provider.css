@@ -1,5 +1,5 @@
 .providerflow {
-  height: 36em;
+  height: 80vh;
   width: 100%;
   border-bottom: 1px solid black;
 }
@@ -18,8 +18,14 @@
 }
 
 .info {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   right: 2em;
   text-align: end;
+  bottom: 1em;
+}
+
+.flowInfoFooter {
+  position: fixed;
+  bottom: 0px;
 }

@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import MenuAppBar from "../components/MenuAppBar";
 import ProviderFlow from './ProviderFlow';
 
 function Editor() {
@@ -15,6 +16,7 @@ function Editor() {
         <h2>Editor</h2>
         <h3>{doc}</h3>
       </div>
+      <MenuAppBar />
       <ProviderFlow />
     </div>
   );
