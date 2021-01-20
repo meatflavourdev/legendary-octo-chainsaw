@@ -6,6 +6,7 @@ import ReactFlow, {
   Controls,
   useStoreState,
   useStoreActions,
+  Background,
 } from 'react-flow-renderer';
 import './provider.css';
 
@@ -30,7 +31,7 @@ function Footer() {
     setSelectedElements(nodes.map((node) => ({ id: node.id, type: node.type })));
   };
   return (
-    <aside>
+    <aside className="flowInfoFooter">
       <div className="description">
         This is an example of how you can access the internal state outside of the ReactFlow component.
       </div>
@@ -49,14 +50,12 @@ function Footer() {
       </div>
     </aside>
   );
-};
-
+}
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const onConnect = (params) => setElements((els) => addEdge(params, els));
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
   return (
     <div className="providerflow">
       <ReactFlowProvider>
@@ -69,6 +68,7 @@ const ProviderFlow = () => {
             onLoad={onLoad}
           >
             <Controls />
+            <Background variant="dots" gap={15} size={0.5} />
           </ReactFlow>
         </div>
         <Footer />
