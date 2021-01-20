@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@react-firebase/auth": "^0.2.10",
