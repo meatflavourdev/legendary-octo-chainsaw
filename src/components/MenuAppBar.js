@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
+import ShareMenu from './ShareMenu';
 
 const drawerWidth = 240;
 
@@ -142,10 +143,9 @@ export default function MenuAppBar() {
             Entropy
           </Typography>
           {auth && (
-            <div>
-              <ProfileMenu/>
-            </div>
-          )}
+            <ShareMenu/>
+            )}
+            <ProfileMenu/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -171,8 +171,6 @@ export default function MenuAppBar() {
         </div>
         <Divider />
         <div className={classes.newdoc}>
-
-          
           <Typography variant="body1">
             Private
           </Typography>
@@ -181,7 +179,7 @@ export default function MenuAppBar() {
           </IconButton>
         </div>
         <LibraryList public='false'/>
-        <Divider />
+        <Divider/>
         <div className={classes.newdoc}>
           <Typography variant="body1">
             Shared

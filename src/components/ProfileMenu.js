@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
+    border: '1px solid #d3d4d5'
   },
 })((props) => (
   <Menu
@@ -71,7 +71,7 @@ export default function ProfileMenu() {
       </IconButton>
 
       <StyledMenu
-        id="customized-menu"
+        id="profile-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
