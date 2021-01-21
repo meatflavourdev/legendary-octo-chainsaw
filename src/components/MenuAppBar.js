@@ -219,6 +219,7 @@ export default function MenuAppBar() {
         </div>
         <Divider />
         <div className={classes.newdoc}>
+          <LibraryList />
           <Typography variant="body1">
             Private
           </Typography>
