@@ -31,6 +31,9 @@ function Home() {
             <Link to="/firebaseauth">Firebase Auth Test</Link>
           </li>
           <li>
+            <Link to="/cloudfirestore">Cloud Firestore Test</Link>
+          </li>
+          <li>
             <Link to="/11b18ea5-bfdf-4421-a1a0-3609692408fd">Example link to document with UUID</Link>
           </li>
         </ul>

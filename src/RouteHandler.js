@@ -12,6 +12,7 @@ import Editor from "./Editor/Editor";
 import Error from "./Error";
 import YjsTest from "./YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
+import cloudFirestore from "./firebase/cloudFirestore";
 
 function RouteHandler() {
   return (
@@ -24,6 +25,7 @@ function RouteHandler() {
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/firebaseauth" component={firebaseAuth} />
+        <Route exact path="/cloudfirestore" component={cloudFirestore} />
           <Route path="/:doc_id" component={Editor} />
         </Switch>
     </Router>
