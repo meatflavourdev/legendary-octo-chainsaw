@@ -11,9 +11,9 @@ function Editor() {
   }
   return (
     <div>
-      <div class="info">
+      <div className="info">
         <h2>Editor</h2>
-        <h3>{doc}</h3>
+        {doc}
       </div>
       <MenuAppBar />
     </div>
