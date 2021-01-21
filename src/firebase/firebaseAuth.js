@@ -38,9 +38,12 @@ function firebaseAuth() {
       <FirebaseAuthConsumer>
         {({ isSignedIn, user, providerId }) => {
           return (
-            <pre style={{ height: 300, overflow: 'auto' }}>
-              {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
-            </pre>
+            <>
+              <h1>{user && user.displayName}</h1>
+              <pre style={{ height: 300, overflow: 'auto' }}>
+                {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
+              </pre>
+            </>
           );
         }}
       </FirebaseAuthConsumer>
