@@ -34,7 +34,6 @@ ReactDOM.render(
           </ThemeProvider>
         </FirestoreProvider>
       </FirebaseAuthProvider>
-    ,
   </React.StrictMode>,
   document.getElementById('root')
 );
