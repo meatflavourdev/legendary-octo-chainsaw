@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import MenuAppBar from "../components/MenuAppBar";
-import ProviderFlow from './ProviderFlow';
 
 function Editor() {
   let { doc_id } = useParams();
@@ -17,7 +16,6 @@ function Editor() {
         <h3>{doc}</h3>
       </div>
       <MenuAppBar />
-      <ProviderFlow />
     </div>
   );
 }
