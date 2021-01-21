@@ -7,7 +7,9 @@ import './index.css';
 import RouteHandler from './RouteHandler';
 //import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/app';
+import "firebase/firestore";
 import { FirebaseAuthConsumer, FirebaseAuthProvider } from '@react-firebase/auth';
+import { FirestoreProvider } from '@react-firebase/firestore';
 import { firebaseConfig } from './firebase/firebaseConfig';
 import LogRocket from 'logrocket';
 LogRocket.init('f9lgjx/entropy');
@@ -15,22 +17,23 @@ LogRocket.init('f9lgjx/entropy');
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
-      <FirebaseAuthConsumer>
-        {({ isSignedIn, user, providerId }) => {
-            user && console.log(`Logrocket identify user: ${user.displayName}`);
-              user && LogRocket.identify(user.uid, {
-                name: user.displayName,
-                email: user.email,
-                isAnonymous: user.isAnonymous,
-              });
-            }}
-        </FirebaseAuthConsumer>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <RouteHandler />
-      </ThemeProvider>
+      <FirestoreProvider {...firebaseConfig} firebase={firebase}>
+        <FirebaseAuthConsumer>
+          {({ isSignedIn, user, providerId }) => {
+              user && console.log(`Logrocket identify user: ${user.displayName}`);
+                user && LogRocket.identify(user.uid, {
+                  name: user.displayName,
+                  email: user.email,
+                  isAnonymous: user.isAnonymous,
+                });
+              }}
+          </FirebaseAuthConsumer>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouteHandler />
+          </ThemeProvider>
+        </FirestoreProvider>
       </FirebaseAuthProvider>
-    ,
   </React.StrictMode>,
   document.getElementById('root')
 );
