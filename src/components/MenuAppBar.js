@@ -12,18 +12,11 @@ import Menu from '@material-ui/core/Menu';
 import logo from '../logo.png';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DescriptionIcon from '@material-ui/icons/Description';
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import { FirestoreCollection } from '@react-firebase/firestore';
 import LibraryList from '../components/LibraryList';
 
 const drawerWidth = 240;
@@ -110,9 +103,6 @@ export default function MenuAppBar() {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = React.useState(false);
-
-  const sampleDocuments = [{name: "Wireframe"}, {name: "Notes"}, {name: "LOC flowchart"}, {name: "Something"}];
-  const samplePrivateDocuments = [{name: "Entropy"}, {name: "Editor"}, {name: "How to get away with murder"}];
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -219,7 +209,8 @@ export default function MenuAppBar() {
         </div>
         <Divider />
         <div className={classes.newdoc}>
-          <LibraryList />
+
+          
           <Typography variant="body1">
             Private
           </Typography>
@@ -227,14 +218,7 @@ export default function MenuAppBar() {
             {<AddBoxIcon/>}
           </IconButton>
         </div>
-        <List>
-          {sampleDocuments.map((text, index) => (
-            <ListItem button key={text.name}>
-              <ListItemIcon>{<DescriptionIcon/>}</ListItemIcon>
-              <ListItemText primary={text.name} />
-            </ListItem>
-          ))}
-        </List>
+        <LibraryList public='false'/>
         <Divider />
         <div className={classes.newdoc}>
           <Typography variant="body1">
@@ -244,14 +228,7 @@ export default function MenuAppBar() {
             {<AddBoxIcon/>}
           </IconButton>
         </div>
-        <List>
-          {samplePrivateDocuments.map((text, index) => (
-            <ListItem button key={text.name} alignItems="center">
-              <ListItemIcon>{<InsertDriveFileIcon/>}</ListItemIcon>
-              <ListItemText primary={text.name} />
-            </ListItem>
-          ))}
-        </List>
+        <LibraryList public='true'/>
       </Drawer>
       <ProviderFlow />
     </div>
