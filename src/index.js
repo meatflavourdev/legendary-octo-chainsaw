@@ -15,6 +15,16 @@ LogRocket.init('f9lgjx/entropy');
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
+      <FirebaseAuthConsumer>
+        {({ isSignedIn, user, providerId }) => {
+            user && console.log(`Logrocket identify user: ${user.displayName}`);
+              user && LogRocket.identify(user.uid, {
+                name: user.displayName,
+                email: user.email,
+                isAnonymous: user.isAnonymous,
+              });
+            }}
+        </FirebaseAuthConsumer>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <RouteHandler />
