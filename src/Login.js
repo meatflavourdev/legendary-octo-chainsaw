@@ -14,6 +14,9 @@ import Container from '@material-ui/core/Container';
 import { Box, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  boxContainer: {
+    height: '100vh'
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    padding: "1em"
   },
 }));
 
@@ -37,9 +41,10 @@ export default function Login() {
   const classes = useStyles();
 
   return (
+    <Box className={classes.boxContainer} display="flex" alignItems="center">
     <Container component="main" maxWidth="xs">
         <Paper elevation={3}>
-        <Box  p={3}>
+        <Box p={3}>
           <CssBaseline />
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
@@ -70,16 +75,13 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                className={classes.submit}
+              className={classes.submit}
+              size = "large"
               >
                 Sign In
               </Button>
@@ -95,5 +97,6 @@ export default function Login() {
         </Box>
     </Paper>
       </Container>
+      </Box>
   );
 }
