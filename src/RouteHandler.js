@@ -8,6 +8,7 @@ import {
 import Home from "./Home";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import { AuthProvider } from "./contexts/AuthContext"
 import Editor from "./Editor/Editor";
 import Error from "./Error";
 import YjsTest from "./YjsTest";
@@ -16,6 +17,7 @@ import firebaseAuth from "./firebase/firebaseAuth";
 function RouteHandler() {
   return (
     <Router>
+      <AuthProvider>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
@@ -26,6 +28,7 @@ function RouteHandler() {
           <Route exact path="/firebaseauth" component={firebaseAuth} />
           <Route path="/:doc_id" component={Editor} />
         </Switch>
+      </AuthProvider>
     </Router>
   );
 }

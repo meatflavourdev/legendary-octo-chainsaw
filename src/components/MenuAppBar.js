@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from "../contexts/AuthContext"
+import { Card, Button, Alert } from "react-bootstrap"
+import { Link, useHistory } from "react-router-dom"
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -51,6 +54,21 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
+
   return (
     <div className={classes.root}>
 {/*       <FormGroup>
@@ -62,7 +80,7 @@ export default function MenuAppBar() {
       <AppBar className={classes.navbar} position="static">
         <Toolbar>
           <IconButton className={classes.navIconButton} edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
+            <MenuIcon /> 
           </IconButton>
           <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
           <Typography variant="h6" className={classes.title}>
@@ -102,5 +120,6 @@ export default function MenuAppBar() {
         </Toolbar>
       </AppBar>
     </div>
+    
   );
 }

@@ -1,98 +1,76 @@
-import 'antd/dist/antd.css';
-import './index.css';
-import { Link } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import React, { useRef, useState } from "react"
+import { Form, Button, Card, Alert } from "react-bootstrap"
+import { useAuth } from "./contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
+export default function Signup() {
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+  const { signup } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useHistory()
 
-function SignUp() {
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords do not match")
+    }
+
+    try {
+      setError("")
+      setLoading(true)
+      await signup(emailRef.current.value, passwordRef.current.value)
+      history.push("/")
+    } catch {
+      setError("Failed to create an account")
+    }
+
+    setLoading(false)
+  }
 
   return (
-    <Form
-      name="normal_signup"
-      className="login-form"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-    >
-      {/* Username field */}
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter a Username!',
-          },
-        ]}
-      >
-        <Input
-        prefix={<UserOutlined className="site-form-item-icon" />}
-        placeholder="Username" />
-      </Form.Item>
-
-      {/* Email field */}
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter an Email!',
-          },
-        ]}
-      >
-        <Input
-        prefix={<UserOutlined className="site-form-item-icon" />}
-        placeholder="Email" />
-      </Form.Item>
-
-      {/* Password field */}
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter a Password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-
-      {/* Confirm Password field */}
-      <Form.Item
-        name="confirm-password"
-        rules={[
-          {
-            required: true,
-            message: 'Please confirm your Password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="Confirm Password"
-        />
-      </Form.Item>
-
-      {/* A JSX comment */}
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Sign up
+    <>
+      <Card>
+        <Card.Body>
+          <h2 className="text-center mb-4">Sign Up</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group id="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" ref={emailRef} required />
+            </Form.Group>
+            <Form.Group id="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" ref={passwordRef} required />
+            </Form.Group>
+            <Form.Group id="password-confirm">
+              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Control type="password" ref={passwordConfirmRef} required />
+            </Form.Group>
+            <Button disabled={loading} className="w-100" type="submit">
+              Sign Up
+            </Button>
+          </Form>
+        </Card.Body>
+        <Button
+             type="primary" htmlType="submit" className="w-100"
+              onClick={() => {
+              const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+              firebase.auth().signInWithPopup(googleAuthProvider).then(() => {
+                history.push("/");
+              });
+            }} >
+          Sign Up with Google
         </Button>
-        Already have an account? <Link to="/login">Login</Link>
-      </Form.Item>
-    </Form>
-  );
-
+      </Card>
+      <div className="w-100 text-center mt-2">
+        Already have an account? <Link to="/login">Log In</Link>
+      </div>
+    </>
+  )
 }
-
-export default SignUp;

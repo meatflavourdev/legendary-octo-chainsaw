@@ -15,6 +15,7 @@
     "firebase": "^8.2.3",
     "logrocket": "^1.0.14",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "react-flow-renderer": "^8.3.7",
     "react-router-dom": "^5.2.0",
