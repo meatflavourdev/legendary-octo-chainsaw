@@ -1,5 +1,3 @@
-import TestApp from "./YjsIntegration";
-
 function Error() {
   return (
     <div>

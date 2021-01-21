@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import MenuAppBar from "../components/MenuAppBar";
-import ProviderFlow from './ProviderFlow';
 
 function Editor() {
   let { doc_id } = useParams();
@@ -12,12 +11,11 @@ function Editor() {
   }
   return (
     <div>
-      <div class="info">
+      <div className="info">
         <h2>Editor</h2>
-        <h3>{doc}</h3>
+        {doc}
       </div>
       <MenuAppBar />
-      <ProviderFlow />
     </div>
   );
 }
