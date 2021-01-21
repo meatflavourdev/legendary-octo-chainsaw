@@ -6,15 +6,20 @@ import theme from './theme';
 import './index.css';
 import RouteHandler from './RouteHandler';
 //import reportWebVitals from './reportWebVitals';
+import firebase from 'firebase/app';
+import { FirebaseAuthConsumer, FirebaseAuthProvider } from '@react-firebase/auth';
+import { firebaseConfig } from './firebase/firebaseConfig';
 import LogRocket from 'logrocket';
 LogRocket.init('f9lgjx/entropy');
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouteHandler />
-    </ThemeProvider>
+    <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouteHandler />
+      </ThemeProvider>
+      </FirebaseAuthProvider>
     ,
   </React.StrictMode>,
   document.getElementById('root')
