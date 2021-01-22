@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
@@ -11,6 +11,8 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { deepOrange } from '@material-ui/core/colors';
 import { Grid } from '@material-ui/core';
+import { useAuth } from "../contexts/AuthContext"
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   orange: {
@@ -64,6 +66,21 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
 
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
+
   return (
     <div>
       <IconButton onClick={handleClick} color="inherit">
@@ -96,7 +113,7 @@ export default function ProfileMenu() {
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText primary="Sign Out" />
+          <ListItemText onClick={handleLogout} primary="Sign Out" />
         </StyledMenuItem>
 
       </StyledMenu>
