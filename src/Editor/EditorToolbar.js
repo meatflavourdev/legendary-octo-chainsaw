@@ -39,14 +39,18 @@ export default function EditorToolbar(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+  
+  
   const handleOpen = () => {
-    setOpen(true);
+    setOpen(!open);
   };
 
+ 
   const handleClose = () => {
     setOpen(false);
     props.addNode();
-  };
+  }
+  
 
 
   return (
@@ -66,7 +70,8 @@ export default function EditorToolbar(props) {
       </ButtonGroup> }
       <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
       <Tooltip title="Create Node">
-        <IconButton size='small' onClick={handleOpen}>
+        <IconButton size='small' onClick={handleOpen} >
+        {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
           <DashboardIcon/>
         </IconButton>
       </Tooltip>
