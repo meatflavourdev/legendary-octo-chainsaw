@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProviderFlow from '../Editor/ProviderFlow';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,11 +17,9 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
-import { useAuth } from "../contexts/AuthContext"
-import { ListItemIcon } from '@material-ui/core';
-import DescriptionIcon from '@material-ui/icons/Description';
 
-const drawerWidth = '22em';
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,15 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: '#000'
-  },
-  docname: {
-    flexGrow: 1,
-    color: '#FFF'
+    color: '#FFFFFF'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -49,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth})`,
+    width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -106,8 +99,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
@@ -128,6 +119,13 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
+{/*       <FormGroup>
+        <FormControlLabel
+          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
+          label={auth ? 'Logout' : 'Login'}
+        />
+      </FormGroup> */}
+
       <CssBaseline />
       <AppBar className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
@@ -143,12 +141,11 @@ export default function MenuAppBar() {
               })}
             >
               <MenuIcon />
-          </IconButton>
-          <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
-              <Typography variant="h6" className={classes.docname}>
-                Document Name
-                </Typography>
-
+            </IconButton>
+          <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
+          <Typography variant="h6" className={classes.title}>
+            Entropy
+          </Typography>
           {auth && (
             <ShareMenu/>
             )}
@@ -169,9 +166,8 @@ export default function MenuAppBar() {
         }}
       >
         <div className={classes.toolbar}>
-        <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
-          <Typography variant="h6" className={classes.title}>
-            Entropy
+          <Typography variant="body1" align="left">
+            Something Here
           </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
