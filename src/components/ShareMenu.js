@@ -35,7 +35,8 @@ const StyledMenu = withStyles({
 
 const StyledButton = withStyles((theme) => ({
   root: {
-    marginTop: '5px'
+    marginTop: '5px',
+    width:'150px'
   },
 }))(Button);
 
