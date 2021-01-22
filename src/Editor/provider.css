@@ -1,7 +1,6 @@
 .providerflow {
-  height: 80vh;
+  height: 100vh;
   width: 100%;
-  border-bottom: 1px solid black;
 }
 
 .reactflow-wrapper {
