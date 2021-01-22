@@ -2,9 +2,10 @@ import React, { useRef, useState } from "react"
 import { useAuth } from "./contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import firebase from 'firebase/app';
+import Button from '@material-ui/core/Button'
 import 'firebase/auth';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -60,12 +61,13 @@ export default function Signup() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-
+    
     try {
       setError("")
       setLoading(true)
+      console.log(emailRef.current.value, passwordRef.current.value)
       await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push("/editor")
     } catch {
       setError("Failed to create an account")
     }
@@ -74,6 +76,7 @@ export default function Signup() {
   }
 
   return (
+   <>
     <Container className={classes.container} component="main" maxWidth="xs">
         <Paper elevation={5}>
         <Box  p={3}>
@@ -83,13 +86,13 @@ export default function Signup() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Sign Up
             </Typography>
           </Grid>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Box mt={1}>
                 <TextField
-                  ref={nameRef}
+                  inputRef={nameRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -101,7 +104,7 @@ export default function Signup() {
                   autoFocus
                 />
                 <TextField
-                  ref={emailRef}
+                  inputRef={emailRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -113,7 +116,7 @@ export default function Signup() {
                   autoFocus
                 />
                 <TextField
-                  ref={passwordRef}
+                  inputRef={passwordRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -156,7 +159,7 @@ export default function Signup() {
                       onClick={() => {
                         const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
                         firebase.auth().signInWithPopup(googleAuthProvider).then(() => {
-                          history.push("/");
+                          history.push("/editor");
                         });
                       }}
                     >
@@ -178,5 +181,6 @@ export default function Signup() {
                 </Grid>
                 </Box>
       </Container>
-  );
-}
+      </>
+    )
+  };

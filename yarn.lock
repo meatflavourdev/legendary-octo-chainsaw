@@ -1942,7 +1942,17 @@
     lodash.get "^4.4.2"
     render-and-add-props "^0.5.0"
 
-<<<<<<< HEAD
+"@react-firebase/firestore@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@react-firebase/firestore/-/firestore-0.5.5.tgz#dc551c60d14815eb1b36e1d7c996e41404a13711"
+  integrity sha512-lItDakBRhEfstWbD27hHwNf84v5O6NLP2OzsB5n8kWhNIzPeAFj9mxB295L10vDyojGY83ULPp8wvuIlAm1P9w==
+  dependencies:
+    immer "^1.5.0"
+    lodash.get "^4.4.2"
+    lodash.set "^4.3.2"
+    react "15.x || 16.x"
+    render-and-add-props "^0.5.0"
+
 "@restart/context@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@restart/context/-/context-2.1.4.tgz#a99d87c299a34c28bd85bb489cb07bfd23149c02"
@@ -1955,18 +1965,6 @@
   dependencies:
     lodash "^4.17.20"
     lodash-es "^4.17.20"
-=======
-"@react-firebase/firestore@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@react-firebase/firestore/-/firestore-0.5.5.tgz#dc551c60d14815eb1b36e1d7c996e41404a13711"
-  integrity sha512-lItDakBRhEfstWbD27hHwNf84v5O6NLP2OzsB5n8kWhNIzPeAFj9mxB295L10vDyojGY83ULPp8wvuIlAm1P9w==
-  dependencies:
-    immer "^1.5.0"
-    lodash.get "^4.4.2"
-    lodash.set "^4.3.2"
-    react "15.x || 16.x"
-    render-and-add-props "^0.5.0"
->>>>>>> 7aa16495022b57cb687f81cddd3223cecd031071
 
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"

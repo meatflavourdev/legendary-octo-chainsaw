@@ -55,7 +55,7 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push("/editor")
     } catch {
       setError("Failed to log in")
     }
@@ -77,7 +77,7 @@ export default function Login() {
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
-                ref={emailRef}
+                inputRef={emailRef}
                 variant="outlined"
                 margin="normal"
                 required
@@ -89,7 +89,7 @@ export default function Login() {
                 autoFocus
               />
               <TextField
-                ref={passwordRef} 
+                inputRef={passwordRef} 
                 variant="outlined"
                 margin="normal"
                 required
