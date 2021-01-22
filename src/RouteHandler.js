@@ -14,7 +14,6 @@ import Error from "./Error";
 import YjsTest from "./yjsSubscriber/YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
 import cloudFirestore from "./firebase/cloudFirestore";
-import MenuAppBar from "./components/MenuAppBar";
 
 function RouteHandler() {
   return (
@@ -26,7 +25,6 @@ function RouteHandler() {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/app" component={Editor} />
           <Route exact path="/error" component={Error} />
-          <Route exact path="/editor" component={MenuAppBar} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/firebaseauth" component={firebaseAuth} />
         <Route exact path="/cloudfirestore" component={cloudFirestore} />
