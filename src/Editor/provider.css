@@ -35,3 +35,7 @@
   margin-left: 100px;
   z-index: 100;
 }
+
+.react-flow__background {
+  background-color: #FFFFFF;
+}
