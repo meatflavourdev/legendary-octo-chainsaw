@@ -13,6 +13,12 @@ import { deepOrange } from '@material-ui/core/colors';
 import { Grid } from '@material-ui/core';
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
+import {
+  FirebaseAuthProvider,
+  FirebaseAuthConsumer,
+  IfFirebaseAuthed,
+  IfFirebaseAuthedAnd,
+} from '@react-firebase/auth';
 
 const useStyles = makeStyles((theme) => ({
   orange: {
@@ -82,11 +88,21 @@ export default function ProfileMenu() {
   }
 
   return (
+    <IfFirebaseAuthed
+  filter={({ providerId, user }) => {
+    if(!user.email){return false;}
+    return (
+      providerId !== "anonymous" &&
+      user.email.indexOf("@companyname.com") > -1
+    );
+  }}
+  >
+ {({ isSignedIn, user, providerId }) => {
+   return (
     <div>
       <IconButton onClick={handleClick} color="inherit">
         <AccountCircleIcon/>
       </IconButton>
-
       <StyledMenu
         id="profile-menu"
         anchorEl={anchorEl}
@@ -94,13 +110,15 @@ export default function ProfileMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem style={{ backgroundColor: 'transparent' }}>
         <Grid container direction='row' justify='center'>
-          <Avatar className={classes.orange}>N</Avatar>
-          <Grid item>
-            <ListItemText primary="MeatballPasta" secondary="locdev@email.com"/>
-          </Grid>
-        </Grid>
+          <Avatar className={classes.orange}>{user.displayName.slice(0,1)}</Avatar>
+            <Grid item>
 
+               <ListItemText primary={user.displayName} secondary={user.email} />
+          </Grid>
+          </Grid>
+          </MenuItem>
 
         <StyledMenuItem>
           <ListItemIcon>
@@ -118,5 +136,9 @@ export default function ProfileMenu() {
 
       </StyledMenu>
     </div>
+   );
+ }}
+</IfFirebaseAuthed>
+
   );
 }
