@@ -1,7 +1,7 @@
-import * as React from 'react';
-import './App.css';
+import React, { useState } from 'react';
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import { IfFirebaseAuthed } from '@react-firebase/auth';
 
 const doc = new Y.Doc();
 const USER_ID = Math.random();
@@ -25,10 +25,17 @@ function Button({ addItem }) {
   return <button onClick={addItem}>Add</button>;
 }
 
+function useInput({ type }) {
+  const [value, setValue] = useState('');
+  const input = <input value={value} onChange={(e) => setValue(e.target.value)} type={type} />;
+  return [value, input];
+}
+
 function TestApp() {
+  const [text, textInput] = useInput({ type: 'text' });
   const { value, insertValue, pushValue } = useCollaborativeArray('test');
   React.useEffect(() => {
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'my-roomname', doc);
+    const wsProvider = new WebsocketProvider('ws://localhost:5001', 'my-roomname', doc);
     wsProvider.on('status', (event) => {
       console.log(event.status); // logs "connected" or "disconnected"
     });
@@ -36,12 +43,24 @@ function TestApp() {
   }, []);
   if (value) {
     return (
-      <div className="App">
-        <Button addItem={() => pushValue(USER_ID)} />
-        {value.map((v) => (
-          <div>{v}</div>
-        ))}
-      </div>
+      <IfFirebaseAuthed>
+        {({ isSignedIn, user, providerId }) => {
+          return (
+            <div className="App">
+              <Button addItem={() => pushValue([(user && user.displayName), text])} />
+              <label>
+                Text:
+                {textInput}
+              </label>
+              <ul>
+              {value.map((v) => (
+                <div><strong>{v[0]} : </strong>{v[1]}</div>
+              ))}
+              </ul>
+            </div>
+          );
+        }}
+      </IfFirebaseAuthed>
     );
   }
   return <Button addItem={() => pushValue(USER_ID)} />;
