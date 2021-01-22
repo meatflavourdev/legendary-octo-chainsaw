@@ -88,15 +88,7 @@ export default function ProfileMenu() {
   }
 
   return (
-    <IfFirebaseAuthed
-  filter={({ providerId, user }) => {
-    if(!user.email){return false;}
-    return (
-      providerId !== "anonymous" &&
-      user.email.indexOf("@companyname.com") > -1
-    );
-  }}
-  >
+    <IfFirebaseAuthed>
  {({ isSignedIn, user, providerId }) => {
    return (
     <div>
