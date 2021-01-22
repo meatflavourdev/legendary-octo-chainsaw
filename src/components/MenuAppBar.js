@@ -100,6 +100,8 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
