@@ -41,7 +41,6 @@ const ProviderFlow = () => {
             onLoad={onLoad}
           >
             <Controls />
-            <Background variant="dots" gap={15} size={0.5} />
           </ReactFlow>
         </div>
       </ReactFlowProvider>
