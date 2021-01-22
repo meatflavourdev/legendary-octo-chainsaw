@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom"
 import ProviderFlow from '../Editor/ProviderFlow';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,6 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
+import { useAuth } from "../contexts/AuthContext"
 
 const drawerWidth = 240;
 
@@ -124,6 +126,22 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
+
+
   return (
     <div className={classes.root}>
 {/*       <FormGroup>
@@ -179,6 +197,7 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
