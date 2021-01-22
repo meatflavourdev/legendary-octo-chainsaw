@@ -19,6 +19,8 @@ import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import { useAuth } from "../contexts/AuthContext"
+import { ListItemIcon } from '@material-ui/core';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const drawerWidth = 240;
 
@@ -32,7 +34,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: '#FFFFFF'
+    color: '#000'
+  },
+  docname: {
+    flexGrow: 1,
+    color: '#FFF'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -164,11 +170,12 @@ export default function MenuAppBar() {
               })}
             >
               <MenuIcon />
-            </IconButton>
-          <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
-          <Typography variant="h6" className={classes.title}>
-            Entropy
-          </Typography>
+          </IconButton>
+          <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
+              <Typography variant="h6" className={classes.docname}>
+                Document Name
+                </Typography>
+
           {auth && (
             <ShareMenu/>
             )}
@@ -189,8 +196,9 @@ export default function MenuAppBar() {
         }}
       >
         <div className={classes.toolbar}>
-          <Typography variant="body1" align="left">
-            Something Here
+        <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
+          <Typography variant="h6" className={classes.title}>
+            Entropy
           </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
