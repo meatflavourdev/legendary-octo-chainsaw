@@ -42,16 +42,18 @@ export default function EditorToolbar(props) {
   const handleOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
+    props.addNode();
   };
+
 
   return (
     <div className={classes.root}>
       {open && <ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default">
       <Tooltip title="Block Node">
-        <IconButton size='small' onClick={props.addNode}>
+        <IconButton size='small' onClick={handleClose}>
           <CheckBoxOutlineBlankIcon/>
         </IconButton>
       </Tooltip>
