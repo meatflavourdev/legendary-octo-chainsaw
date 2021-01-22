@@ -7,9 +7,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import logo from '../logo.png';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,6 +16,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
+import ProfileMenu from './ProfileMenu';
+import ShareMenu from './ShareMenu';
 import { useAuth } from "../contexts/AuthContext"
 
 const drawerWidth = 240;
@@ -101,8 +100,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
@@ -141,7 +138,6 @@ export default function MenuAppBar() {
     }
   }
 
-
   return (
     <div className={classes.root}>
 {/*       <FormGroup>
@@ -172,37 +168,9 @@ export default function MenuAppBar() {
             Entropy
           </Typography>
           {auth && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )}
+            <ShareMenu/>
+            )}
+            <ProfileMenu/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -228,8 +196,6 @@ export default function MenuAppBar() {
         </div>
         <Divider />
         <div className={classes.newdoc}>
-
-          
           <Typography variant="body1">
             Private
           </Typography>
@@ -238,7 +204,7 @@ export default function MenuAppBar() {
           </IconButton>
         </div>
         <LibraryList public='false'/>
-        <Divider />
+        <Divider/>
         <div className={classes.newdoc}>
           <Typography variant="body1">
             Shared
