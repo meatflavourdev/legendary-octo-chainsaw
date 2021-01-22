@@ -1,13 +1,21 @@
 import React from 'react';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
+import LinkIcon from '@material-ui/icons/Link';
 import SendIcon from '@material-ui/icons/Send';
 import Switch from '@material-ui/core/Switch';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
+    border: '1px solid #d3d4d5',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    paddingBottom: '10px',
   },
 })((props) => (
   <Menu
@@ -25,6 +33,12 @@ const StyledMenu = withStyles({
   />
 ));
 
+const StyledButton = withStyles((theme) => ({
+  root: {
+    marginTop: '5px'
+  },
+}))(Button);
+
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -37,8 +51,8 @@ export default function ProfileMenu() {
   };
 
   const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
+    public: true,
+    editable: false
   });
 
   const handleChange = (event) => {
@@ -57,15 +71,27 @@ export default function ProfileMenu() {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-      >
-        <Switch
-        checked={state.checkedB}
-        onChange={handleChange}
-        color="primary"
-        name="checkedB"
-        inputProps={{ 'aria-label': 'primary checkbox' }}
-      />
+        >
+        <FormControl component="fieldset">
+          <FormGroup>
+            <FormControlLabel
+              control={<Switch checked={state.public} onChange={handleChange} name="public" />}
+              label="Public"
+            />
+            <FormControlLabel
+              control={<Switch checked={state.editable} onChange={handleChange} name="editable" />}
+              label="Editable"
+            />
+            <StyledButton
+              size="small"
+              variant="contained"
+              startIcon={<LinkIcon/>}
+              color="primary">Copy Link
+            </StyledButton>
+          </FormGroup>
+        </FormControl>
       </StyledMenu>
     </div>
   );
 }
+
