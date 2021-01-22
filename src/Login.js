@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useRef, useState } from "react"
+import { useAuth } from "./contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,6 +41,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
 
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const { login } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useHistory()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    try {
+      setError("")
+      setLoading(true)
+      await login(emailRef.current.value, passwordRef.current.value)
+      history.push("/editor")
+    } catch {
+      setError("Failed to log in")
+    }
+
+    setLoading(false)
+  }
+
   return (
     <Box className={classes.boxContainer} display="flex" alignItems="center">
     <Container component="main" maxWidth="xs">
@@ -52,8 +75,9 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
+                inputRef={emailRef}
                 variant="outlined"
                 margin="normal"
                 required
@@ -65,6 +89,7 @@ export default function Login() {
                 autoFocus
               />
               <TextField
+                inputRef={passwordRef} 
                 variant="outlined"
                 margin="normal"
                 required
@@ -76,6 +101,7 @@ export default function Login() {
                 autoComplete="current-password"
               />
               <Button
+                disabled={loading}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -98,5 +124,5 @@ export default function Login() {
     </Paper>
       </Container>
       </Box>
-  );
+  )
 }
