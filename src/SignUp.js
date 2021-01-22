@@ -1,7 +1,11 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useRef, useState } from "react"
+import { useAuth } from "./contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"
+import firebase from 'firebase/app';
+import Button from '@material-ui/core/Button'
+import 'firebase/auth';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -44,10 +48,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Signup() {
   const classes = useStyles();
 
+  const nameRef = useRef()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const { signup } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useHistory()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    
+    try {
+      setError("")
+      setLoading(true)
+      console.log(emailRef.current.value, passwordRef.current.value)
+      await signup(emailRef.current.value, passwordRef.current.value)
+      history.push("/editor")
+    } catch {
+      setError("Failed to create an account")
+    }
+
+    setLoading(false)
+  }
+
   return (
+   <>
     <Container className={classes.container} component="main" maxWidth="xs">
         <Paper elevation={5}>
         <Box  p={3}>
@@ -57,12 +86,13 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Sign Up
             </Typography>
           </Grid>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Box mt={1}>
                 <TextField
+                  inputRef={nameRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -74,6 +104,7 @@ export default function Login() {
                   autoFocus
                 />
                 <TextField
+                  inputRef={emailRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -85,6 +116,7 @@ export default function Login() {
                   autoFocus
                 />
                 <TextField
+                  inputRef={passwordRef}
                   variant="outlined"
                   margin="dense"
                   required
@@ -96,6 +128,7 @@ export default function Login() {
                   autoComplete="current-password"
                 />
                 <Button
+                  disabled={loading}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -123,6 +156,12 @@ export default function Login() {
                       variant="contained"
                       color="primary"
                       className={classes.submit}
+                      onClick={() => {
+                        const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+                        firebase.auth().signInWithPopup(googleAuthProvider).then(() => {
+                          history.push("/editor");
+                        });
+                      }}
                     >
                       Sign Up With Google
                   </Button>
@@ -142,5 +181,6 @@ export default function Login() {
                 </Grid>
                 </Box>
       </Container>
-  );
-}
+      </>
+    )
+  };

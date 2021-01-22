@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom"
 import ProviderFlow from '../Editor/ProviderFlow';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,6 +18,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
+import { useAuth } from "../contexts/AuthContext"
 
 const drawerWidth = 240;
 
@@ -112,6 +114,29 @@ export default function MenuAppBar() {
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
 
   return (
     <div className={classes.root}>
