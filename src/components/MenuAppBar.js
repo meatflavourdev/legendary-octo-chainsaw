@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useHistory } from "react-router-dom"
+import React from 'react';
 import ProviderFlow from '../Editor/ProviderFlow';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,7 +21,7 @@ import { useAuth } from "../contexts/AuthContext"
 import { ListItemIcon } from '@material-ui/core';
 import DescriptionIcon from '@material-ui/icons/Description';
 
-const drawerWidth = 240;
+const drawerWidth = '22em';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% - ${drawerWidth})`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -128,13 +128,6 @@ export default function MenuAppBar() {
 
   return (
     <div className={classes.root}>
-{/*       <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup> */}
-
       <CssBaseline />
       <AppBar className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,

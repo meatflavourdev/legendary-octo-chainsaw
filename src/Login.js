@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react"
-import { useAuth } from "./contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import React, { useRef, useState } from 'react';
+import firebase from 'firebase/app';
+import { useAuth } from './contexts/AuthContext';
+import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,11 +13,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Box, Paper } from '@material-ui/core';
+import { Box, Divider, Icon, Paper } from '@material-ui/core';
+
+const googleIcon = (
+  <Icon>
+    <img alt="google" src='google.svg' />
+  </Icon>
+);
 
 const useStyles = makeStyles((theme) => ({
   boxContainer: {
-    height: '100vh'
+    height: '100vh',
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -34,41 +41,41 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    padding: "1em"
+    padding: '1em',
   },
 }));
 
 export default function Login() {
   const classes = useStyles();
 
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/editor")
+      setError('');
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+      history.push('/editor');
     } catch {
-      setError("Failed to log in")
+      setError('Failed to log in');
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
     <Box className={classes.boxContainer} display="flex" alignItems="center">
-    <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs">
         <Paper elevation={3}>
-        <Box p={3}>
-          <CssBaseline />
+          <Box p={3}>
+            <CssBaseline />
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -89,7 +96,7 @@ export default function Login() {
                 autoFocus
               />
               <TextField
-                inputRef={passwordRef} 
+                inputRef={passwordRef}
                 variant="outlined"
                 margin="normal"
                 required
@@ -106,23 +113,53 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 color="primary"
-              className={classes.submit}
-              size = "large"
+                className={classes.submit}
+                size="large"
               >
                 Sign In
               </Button>
+              <Divider variant="middle" />
+              <Grid container justify="center">
+                <Typography color="textSecondary" variant="caption">
+                  OR
+                </Typography>
+              </Grid>
+              <Grid container justify="center">
+                <Box mt={1}>
+                  <Button
+                    startIcon={googleIcon}
+                    type="submit"
+                    size="medium"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => {
+                      const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+                      firebase
+                        .auth()
+                        .signInWithPopup(googleAuthProvider)
+                        .then(() => {
+                          history.push('/editor');
+                        });
+                    }}
+                  >
+                    Sign Up With Google
+                  </Button>
+                </Box>
+              </Grid>
               <Grid container>
                 <Grid item xs>
                   <Link to="/error">Forgot password?</Link>
                 </Grid>
-                <Grid item>Don't have an account?
+                <Grid item>
+                  Don't have an account?
                   <Link to="/signup"> Sign Up</Link>
                 </Grid>
               </Grid>
             </form>
-        </Box>
-    </Paper>
+          </Box>
+        </Paper>
       </Container>
-      </Box>
-  )
+    </Box>
+  );
 }
