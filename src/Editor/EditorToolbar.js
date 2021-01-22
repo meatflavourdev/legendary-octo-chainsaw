@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import BrushIcon from '@material-ui/icons/Brush';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
+import Tooltip from '@material-ui/core/Tooltip';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,18 +27,47 @@ const useStyles = makeStyles((theme) => ({
   group: {
     border: '1px solid darkgrey',
     padding: '4px',
+  },
+  group2: {
+    border: '1px solid darkgrey',
+    padding: '4px',
+    backgroundColor: 'darkgrey'
   }
 }));
 
-export default function EditorToolbar() {
+export default function EditorToolbar(props) {
   const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
-      <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
-        <IconButton size='small'>
-          <AddCircleIcon/>
+      {open && <ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default">
+      <Tooltip title="Block Node">
+        <IconButton size='small' onClick={props.addNode}>
+          <CheckBoxOutlineBlankIcon/>
         </IconButton>
+      </Tooltip>
+        <IconButton size='small'>
+          <EditIcon/>
+        </IconButton>
+        <IconButton size='small'>
+          <BrushIcon/>
+        </IconButton>
+      </ButtonGroup> }
+      <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
+      <Tooltip title="Create Node">
+        <IconButton size='small' onClick={handleOpen}>
+          <DashboardIcon/>
+        </IconButton>
+      </Tooltip>
         <IconButton size='small'>
           <EditIcon/>
         </IconButton>

@@ -28,3 +28,10 @@
   position: fixed;
   bottom: 0px;
 }
+
+.save__controls {
+  position: fixed;
+  bottom: 50px;
+  margin-left: 100px;
+  z-index: 100;
+}

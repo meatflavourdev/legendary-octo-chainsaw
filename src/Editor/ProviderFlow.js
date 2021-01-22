@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -9,6 +9,7 @@ import ReactFlow, {
   Background,
 } from 'react-flow-renderer';
 import './provider.css';
+import EditorToolbar from "./EditorToolbar";
 
 const onElementClick = (event, element) => console.log('click', element);
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
@@ -29,6 +30,20 @@ const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const onConnect = (params) => setElements((els) => addEdge(params, els));
   const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
+  
+  const getNodeId = () => `randomnode_${+new Date()}`;
+  const onAdd = useCallback(() => {
+    const newNode = {
+      id: getNodeId(),
+      data: { label: 'Added node' },
+      position: {
+        x: 500,
+        y: 500
+      },
+    };
+    setElements((els) => els.concat(newNode));
+  }, [setElements]);
+
   return (
     <div className="providerflow">
       <ReactFlowProvider>
@@ -41,7 +56,9 @@ const ProviderFlow = () => {
             onLoad={onLoad}
           >
             <Controls />
+            <EditorToolbar addNode={onAdd}/>
           </ReactFlow>
+
         </div>
       </ReactFlowProvider>
     </div>
