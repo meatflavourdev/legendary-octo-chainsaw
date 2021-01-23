@@ -35,12 +35,12 @@ const nodeDefaultValues = {
   color: '#FFF',
   border: '0px'
 }
-const nodeShapes = {                                
+const nodeShapes = {
   block: {
-    ...nodeDefaultValues,                       
-    width: 100,  
-    padding: '20px',  
-    borderRadius: '5px',                           
+    ...nodeDefaultValues,
+    width: 100,
+    padding: '20px',
+    borderRadius: '5px',
   },
   terminator: {
     ...nodeDefaultValues,
@@ -85,11 +85,11 @@ const ProviderFlow = () => {
   const onElementsRemove = (elementsToRemove) => console.log('onConnect Fired: ', elementsToRemove);
 
   const getNodeId = () => `randomnode_${+new Date()}`;
-  const onAdd = () => {
+  const onAdd = (type, shape) => {
     const newNode = {
       type,
       id: getNodeId(),
-      style: nodeShapes[shape],                                
+      style: nodeShapes[shape],
       data: { label: 'Added node' },
       position: {
         x: 500,
