@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import BrushIcon from '@material-ui/icons/Brush';
 import TimelineIcon from '@material-ui/icons/Timeline';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -50,6 +51,11 @@ export default function EditorToolbar(props) {
     setOpen(false);
     props.addNode();
   }
+
+  const deleteNode = () => {
+    setOpen(false);
+    props.onElementsRemove();
+  }
   
 
 
@@ -61,9 +67,11 @@ export default function EditorToolbar(props) {
           <CheckBoxOutlineBlankIcon/>
         </IconButton>
       </Tooltip>
-        <IconButton size='small'>
-          <EditIcon/>
+      <Tooltip title="Delete Node">
+        <IconButton size='small' onClick={deleteNode}>
+          <DeleteForeverIcon/>
         </IconButton>
+      </Tooltip>
         <IconButton size='small'>
           <BrushIcon/>
         </IconButton>

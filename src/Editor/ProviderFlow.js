@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -10,6 +10,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import './provider.css';
 import EditorToolbar from "./EditorToolbar";
+import EditNodes from './EditNodes';
 
 const onElementClick = (event, element) => console.log('click', element);
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
@@ -26,21 +27,32 @@ const initialElements = [
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
+  const [nodeName, setNodeName] = useState('Node 1');
   const onConnect = (params) => setElements((els) => addEdge(params, els));
-  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
-  
+  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els), console.log("REMOVED NODE"));
+
   const getNodeId = () => `randomnode_${+new Date()}`;
-  const onAdd = useCallback(() => {
+  const addNode = useCallback(() => {
+    let randomNumber = Math.floor(Math.random() * (600 - 200 + 1)) + 200;
     const newNode = {
       id: getNodeId(),
       data: { label: 'Added node' },
       position: {
-        x: 500,
-        y: 500
+        x: randomNumber,
+        y: randomNumber
       },
+      style: {
+        background: '#FFFFFF',
+        color: '#333',
+        border: '1px solid #222138',
+        width: 180,
+        padding: '10px'
+      }
     };
+
     setElements((els) => els.concat(newNode));
   }, [setElements]);
+
 
   return (
     <div className="providerflow">
@@ -54,12 +66,16 @@ const ProviderFlow = () => {
             onLoad={onLoad}
           >
             <Controls />
-            <EditorToolbar addNode={onAdd}/>
+            <EditorToolbar 
+            addNode={addNode} 
+            onElementsRemove={onElementsRemove}
+            onConnect={onConnect}
+            />
           </ReactFlow>
-
         </div>
       </ReactFlowProvider>
     </div>
   );
 };
+
 export default ProviderFlow;
