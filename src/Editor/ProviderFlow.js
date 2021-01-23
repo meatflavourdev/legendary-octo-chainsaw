@@ -94,8 +94,15 @@ const ProviderFlow = () => {
     console.log('yArray value:', value)
   }, [value]);
 
-  const onConnect = (params) => console.log('onConnect Fired: ', params);
-  const onElementsRemove = (elementsToRemove) => console.log('onConnect Fired: ', elementsToRemove);
+  const onConnect = (params) => pushValue(addEdge(params, [])[0]);
+  const onElementsRemove = (elementsToRemove) => {
+      const nodeIdsToRemove = elementsToRemove.map((n) => n.id);
+      for (const id of nodeIdsToRemove) {
+        const currentArray = yarrayInterface.toArray();
+        const deleteIndex = currentArray.findIndex((current) => current.id === id)
+        yarrayInterface.delete(deleteIndex, 1);
+      }
+  };
 
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = (type, shape) => {
@@ -109,7 +116,7 @@ const ProviderFlow = () => {
         y: 500
       },
     };
-    pushValue(newNode)
+    pushValue(newNode);
   }
 
   return (
