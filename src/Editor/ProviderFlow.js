@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
-  removeElements,
   Controls,
-  useStoreState,
-  useStoreActions,
   Background,
 } from 'react-flow-renderer';
 import * as Y from 'yjs';
@@ -19,15 +16,6 @@ const doc = new Y.Doc();
 const onElementClick = (event, element) => console.log('click', element);
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
 
-const initialElements = [
-  { id: 'provider-1', data: { label: 'Node 1' }, position: { x: 345, y: 150 }, type: 'input' },
-  { id: 'provider-2', data: { label: 'Node 2' }, position: { x: 150, y: 300 } },
-  { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 555, y: 300 } },
-  { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 555, y: 480 }, type: 'output' },
-  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false },
-  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false },
-  { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true },
-];
 const nodeTypes = {};
 
 const nodeDefaultValues = {
@@ -80,7 +68,7 @@ const useCollaborativeArray = (name) => {
 
 const ProviderFlow = () => {
   const { doc_id } = useParams();
-  const { value, pushValue, yarrayInterface } = useCollaborativeArray(doc_id);
+  const { value, insertValue, pushValue, yarrayInterface } = useCollaborativeArray(doc_id);
 
   React.useEffect(() => {
     const wsProvider = new WebsocketProvider('ws://localhost:5001', doc_id, doc);
@@ -94,7 +82,7 @@ const ProviderFlow = () => {
     console.log('yArray value:', value)
   }, [value]);
 
-  const onConnect = (params) => pushValue(addEdge(params, [])[0]);
+  const onConnect = (params) => pushValue(addEdge({type: 'smoothstep', ...params}, [])[0]);
   const onElementsRemove = (elementsToRemove) => {
       const nodeIdsToRemove = elementsToRemove.map((n) => n.id);
       for (const id of nodeIdsToRemove) {
@@ -119,11 +107,52 @@ const ProviderFlow = () => {
     pushValue(newNode);
   }
 
-  const onNodeDragStart = (e, node) => {
-    console.log('Drag Start', node)
+  const onSelectionDrag = (event, nodes) => {
+    console.log('event: ', event);
+    console.log('nodes: ', nodes);
   };
+
+  let observerList = {};
+
+  const onNodeDragStart = (e, node) => {
+    //console.log('Drag Start -- observerList:', observerList)
+    const observer = new MutationObserver((mutationsList, observer) => {
+      const node_id = node.id;
+      for(const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          const currentArray = yarrayInterface.toArray();
+          console.log(currentArray);
+          const nodeIndex = currentArray.findIndex((current) => current.id === node_id)
+
+          const _posArr = mutation.target.style.transform.split(',');
+          const posx = parseFloat(_posArr[0].match(/[\d\.]+/))
+          const posy = parseFloat(_posArr[1].match(/[\d\.]+/))
+          console.log(`x: ${posx} y: ${posy}`);
+
+          const oldNode = yarrayInterface.get(nodeIndex);
+          oldNode.position = {
+            x: posx,
+            y: posy,
+          }
+          console.log(oldNode);
+          doc.transact(() => {
+            yarrayInterface.delete(nodeIndex, 1);
+            insertValue(nodeIndex, oldNode);
+          });
+
+          console.log(yarrayInterface.toArray());
+        }
+    }
+    });
+    const config = { attributes: true, childList: true, subtree: true };
+    observer.observe(e.currentTarget, config);
+    observerList[node.id] = observer;
+  };
+
   const onNodeDragStop = (e, node) => {
-    console.log('Drag Stop', node)
+    observerList[node.id] && observerList[node.id].disconnect();
+    delete observerList[node.id];
+    //console.log('Drag Stop -- observerList:', observerList)
   };
 
   return (
@@ -140,10 +169,12 @@ const ProviderFlow = () => {
             onNodeDragStop={onNodeDragStop}
             nodeTypes={nodeTypes}
             snapToGrid={true}
+            onSelectionDrag={onSelectionDrag}
+            snapGrid={[10, 10]}
           >
             <Controls />
             <EditorToolbar addNode={onAdd} />
-            <Background variant="dots" color="#484848" />
+            <Background variant="dots" gap='20' color="#484848" />
           </ReactFlow>
 
         </div>
