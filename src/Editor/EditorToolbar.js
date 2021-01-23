@@ -3,9 +3,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
+import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
+import Crop75Icon from '@material-ui/icons/Crop75';
 import BrushIcon from '@material-ui/icons/Brush';
 import TimelineIcon from '@material-ui/icons/Timeline';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -47,33 +48,26 @@ export default function EditorToolbar(props) {
   };
 
  
-  const handleClose = () => {
+  const handleClose = (type, shape) => {
     setOpen(false);
-    props.addNode();
+    props.addNode(type, shape);
   }
 
-  const deleteNode = () => {
-    setOpen(false);
-    props.onElementsRemove();
-  }
-  
 
 
   return (
     <div className={classes.root}>
       {open && <ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default">
       <Tooltip title="Block Node">
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => handleClose('default', 'block')}>
           <CheckBoxOutlineBlankIcon/>
         </IconButton>
       </Tooltip>
-      <Tooltip title="Delete Node">
-        <IconButton size='small' onClick={deleteNode}>
-          <DeleteForeverIcon/>
+        <IconButton size='small' onClick={() => handleClose('default', 'decision')}>
+          <ChangeHistoryIcon/>
         </IconButton>
-      </Tooltip>
-        <IconButton size='small'>
-          <BrushIcon/>
+        <IconButton size='small' onClick={() => handleClose('default', 'terminator')}>
+          <Crop75Icon/>
         </IconButton>
       </ButtonGroup> }
       <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
