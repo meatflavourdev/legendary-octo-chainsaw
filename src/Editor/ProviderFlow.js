@@ -60,14 +60,27 @@ const useCollaborativeArray = (name) => {
   }, []);
   return {
     value: state,
-    insertValue: (i, v) => valueRef.current.insert(i, [v]),
-    pushValue: (v) => valueRef.current.push([v]),
+    length: valueRef.current.length,
+    insertValue: (index, value) => valueRef.current.insert(index, [value]),
+    pushValue: (value) => valueRef.current.push([value]),
+    yarrayInterface: {
+      insert: (index, content) => valueRef.currentinsert(index, content),
+      push: (content) => valueRef.current.push(content),
+      unshift:  (content) => valueRef.current.unshift(content),
+      delete: (index, length) => valueRef.current.delete(index, length),
+      get: (index) => valueRef.current.get(index),
+      toArray: () => valueRef.current.toArray(),
+      slice: (start, end) => valueRef.current.slice(start, end),
+      toJSON: () => valueRef.current.toJSON(),
+      map: (f) => valueRef.current.map(f),
+      forEach: (f) => valueRef.current.forEach(f),
+    },
   };
 };
 
 const ProviderFlow = () => {
   const { doc_id } = useParams();
-  const { value, insertValue, pushValue } = useCollaborativeArray(doc_id);
+  const { value, pushValue, yarrayInterface } = useCollaborativeArray(doc_id);
 
   React.useEffect(() => {
     const wsProvider = new WebsocketProvider('ws://localhost:5001', doc_id, doc);
