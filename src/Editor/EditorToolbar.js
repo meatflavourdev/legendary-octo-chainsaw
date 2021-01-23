@@ -52,7 +52,7 @@ export default function EditorToolbar(props) {
     setOpen(false);
     props.addNode(type, shape);
   }
-  
+
 
 
   return (

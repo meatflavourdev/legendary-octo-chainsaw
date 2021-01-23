@@ -17,6 +17,9 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
+import firebase from "../firebase";
+import TextField from '@material-ui/core/TextField';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
 const drawerWidth = 240;
@@ -102,6 +105,13 @@ export default function MenuAppBar() {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
+  //FIRESTORE DOCUMENT STATE
+  const [docs, setDocs] = React.useState([]);
+  const [newDocName, setNewDocName] = React.useState();
+  const [isPublic, setIsPublic] = React.useState(false);
+  const [isPublicEditable, setIsPublicEditable] = React.useState(false);
+  const [createdDate, setCreatedDate] = React.useState(new Date());
+
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
   };
@@ -114,6 +124,21 @@ export default function MenuAppBar() {
     setAuth(event.target.checked);
   };
 
+  //GET DOCS FROM FIRESTORE
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const db = firebase.firestore();
+      const data = await db.collection("docs").get();
+      setDocs(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    fetchData();
+  }, []);
+
+  const onCreate = () => {
+    const db = firebase.firestore();
+    db.collection("docs").add({ created_date: createdDate, is_public: isPublic, name: newDocName, public_editable: isPublicEditable});
+  };
+  
 
 
 
@@ -167,7 +192,7 @@ export default function MenuAppBar() {
       >
         <div className={classes.toolbar}>
           <Typography variant="body1" align="left">
-            Something Here
+            Documents
           </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -177,11 +202,15 @@ export default function MenuAppBar() {
         <div className={classes.newdoc}>
           <Typography variant="body1">
             Private
+            <TextField
+              value={newDocName}
+              onChange={e => setNewDocName(e.target.value)}
+            />
           </Typography>
           <IconButton>
-            {<AddBoxIcon/>}
+            {<AddBoxIcon onClick={onCreate}> </AddBoxIcon>}
           </IconButton>
-        </div>
+            </div>
         <LibraryList public='false'/>
         <Divider/>
         <div className={classes.newdoc}>
