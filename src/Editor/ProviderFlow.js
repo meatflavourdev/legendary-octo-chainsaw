@@ -75,6 +75,7 @@ const ProviderFlow = () => {
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
             nodeTypes={nodeTypes}
+            snapToGrid={true}
           >
             <Controls />
             <EditorToolbar addNode={onAdd}/>
