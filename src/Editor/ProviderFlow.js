@@ -23,16 +23,38 @@ const initialElements = [
   { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false },
   { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true },
 ];
+const nodeTypes = {};
+
+const nodeDefaultValues = {
+  background: '#3b5360',
+  color: '#FFF',
+  border: '0px'
+}
+const nodeShapes = {                                
+  block: {
+    ...nodeDefaultValues,                       
+    width: 100,  
+    padding: '20px',  
+    borderRadius: '5px',                           
+  },
+  terminator: {
+    ...nodeDefaultValues,
+    borderRadius: '30px',
+    width: 120
+  }
+};
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const onConnect = (params) => setElements((els) => addEdge(params, els));
   const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
-  
+
   const getNodeId = () => `randomnode_${+new Date()}`;
-  const onAdd = useCallback(() => {
+  const onAdd = useCallback((type, shape) => {
     const newNode = {
+      type,
       id: getNodeId(),
+      style: nodeShapes[shape],                                
       data: { label: 'Added node' },
       position: {
         x: 500,
@@ -52,6 +74,7 @@ const ProviderFlow = () => {
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
+            nodeTypes={nodeTypes}
           >
             <Controls />
             <EditorToolbar addNode={onAdd}/>
