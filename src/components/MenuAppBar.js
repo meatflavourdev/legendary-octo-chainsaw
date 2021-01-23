@@ -19,6 +19,7 @@ import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import firebase from "../firebase";
 import { DocsInput } from "../firebase/DocsInput";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
 const drawerWidth = 240;
@@ -137,7 +138,7 @@ export default function MenuAppBar() {
     const db = firebase.firestore();
     db.collection("docs").add({ created_date: createdDate, is_public: isPublic, name: newDocName, public_editable: isPublicEditable});
   };
-
+  
 
 
 
@@ -209,14 +210,9 @@ export default function MenuAppBar() {
           <IconButton>
             {<AddBoxIcon onClick={onCreate}> </AddBoxIcon>}
           </IconButton>
-        </div>
+            </div>
         <LibraryList public='false'/>
         <Divider/>
-        {docs.map(doc => (
-        <li key={doc.name}>
-          <DocsInput doc={doc} />
-        </li>
-      ))}
         <div className={classes.newdoc}>
           <Typography variant="body1">
             Shared

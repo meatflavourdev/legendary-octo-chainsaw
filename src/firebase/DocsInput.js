@@ -4,7 +4,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 export const DocsInput = ({ doc }) => {
   const [name, setName] = React.useState(doc.name);
-
   const onUpdate = () => {
     const db = firebase.firestore()
     db.collection('docs').doc(doc.id).set({...doc, name})
