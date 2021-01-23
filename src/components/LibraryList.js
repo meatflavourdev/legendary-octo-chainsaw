@@ -8,7 +8,6 @@ import List from "@material-ui/core/List";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import styled from "styled-components";
 import firebase from "../firebase";
-import { DocsInput } from "../firebase/DocsInput";
 
 const HoverText = styled.p`
   color: #808080;
@@ -18,11 +17,11 @@ const HoverText = styled.p`
   }
 `;
 function LibraryList(props) {
-  //const [name, setName] = React.useState(doc.name);
-
-  //const onUpdate = () => {
+  //const [name, setName] = React.useState();
+//
+  //const onUpdate = (doc) => {
   //  const db = firebase.firestore()
-  //  db.collection('docs').doc(doc.id).set({...doc, name})
+  //  db.collection('docs').doc(doc).set({...doc, name})
   //}
 
   const onDelete = (doc) => {
@@ -35,7 +34,6 @@ function LibraryList(props) {
     <List>
       <FirestoreCollection path="/docs/" limit={100}>
         {(d) => {
-          console.log("d", d);
           return d.isLoading
             ? "Loading"
             : d.value
@@ -46,7 +44,11 @@ function LibraryList(props) {
                 )
                 .map((doc, i) => {
                   return (
-                    <ListItem button key={doc.name}>
+                    <ListItem 
+                    button 
+                    key={doc.name}
+                    //onClick={() => onUpdate(d.ids[i])}
+                    >
                       <ListItemIcon>{<DescriptionIcon />}</ListItemIcon>
                       <ListItemText primary={doc.name} />
                       <HoverText>

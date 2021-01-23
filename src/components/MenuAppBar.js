@@ -18,7 +18,7 @@ import LibraryList from '../components/LibraryList';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import firebase from "../firebase";
-import { DocsInput } from "../firebase/DocsInput";
+import TextField from '@material-ui/core/TextField';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
@@ -192,7 +192,7 @@ export default function MenuAppBar() {
       >
         <div className={classes.toolbar}>
           <Typography variant="body1" align="left">
-            Something Here
+            Documents
           </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -202,7 +202,7 @@ export default function MenuAppBar() {
         <div className={classes.newdoc}>
           <Typography variant="body1">
             Private
-            <input
+            <TextField
               value={newDocName}
               onChange={e => setNewDocName(e.target.value)}
             />
