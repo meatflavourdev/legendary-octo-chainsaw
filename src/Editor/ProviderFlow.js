@@ -48,6 +48,7 @@ const useCollaborativeArray = (name) => {
 const ProviderFlow = () => {
   const { doc_id } = useParams();
   const { value, insertValue, pushValue } = useCollaborativeArray(doc_id);
+
   React.useEffect(() => {
     const wsProvider = new WebsocketProvider('ws://localhost:5001', doc_id, doc);
     wsProvider.on('status', (event) => {
@@ -55,12 +56,11 @@ const ProviderFlow = () => {
     });
     return () => wsProvider.destroy();
   }, []);
+
   React.useEffect(() => {
     console.log('yArray value:', value)
   }, [value]);
 
-
-  const [elements, setElements] = useState(initialElements);
   const onConnect = (params) => console.log('onConnect Fired: ', params);
   const onElementsRemove = (elementsToRemove) => console.log('onConnect Fired: ', elementsToRemove);
 
