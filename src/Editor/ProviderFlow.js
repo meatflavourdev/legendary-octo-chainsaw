@@ -119,6 +119,13 @@ const ProviderFlow = () => {
     pushValue(newNode);
   }
 
+  const onNodeDragStart = (e, node) => {
+    console.log('Drag Start', node)
+  };
+  const onNodeDragStop = (e, node) => {
+    console.log('Drag Stop', node)
+  };
+
   return (
     <div className="providerflow">
       <ReactFlowProvider>
@@ -129,6 +136,8 @@ const ProviderFlow = () => {
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
+            onNodeDragStart={onNodeDragStart}
+            onNodeDragStop={onNodeDragStop}
             nodeTypes={nodeTypes}
           >
             <Controls />
