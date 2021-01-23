@@ -78,10 +78,6 @@ const ProviderFlow = () => {
     return () => wsProvider.destroy();
   }, []);
 
-  React.useEffect(() => {
-    console.log('yArray value:', value)
-  }, [value]);
-
   const onConnect = (params) => pushValue(addEdge({type: 'smoothstep', ...params}, [])[0]);
   const onElementsRemove = (elementsToRemove) => {
       const nodeIdsToRemove = elementsToRemove.map((n) => n.id);
@@ -121,26 +117,20 @@ const ProviderFlow = () => {
       for(const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
           const currentArray = yarrayInterface.toArray();
-          console.log(currentArray);
           const nodeIndex = currentArray.findIndex((current) => current.id === node_id)
-
           const _posArr = mutation.target.style.transform.split(',');
           const posx = parseFloat(_posArr[0].match(/[\d\.]+/))
           const posy = parseFloat(_posArr[1].match(/[\d\.]+/))
-          console.log(`x: ${posx} y: ${posy}`);
-
           const oldNode = yarrayInterface.get(nodeIndex);
           oldNode.position = {
             x: posx,
             y: posy,
           }
-          console.log(oldNode);
           doc.transact(() => {
             yarrayInterface.delete(nodeIndex, 1);
             insertValue(nodeIndex, oldNode);
+            console.log('I just updated the Y.Array');
           });
-
-          console.log(yarrayInterface.toArray());
         }
     }
     });
