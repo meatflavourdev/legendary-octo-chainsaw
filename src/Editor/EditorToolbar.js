@@ -11,7 +11,7 @@ import TextFormatIcon from '@material-ui/icons/TextFormat';
 import Tooltip from '@material-ui/core/Tooltip';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-
+import Icon from '@material-ui/core/Icon'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid darkgrey',
     padding: '4px',
     backgroundColor: 'darkgrey'
+  },
+  annotation: {
+    padding: '0px',
   }
 }));
 
@@ -70,24 +73,42 @@ export default function EditorToolbar(props) {
           <Crop75Icon/>
         </IconButton>
       </ButtonGroup> }
+
+        {/* <Tooltip title="Create Node">
+          <IconButton size='small' onClick={handleOpen} >
+          {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
+            <DashboardIcon/>
+          </IconButton> */}
       <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
-      <Tooltip title="Create Node">
-        <IconButton size='small' onClick={handleOpen} >
-        {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
-          <DashboardIcon/>
+        <Tooltip title="Block Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'block')}>
+            <CheckBoxOutlineBlankIcon/>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Decision Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'decision')}>
+            <ChangeHistoryIcon/>
         </IconButton>
-      </Tooltip>
-        <IconButton size='small'>
-          <EditIcon/>
+        </Tooltip>
+        <Tooltip title="Terminator Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'terminator')}>
+            <Crop75Icon/>
+          </IconButton>
+        </Tooltip>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/check-circle.svg"/>
         </IconButton>
-        <IconButton size='small'>
-          <BrushIcon/>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/times-circle.svg"/>
         </IconButton>
-        <IconButton size='small'>
-          <TimelineIcon/>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/info-circle.svg"/>
         </IconButton>
         <IconButton size='small'>
          <TextFormatIcon/>
+        </IconButton>
+        <IconButton size='small'>
+         <TimelineIcon/>
         </IconButton>
       </ButtonGroup>
     </div>
