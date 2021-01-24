@@ -16,18 +16,18 @@ const onElementClick = (event, element) => console.log('click', element);
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
 
 const initialElements = [
-  { id: 'provider-1', data: { label: 'Node 1' }, position: { x: 345, y: 150 }, type: 'input' },
+  { id: 'provider-1', data: { label: 'Node 1' }, position: { x: 340, y: 150 }, type: 'input' },
   { id: 'provider-2', data: { label: 'Node 2' }, position: { x: 150, y: 300 } },
-  { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 555, y: 300 } },
-  { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 555, y: 480 }, type: 'output' },
-  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false },
-  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false },
-  { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true },
+  { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 550, y: 300 } },
+  { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 550, y: 480 }, type: 'output' },
+  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
+  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
+  { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true, type: 'smoothstep' },
 ];
 const nodeTypes = {};
 
 const nodeDefaultValues = {
-  background: '#3b5360',
+  background: '#2D3A49',
   color: '#FFF',
   border: '0px'
 }
@@ -48,20 +48,20 @@ const nodeShapes = {
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const [nodeName, setNodeName] = useState('Node 1');
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
+  const onConnect = (params) => setElements((els) => addEdge({type: 'smoothstep', ...params}, els));
   const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els), console.log("REMOVED NODE"));
 
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = useCallback((type, shape) => {
-    let randomNumber = Math.floor(Math.random() * (600 - 200 + 1)) + 200;
+    let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1))+ 20)  * 10 ;
     const newNode = {
       type,
       id: getNodeId(),
       style: nodeShapes[shape],
       data: { label: 'Added node' },
       position: {
-        x: randomNumber,
-        y: randomNumber
+        x: 300,
+        y: 300
       },
     };
 
@@ -81,10 +81,11 @@ const ProviderFlow = () => {
             onLoad={onLoad}
             nodeTypes={nodeTypes}
             snapToGrid={true}
+            snapGrid={[10, 10]}
           >
             <Controls />
             <EditorToolbar addNode={onAdd} />
-            <Background variant="dots" color="#484848" />
+            <Background variant="dots" gap='20' color="#484848" />
           </ReactFlow>
         </div>
       </ReactFlowProvider>

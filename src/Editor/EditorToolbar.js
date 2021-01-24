@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   group: {
     border: '1px solid darkgrey',
     padding: '4px',
+    position: 'fixed',
+    bottom: '1em',
+    left: 'calc(50vw - 103px)',
   },
   group2: {
     border: '1px solid darkgrey',
@@ -41,13 +44,13 @@ export default function EditorToolbar(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
-  
-  
+
+
   const handleOpen = () => {
     setOpen(!open);
   };
 
- 
+
   const handleClose = (type, shape) => {
     setOpen(false);
     props.addNode(type, shape);
