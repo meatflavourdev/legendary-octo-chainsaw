@@ -11,6 +11,7 @@ import ReactFlow, {
 import './provider.css';
 import EditorToolbar from "./EditorToolbar";
 import EditNodes from './EditNodes';
+import AttributeToolbar from './AttributeToolbar';
 
 const onElementClick = (event, element) => console.log('click', element);
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
@@ -83,6 +84,7 @@ const ProviderFlow = () => {
             snapToGrid={true}
           >
             <Controls />
+            <AttributeToolbar/>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" color="#484848" />
           </ReactFlow>

@@ -3,3 +3,33 @@
   border-right: solid 1px darkgrey;
   margin-right: 1px;
 }
+
+#colorPanel, #fillPanel {
+background-color: lightgray;
+border: 1px solid lightgray;
+margin-left: 15px;
+}
+
+.dark {
+  color: #595a66
+}
+
+.light {
+  color: #949aa1
+}
+
+.red {
+  color: #ff426e
+}
+
+.green {
+  color: #50ebc5
+}
+
+.blue {
+  color: #4b95fe
+}
+
+.darkblue {
+  color: #785fff
+}
