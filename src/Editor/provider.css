@@ -1,0 +1,68 @@
+.providerflow {
+  height: 100vh;
+  width: 100%;
+}
+
+.reactflow-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.info {
+  position: fixed;
+  z-index: 1000;
+  right: 2em;
+  text-align: end;
+  bottom: 1em;
+}
+
+.flowInfoFooter {
+  position: fixed;
+  bottom: 0px;
+}
+
+.save__controls {
+  position: fixed;
+  bottom: 50px;
+  margin-left: 100px;
+  z-index: 100;
+}
+
+.react-flow__background {
+  background-color: #FFFFFF;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+  stroke: #595A66;
+}
+
+.react-flow__node-default .react-flow__handle {
+  background: #FFF;
+  padding: 2.5px;
+  border: solid 2px #595A66
+}
+
+.react-flow__handle-bottom {
+  bottom: -12px;
+}
+
+.react-flow__handle-top {
+  top: -12px;
+}
+
+.react-flow__handle-left {
+  left: -12px;
+}
+
+.react-flow__handle-right {
+  right: -12px;
+}

@@ -1,0 +1,9 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "firestore-export-import": "^0.9.0"
+  }
+}

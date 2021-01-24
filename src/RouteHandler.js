@@ -3,60 +3,51 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
 
 import Home from "./Home";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import { AuthProvider } from "./contexts/AuthContext"
 import Editor from "./Editor/Editor";
 import Error from "./Error";
+import YjsTest from "./yjsSubscriber/YjsTest";
+import firebaseAuth from "./firebase/firebaseAuth";
+import cloudFirestore from "./firebase/cloudFirestore";
+import MenuAppBar from "./components/MenuAppBar";
+import Landing from "./Landing/Landing";
+import firebase from 'firebase';
+import 'firebase/firestore';
+import 'firebase/auth';
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+const auth = firebase.auth();
+
 
 function RouteHandler() {
+
+  const [user] = useAuthState(auth);
+
   return (
     <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Landing Page</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup"><button>Signup</button></Link>
-          </li>
-          <li>
-            <Link to="/app">Editor</Link>
-          </li>
-          <li>
-            <Link to="/error">Error Page (placeholder)</Link>
-          </li>
-          <li>
-            <Link to="/11b18ea5-bfdf-4421-a1a0-3609692408fd">Example link to document with UUID</Link>
-          </li>
-        </ul>
-
-        <hr />
+      <AuthProvider>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login">
-            <Login />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/app">
+          {!user ? <Redirect to="/Login" /> : <Editor />}
           </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/app">
-            <Editor />
-          </Route>
-          <Route path="/error">
-            <Error />
-          </Route>
-          <Route path="/:doc_id" >
-            <Editor />
-          </Route>
+          <Route exact path="/error" component={Error} />
+          <Route exact path="/editor" component={MenuAppBar} />
+          <Route exact path="/yjstest" component={YjsTest} />
+          <Route exact path="/firebaseauth" component={firebaseAuth} />
+        <Route exact path="/cloudfirestore" component={cloudFirestore} />
+          <Route path="/:doc_id" component={Editor} />
         </Switch>
-      </div>
+      </AuthProvider>
     </Router>
   );
 }
