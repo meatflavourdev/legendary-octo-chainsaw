@@ -104,8 +104,8 @@ export default function EditorToolbar(props) {
         <IconButton className={classes.annotation}>
           <img src="./annotations/info-circle.svg"/>
         </IconButton>
-        <IconButton size='small'>
-         <TextFormatIcon/>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/question-circle.svg"/>
         </IconButton>
         <IconButton size='small'>
          <TimelineIcon/>
