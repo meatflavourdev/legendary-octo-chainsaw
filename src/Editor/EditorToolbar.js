@@ -1,42 +1,47 @@
 import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { IconButton, ButtonGroup, Tooltip, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
 import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
 import Crop75Icon from '@material-ui/icons/Crop75';
-import BrushIcon from '@material-ui/icons/Brush';
 import TimelineIcon from '@material-ui/icons/Timeline';
-import TextFormatIcon from '@material-ui/icons/TextFormat';
-import Tooltip from '@material-ui/core/Tooltip';
+import UndoIcon from '@material-ui/icons/Undo';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-
+import RedoIcon from '@material-ui/icons/Redo';
+import './editor.css'; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100vw',
     zIndex: 10,
+    display: 'flex',
+    justifyContent: 'center',
     bottom: '10px',
     position: 'absolute',
-    display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     '& > *': {
       margin: theme.spacing(1),
     },
   },
-  group: {
+  toolbarGroup: {
+    background: '#FFF',
     border: '1px solid darkgrey',
     padding: '4px',
     position: 'fixed',
     bottom: '1em',
     left: 'calc(50vw - 103px)',
   },
-  group2: {
+  undoGroup: {
     border: '1px solid darkgrey',
     padding: '4px',
     backgroundColor: 'darkgrey'
+  },
+  annotation: {
+    padding: '0px',
+  },
+  border: {
+    borderRight: '2px solid darkgrey',
+    borderRightColor: 'darkgrey'
   }
 }));
 
@@ -59,8 +64,9 @@ export default function EditorToolbar(props) {
 
 
   return (
+
     <div className={classes.root}>
-      {open && <ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default">
+      {open && <ButtonGroup className={classes.toolbarGroup} disableElevation variant="outlined" color="default">
       <Tooltip title="Block Node">
         <IconButton size='small' onClick={() => handleClose('default', 'block')}>
           <CheckBoxOutlineBlankIcon/>
@@ -73,25 +79,64 @@ export default function EditorToolbar(props) {
           <Crop75Icon/>
         </IconButton>
       </ButtonGroup> }
-      <ButtonGroup className={classes.group} disableElevation variant="outlined" color="default">
-      <Tooltip title="Create Node">
-        <IconButton size='small' onClick={handleOpen} >
-        {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
+
+        {/* <Tooltip title="Create Node">
+          <IconButton size='small' onClick={handleOpen} >
+          {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
           <DashboardIcon/>
+        </IconButton> */}
+      <ButtonGroup className={classes.toolbarGroup} disableElevation variant="outlined" color="default">
+        <Tooltip title="Block Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'block')}>
+            <CheckBoxOutlineBlankIcon/>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Decision Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'decision')}>
+            <ChangeHistoryIcon/>
         </IconButton>
-      </Tooltip>
-        <IconButton size='small'>
-          <EditIcon/>
+        </Tooltip>
+        <Tooltip title="Terminator Node">
+          <IconButton size='small' onClick={() => handleClose('default', 'terminator')} id='border1'>
+            <Crop75Icon/>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Screenblocks">
+          <IconButton size='small' onClick={() => handleClose('default', 'screenblock')} id='border2'>
+            <DashboardIcon/>
         </IconButton>
-        <IconButton size='small'>
-          <BrushIcon/>
+        </Tooltip>
+        
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/check-circle.svg"/>
         </IconButton>
-        <IconButton size='small'>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/times-circle.svg"/>
+        </IconButton>
+        <IconButton className={classes.annotation}>
+          <img src="./annotations/info-circle.svg"/>
+        </IconButton>
+        <IconButton className={classes.annotation} id='border3'>
+          <img src="./annotations/question-circle.svg"/>
+        </IconButton>
+        <Tooltip title="Custom Handle">
+          <IconButton size='small'>
           <TimelineIcon/>
-        </IconButton>
-        <IconButton size='small'>
-         <TextFormatIcon/>
-        </IconButton>
+          </IconButton>
+        </Tooltip>
+      </ButtonGroup>
+
+      <ButtonGroup className={classes.toolbarGroup}>
+        <Tooltip title="Undo">
+          <IconButton size='small' onClick={() => handleClose('default', 'decision')}>
+            <UndoIcon/>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Redo">
+          <IconButton size='small' onClick={() => handleClose('default', 'terminator')}>
+            <RedoIcon/>
+          </IconButton>
+        </Tooltip>
       </ButtonGroup>
     </div>
   );
