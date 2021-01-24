@@ -20,9 +20,9 @@ const initialElements = [
   { id: 'provider-2', data: { label: 'Node 2' }, position: { x: 150, y: 300 } },
   { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 550, y: 300 } },
   { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 550, y: 480 }, type: 'output' },
-  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false },
-  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false },
-  { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true },
+  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
+  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
+  { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true, type: 'smoothstep' },
 ];
 const nodeTypes = {};
 

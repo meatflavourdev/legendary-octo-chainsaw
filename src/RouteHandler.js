@@ -16,6 +16,7 @@ import YjsTest from "./yjsSubscriber/YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
 import cloudFirestore from "./firebase/cloudFirestore";
 import MenuAppBar from "./components/MenuAppBar";
+import Landing from "./Landing/Landing";
 import firebase from 'firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -33,7 +34,7 @@ function RouteHandler() {
     <Router>
       <AuthProvider>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/app">
