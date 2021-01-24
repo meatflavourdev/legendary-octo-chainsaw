@@ -1,0 +1,5 @@
+#border1, #border2, #border3 {
+  border-right-color: darkgrey;
+  border-right: solid 1px darkgrey;
+  margin-right: 1px;
+}
