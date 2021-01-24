@@ -1,13 +1,13 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from "firebase/app";
+import "firebase/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
-} from '@react-firebase/auth';
-import { firebaseConfig } from './firebaseConfig';
-import LogRocket from 'logrocket';
+} from "@react-firebase/auth";
+import { firebaseConfig } from "./firebaseConfig";
+import LogRocket from "logrocket";
 
 function firebaseAuth() {
   return (
@@ -40,7 +40,7 @@ function firebaseAuth() {
           return (
             <>
               <h1>{user && user.displayName}</h1>
-              <pre style={{ height: 300, overflow: 'auto' }}>
+              <pre style={{ height: 300, overflow: "auto" }}>
                 {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
               </pre>
             </>
@@ -53,7 +53,9 @@ function firebaseAuth() {
             return <div>You are authenticated</div>;
           }}
         </IfFirebaseAuthed>
-        <IfFirebaseAuthedAnd filter={({ providerId }) => providerId !== 'anonymous'}>
+        <IfFirebaseAuthedAnd
+          filter={({ providerId }) => providerId !== "anonymous"}
+        >
           {({ providerId }) => {
             return <div>You are authenticated with {providerId}</div>;
           }}

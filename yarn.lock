@@ -11158,10 +11158,10 @@ react-firebase-hooks@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-2.2.0.tgz#a2cea46d3da94619e8a316b85173638698ef7d2b"
   integrity sha512-bwBaCYa8M+bpTqD0masAPGDTzxiTkGbyxv363hyR+NeNH1HbezPll6G7aMIGl+7OOYRPzfdmpkk72zc3VgXfEw==
 
-react-flow-renderer@^8.3.7:
-  version "8.3.7"
-  resolved "https://registry.yarnpkg.com/react-flow-renderer/-/react-flow-renderer-8.3.7.tgz#9da1e68ee28aeb0e06f0f14aa54b509487dbb71b"
-  integrity sha512-xWIT4ovLBkB1W61yNyLhskiFQPqBr5hq0qdrmUnthT3kIhuEQsUWjrv09CkYU1iophh4sMa4HFYUQVP4t3l5Zg==
+react-flow-renderer@^8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/react-flow-renderer/-/react-flow-renderer-8.5.0.tgz#5eb7169ecac6927ddc303fa4675e8cffa465dce2"
+  integrity sha512-z/uLCulKZxAbKnb62+Ed8tlK2VsPACo1oePoW+vzfI87Z+7h+395m2w5I24VmdiRKmm+5kMC4eqg2SpjSBwr0g==
   dependencies:
     "@babel/runtime" "^7.12.5"
     classcat "^4.1.0"
