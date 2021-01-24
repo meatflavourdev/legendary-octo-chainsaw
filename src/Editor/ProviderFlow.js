@@ -20,14 +20,14 @@ const initialElements = [
   { id: 'provider-2', data: { label: 'Node 2' }, position: { x: 150, y: 300 } },
   { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 555, y: 300 } },
   { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 555, y: 480 }, type: 'output' },
-  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false },
+  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep'},
   { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false },
   { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true },
 ];
 const nodeTypes = {};
 
 const nodeDefaultValues = {
-  background: '#3b5360',
+  background: '#2D3A49',
   color: '#FFF',
   border: '0px'
 }
@@ -48,20 +48,19 @@ const nodeShapes = {
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const [nodeName, setNodeName] = useState('Node 1');
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
+  const onConnect = (params) => setElements((els) => addEdge({type: 'smoothstep', ...params}, els));
   const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els), console.log("REMOVED NODE"));
 
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = useCallback((type, shape) => {
-    let randomNumber = Math.floor(Math.random() * (600 - 200 + 1)) + 200;
     const newNode = {
       type,
       id: getNodeId(),
       style: nodeShapes[shape],
       data: { label: 'Added node' },
       position: {
-        x: randomNumber,
-        y: randomNumber
+        x: 300,
+        y: 300
       },
     };
 
