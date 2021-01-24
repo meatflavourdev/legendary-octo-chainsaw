@@ -52,24 +52,17 @@ const ProviderFlow = () => {
   const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els), console.log("REMOVED NODE"));
 
   const getNodeId = () => `randomnode_${+new Date()}`;
-  const onAdd = useCallback(() => {
+  const onAdd = useCallback((type, shape) => {
     let randomNumber = Math.floor(Math.random() * (600 - 200 + 1)) + 200;
     const newNode = {
-      //type,
+      type,
       id: getNodeId(),
-      //style: nodeShapes[shape],
+      style: nodeShapes[shape],
       data: { label: 'Added node' },
       position: {
         x: randomNumber,
         y: randomNumber
       },
-      style: {
-        background: '#FFFFFF',
-        color: '#333',
-        border: '1px solid #222138',
-        width: 180,
-        padding: '10px'
-      }
     };
 
     setElements((els) => els.concat(newNode));

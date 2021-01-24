@@ -143,7 +143,7 @@ export default function Login() {
                         });
                     }}
                   >
-                    Sign Up With Google
+                    Sign In With Google
                   </Button>
                 </Box>
               </Grid>
