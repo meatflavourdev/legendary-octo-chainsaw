@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     background: '#FFF',
     border: '1px solid darkgrey',
     padding: '4px',
-    position: 'fixed',
-    bottom: '1em',
-    left: 'calc(50vw - 103px)',
   },
   undoGroup: {
     border: '1px solid darkgrey',
