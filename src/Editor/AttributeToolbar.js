@@ -89,15 +89,15 @@ export default function AttributeToolbar(props) {
       {/* Color picker */}
       {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
         <IconButton size='small' onClick={() => { handleClose() 
-          props.color('#595a66')}}>
+          props.fillColor('dark')}}>
           <FiberManualRecordIcon className="dark"/>
         </IconButton>
         <IconButton size='small' onClick={() => { handleClose() 
-          props.color('#949aa1')}}>
+          props.fillColor('light')}}>
           <FiberManualRecordIcon className="light"/>
         </IconButton>
         <IconButton size='small' onClick={() => { handleClose() 
-          props.color('#ff426e')}}>
+          props.fillColor('red')}}>
           <FiberManualRecordIcon className="red"/>
         </IconButton>
         <IconButton size='small' onClick={handleClose}>
@@ -115,7 +115,7 @@ export default function AttributeToolbar(props) {
       {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
         <Tooltip title="Dotted Edge" placement="right">
           <IconButton size='small' onClick={() => { handleClose() 
-          props.fillStyle('dotted')}}>
+          props.fillStyle('dashed')}}>
             <BorderClearIcon/>
           </IconButton>
         </Tooltip>

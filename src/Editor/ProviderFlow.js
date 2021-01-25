@@ -19,11 +19,11 @@ const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInsta
 
 const initialElements = [
   { id: '1', data: { label: 'Node 1' }, position: { x: 340, y: 150 }, type: 'ShapeNode' },
-  { id: 'provider-2', data: { label: 'Node 2', fillStyle: 'outlined', fillColor: 'dark'}, position: { x: 150, y: 300 } },
-  { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 550, y: 300 } },
-  { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 550, y: 480 } },
-  { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
-  { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
+  { id: 'provider-2', data: { label: 'Node 2', fillStyle: 'outlined', fillColor: 'dark'}, position: { x: 150, y: 300 }, type: 'default' },
+  { id: 'provider-3', data: { label: 'Node 3', fillStyle: 'dashed', fillColor: 'light' }, position: { x: 550, y: 300 }, type: 'ShapeNode' },
+  { id: 'provider-4', data: { label: 'Node 4', fillStyle: 'filled', fillColor: 'red' }, position: { x: 550, y: 480 }, type: 'ShapeNode' },
+  // { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
+  // { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
   { id: 'provider-e3-4', source: 'provider-3', target: 'provider-4', animated: true, type: 'smoothstep' },
 ];
 const nodeTypes = {
@@ -84,12 +84,11 @@ const ProviderFlow = () => {
   
 
 
-  const [nodeBg, setNodeBg] = useState('#eee');
   const [nodeid, setNodeid] = useState('');
+  const [color, setFillColor] = useState('#eee');
   const [fillStyle, setFillStyle] = useState('filled');
 
   const onElementClick = (event, element) => {
-    setNodeBg('');
     setNodeid(element.id);
     console.log('click', element)
   };
@@ -100,13 +99,16 @@ const ProviderFlow = () => {
         if (el.id === nodeid) {
           // it's important that you create a new object here
           // in order to notify react flow about the change
-          el.style = { ...el.style, backgroundColor: nodeBg };
+          el.data = {
+            ...el.data,
+            fillColor: color
+          };
           setNodeid('')
         }
         return el;
       })
     );
-  }, [nodeBg, setElements])
+  }, [color, setElements])
 
   useEffect(() => {
     setElements((els) =>
@@ -114,7 +116,10 @@ const ProviderFlow = () => {
         if (el.id === nodeid) {
           // it's important that you create a new object here
           // in order to notify react flow about the change
-          el.data.fillStyle = fillStyle;
+          el.data = {
+            ...el.data,
+            fillStyle
+          };
           setNodeid('')
         }
         return el;
@@ -138,7 +143,7 @@ const ProviderFlow = () => {
             snapGrid={[10, 10]}
           >
             <Controls />
-            <AttributeToolbar fillStyle={setFillStyle} color={setNodeBg}/>
+            <AttributeToolbar fillStyle={setFillStyle} fillColor={setFillColor}/>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap='20' color="#484848" />
           </ReactFlow>
