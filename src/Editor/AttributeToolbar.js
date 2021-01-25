@@ -52,6 +52,9 @@ export default function AttributeToolbar(props) {
   const handleClose = () => {
     setOpen(false);
     console.log('selectedElements:', selectedElements);
+    for (const element of selectedElements) {
+      element.style = {backgroundColor: '#456423',}
+    }
   }
 
 
