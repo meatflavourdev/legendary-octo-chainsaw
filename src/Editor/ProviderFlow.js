@@ -19,7 +19,7 @@ const onLoad = (reactFlowInstance) =>
 
 const initialElements = [
   {
-    id: "1",
+    id: "provider-1",
     data: { label: "Node 1" },
     position: { x: 340, y: 150 },
     type: "ShapeNode",
@@ -593,7 +593,6 @@ const ProviderFlow = () => {
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = useCallback(
     (type, shape) => {
-      let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1)) + 20) * 10;
       const newNode = {
         type,
         id: getNodeId(),
@@ -649,6 +648,22 @@ const ProviderFlow = () => {
     );
   }, [fillStyle, setElements]);
 
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === nodeid) {
+          // it's important that you create a new object here in order to notify react flow about the change
+          el.data = {
+            ...el.data,
+            label: nodeName,
+          };
+        }
+
+        return el;
+      })
+    );
+  }, [nodeName, setElements]);
+
   return (
     <div className="providerflow">
       <ReactFlowProvider>
@@ -674,21 +689,6 @@ const ProviderFlow = () => {
                 value={nodeName}
                 onChange={(evt) => setNodeName(evt.target.value)}
               />
-
-              <label className="updatenode__bglabel">background:</label>
-              <input
-                value={nodeBg}
-                onChange={(evt) => setNodeBg(evt.target.value)}
-              />
-
-              <div className="updatenode__checkboxwrapper">
-                <label>hidden:</label>
-                <input
-                  type="checkbox"
-                  checked={nodeHidden}
-                  onChange={(evt) => setNodeHidden(evt.target.checked)}
-                />
-              </div>
             </div>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
