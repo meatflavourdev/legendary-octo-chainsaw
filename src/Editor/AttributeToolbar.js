@@ -9,7 +9,8 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
-import './editor.css'; 
+import './editor.css';
+import { useStoreState } from 'react-flow-renderer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,17 +38,20 @@ export default function AttributeToolbar(props) {
   const classes = useStyles();
   const [menu, setMenu] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  
-  
+
+
   const handleOpen = (menu) => {
     setMenu(menu);
     setOpen(true);
   };
-  
 
- 
+  const selectedElements = useStoreState(store => store.selectedElements);
+
+
+
   const handleClose = () => {
     setOpen(false);
+    console.log('selectedElements:', selectedElements);
   }
 
 
@@ -61,7 +65,7 @@ export default function AttributeToolbar(props) {
           {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
           <DashboardIcon/>
         </IconButton> */}
-        
+
       {/* Attribute Toolbar */}
       <ButtonGroup className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
         <Tooltip title="Change Color" placement="right">
