@@ -13,11 +13,12 @@ import EditorToolbar from "./EditorToolbar";
 import EditNodes from './EditNodes';
 import AttributeToolbar from './AttributeToolbar';
 
-const onElementClick = (event, element) => console.log('click', element);
+
+
 const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInstance);
 
 const initialElements = [
-  { id: 'provider-1', data: { label: 'Node 1' }, position: { x: 340, y: 150 }, type: 'input' },
+  { id: '1', data: { label: 'Node 1' }, position: { x: 340, y: 150 }, type: 'input' },
   { id: 'provider-2', data: { label: 'Node 2' }, position: { x: 150, y: 300 } },
   { id: 'provider-3', data: { label: 'Node 3' }, position: { x: 550, y: 300 } },
   { id: 'provider-4', data: { label: 'Node 4' }, position: { x: 550, y: 480 }, type: 'output' },
@@ -68,6 +69,30 @@ const ProviderFlow = () => {
 
     setElements((els) => els.concat(newNode));
   }, [setElements]);
+  
+
+
+  const [nodeBg, setNodeBg] = useState('#eee');
+  const [nodeid, setNodeid] = useState('');
+  const onElementClick = (event, element) => {
+    setNodeBg('');
+    setNodeid(element.id);
+    console.log('click', element)
+  };
+
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === nodeid) {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          el.style = { ...el.style, backgroundColor: nodeBg };
+          setNodeid('')
+        }
+        return el;
+      })
+    );
+  }, [nodeBg, setElements])
 
 
   return (
@@ -85,7 +110,7 @@ const ProviderFlow = () => {
             snapGrid={[10, 10]}
           >
             <Controls />
-            <AttributeToolbar/>
+            <AttributeToolbar color={setNodeBg}/>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap='20' color="#484848" />
           </ReactFlow>
