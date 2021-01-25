@@ -604,23 +604,6 @@ const ProviderFlow = () => {
           // in order to notify react flow about the change
           el.data = {
             ...el.data,
-            fillColor: color,
-          };
-          setNodeid("");
-        }
-        return el;
-      })
-    );
-  }, [color, setElements]);
-
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === nodeid) {
-          // it's important that you create a new object here
-          // in order to notify react flow about the change
-          el.data = {
-            ...el.data,
             fillStyle,
           };
           setNodeid("");
@@ -628,7 +611,7 @@ const ProviderFlow = () => {
         return el;
       })
     );
-  }, [fillStyle, setElements]);
+  }, [color, fillStyle, setElements]);
 
   return (
     <div className="providerflow">
