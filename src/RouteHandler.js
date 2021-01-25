@@ -38,13 +38,13 @@ function RouteHandler() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/app">
-          {!user ? <Redirect to="/Login" /> : <Editor />}
+            {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
+            <Editor />
           </Route>
           <Route exact path="/error" component={Error} />
-          <Route exact path="/editor" component={MenuAppBar} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/firebaseauth" component={firebaseAuth} />
-        <Route exact path="/cloudfirestore" component={cloudFirestore} />
+          <Route exact path="/cloudfirestore" component={cloudFirestore} />
           <Route path="/:doc_id" component={Editor} />
         </Switch>
       </AuthProvider>
