@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -16,19 +16,10 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import AppPerspective from './AppPerspective';
 import logo from '../logo.png';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Entropy Project
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Avatar } from '@material-ui/core';
+import { deepOrange } from '@material-ui/core/colors';
+import { useAuth } from "../contexts/AuthContext"
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -63,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
   },
+  avatar: {
+    color: theme.palette.getContrastText('#00e676'),
+    backgroundColor: '#00e676',
+  },
   heroContent: {
     padding: theme.spacing(6, 0, 7),
   },
@@ -75,9 +70,12 @@ const useStyles = makeStyles((theme) => ({
   heroButtons: {
     padding: '0.5em',
   },
+  heroButtonExtraLarge: {
+    padding: '0.6em 2.5em',
+    fontSize: '1.5em',
+  },
   cardHeader: {
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
   },
   cardPricing: {
     display: 'flex',
@@ -109,24 +107,14 @@ const tiers = [
     title: 'Me',
     subheader: 'Most popular',
     price: '15',
-    description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
-    ],
+    description: ['20 users included', '10 GB of storage', 'Help center access', 'Priority email support'],
     buttonText: 'Get started',
     buttonVariant: 'contained',
   },
   {
     title: 'with Features',
     price: '30',
-    description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
-    ],
+    description: ['50 users included', '30 GB of storage', 'Help center access', 'Phone & email support'],
     buttonText: 'Contact us',
     buttonVariant: 'outlined',
   },
@@ -138,18 +126,109 @@ const footers = [
   },
   {
     title: 'Nathan Mckenzie',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],  },
+    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+  },
   {
     title: 'Nik Sofianos',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],  },
+    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+  },
   {
     title: 'Open Source',
     description: ['Design Docs', 'Github'],
   },
 ];
 
+function NavButtonsNoAuth() {
+  const classes = useStyles();
+  return (
+    <>
+      <Button href="/login" color="primary" variant="contained" className={classes.link}>
+        Sign In
+      </Button>
+      <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
+        Sign Up
+      </Button>
+    </>
+  );
+}
+function NavButtonsAuth() {
+  const classes = useStyles();
+  return (
+    <>
+      <Avatar className={classes.avatar}>J</Avatar>
+      <Typography variant="h6" color="inherit" noWrap className={classes.link}>
+        Johnny Username
+      </Typography>
+      <Button href="/signout" color="primary" variant="outlined" className={classes.link}>
+        Sign Out
+      </Button>
+    </>
+  );
+}
+function HeroButtonsAuth() {
+  const classes = useStyles();
+  return (
+    <div className={classes.heroButtons}>
+    <Grid container spacing={2} justify="center">
+      <Grid item>
+        <Button href="/app" variant="contained" className={classes.heroButtonExtraLarge} size="large" color="primary">
+          Check it out!
+        </Button>
+      </Grid>
+    </Grid>
+  </div>
+  );
+}
+function HeroButtonsNoAuth() {
+  const classes = useStyles();
+  return (
+    <div className={classes.heroButtons}>
+    <Grid container spacing={2} justify="center">
+      <Grid item>
+        <Button variant="contained" size="large" color="primary">
+          Sign Up with Google
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button href="/login" variant="outlined" size="large" color="primary">
+          Sign Up with Email
+        </Button>
+      </Grid>
+    </Grid>
+  </div>
+  );
+}
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Entropy Project
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
 export default function Landing() {
   const classes = useStyles();
+
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
 
   return (
     <React.Fragment>
@@ -160,42 +239,31 @@ export default function Landing() {
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Entropy
           </Typography>
-
-          <Button href="#" color="primary" variant="contained" className={classes.link}>
-            Sign In
-          </Button>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}>
-            Sign Up
-          </Button>
+          <NavButtonsAuth />
+          <NavButtonsNoAuth />
         </Toolbar>
       </AppBar>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="md">
-          <Typography className={classes.heroTitle} component="h1" variant="h2" align="center" color="textPrimary"  gutterBottom>
-              Communicate visually
-            </Typography>
-            <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" size="large" color="primary">
-                    Sign Up with Google
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" size="large" color="primary">
-                    Sign Up with Email
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </Container>
-        </div>
+      {/* Hero unit */}
+      <div className={classes.heroContent}>
+        <Container maxWidth="md">
+          <Typography
+            className={classes.heroTitle}
+            component="h1"
+            variant="h2"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Communicate visually
+          </Typography>
+          <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
+            Something short and leading about the collection below—its contents, the creator, etc. Make it short and
+            sweet, but not too short so folks don&apos;t simply skip over it entirely.
+          </Typography>
+          <HeroButtonsAuth />
+          <HeroButtonsNoAuth />
+        </Container>
+      </div>
       {/* End hero unit */}
       {/* Screenshot */}
       <Container>
