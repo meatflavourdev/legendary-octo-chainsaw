@@ -1192,16 +1192,29 @@ export default function EditorToolbar(props) {
           </IconButton>
         </Tooltip>
 
-        <IconButton className={classes.annotation}>
+        <IconButton
+          className={classes.annotation}
+          onClick={() => handleClose("default", "checkcircle")}
+        >
           <img src="./annotations/check-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+          className={classes.annotation}
+          onClick={() => handleClose("default", "timescircle")}
+        >
           <img src="./annotations/times-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+          className={classes.annotation}
+          onClick={() => handleClose("default", "infocircle")}
+        >
           <img src="./annotations/info-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation} id="border3">
+        <IconButton
+          className={classes.annotation}
+          id="border3"
+          onClick={() => handleClose("default", "questioncircle")}
+        >
           <img src="./annotations/question-circle.svg" />
         </IconButton>
         <Tooltip title="Custom Handle">

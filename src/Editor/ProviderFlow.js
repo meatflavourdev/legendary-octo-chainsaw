@@ -12,6 +12,7 @@ import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
 import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
+import "../UpdateNode/updatenode.css";
 
 const onLoad = (reactFlowInstance) =>
   console.log("flow loaded:", reactFlowInstance);
@@ -63,7 +64,7 @@ const nodeDefaultValues = {
 
 const block = {
   ...nodeDefaultValues,
-  width: 100,
+  width: 79,
   padding: "20px",
   borderRadius: "5px",
 };
@@ -554,11 +555,33 @@ const nodeShapes = {
     ...block,
     backgroundImage: "url(/screenblocks/page-120.svg)",
   },
+  checkcircle: {
+    ...block,
+    backgroundImage: "url(/annotations/check-circle.svg)",
+  },
+  timescircle: {
+    ...block,
+    backgroundImage: "url(/annotations/times-circle.svg)",
+  },
+  infocircle: {
+    ...block,
+    backgroundImage: "url(/annotations/info-circle.svg)",
+  },
+  questioncircle: {
+    ...block,
+    backgroundImage: "url(/annotations/question-circle.svg)",
+  },
 };
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const [nodeName, setNodeName] = useState("Node 1");
+  const [nodeBg, setNodeBg] = useState("#eee");
+  const [nodeHidden, setNodeHidden] = useState(false);
+  const [nodeid, setNodeid] = useState("");
+  const [color, setFillColor] = useState("#eee");
+  const [fillStyle, setFillStyle] = useState("filled");
+
   const onConnect = (params) =>
     setElements((els) => addEdge({ type: "smoothstep", ...params }, els));
   const onElementsRemove = (elementsToRemove) =>
@@ -586,10 +609,6 @@ const ProviderFlow = () => {
     },
     [setElements]
   );
-
-  const [nodeid, setNodeid] = useState("");
-  const [color, setFillColor] = useState("#eee");
-  const [fillStyle, setFillStyle] = useState("filled");
 
   const onElementClick = (event, element) => {
     setNodeid(element.id);
@@ -649,6 +668,28 @@ const ProviderFlow = () => {
               fillStyle={setFillStyle}
               fillColor={setFillColor}
             />
+            <div className="updatenode__controls">
+              <label>label:</label>
+              <input
+                value={nodeName}
+                onChange={(evt) => setNodeName(evt.target.value)}
+              />
+
+              <label className="updatenode__bglabel">background:</label>
+              <input
+                value={nodeBg}
+                onChange={(evt) => setNodeBg(evt.target.value)}
+              />
+
+              <div className="updatenode__checkboxwrapper">
+                <label>hidden:</label>
+                <input
+                  type="checkbox"
+                  checked={nodeHidden}
+                  onChange={(evt) => setNodeHidden(evt.target.checked)}
+                />
+              </div>
+            </div>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
