@@ -184,6 +184,11 @@ export default function EditorToolbar(props) {
     props.addNode(type, shape);
   };
 
+  const handleCloseScreenBlock = (type, shape) => {
+    setOpen(false);
+    props.addScreenBlock(type, shape);
+  };
+
   return (
     <div className={classes.root}>
       {open && (

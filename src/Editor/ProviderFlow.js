@@ -609,6 +609,24 @@ const ProviderFlow = () => {
     [setElements]
   );
 
+  const addScreenBlock = useCallback(
+    (type, shape) => {
+      const newNode = {
+        type,
+        id: getNodeId(),
+        style: nodeShapes[shape],
+        data: { label: "" },
+        position: {
+          x: 300,
+          y: 300,
+        },
+      };
+
+      setElements((els) => els.concat(newNode));
+    },
+    [setElements]
+  );
+
   const onElementClick = (event, element) => {
     setNodeid(element.id);
     console.log("click", element);
@@ -690,7 +708,7 @@ const ProviderFlow = () => {
                 onChange={(evt) => setNodeName(evt.target.value)}
               />
             </div>
-            <EditorToolbar addNode={onAdd} />
+            <EditorToolbar addNode={onAdd} addScreenBlock={addScreenBlock} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
         </div>
