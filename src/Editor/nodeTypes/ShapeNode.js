@@ -3,56 +3,56 @@ import { Handle } from 'react-flow-renderer';
 import './nodestyles.css';
 import classNames from 'classnames';
 
-export default memo(({ data }) => {
-  
+export default function ShapeNode({ data }) {
+
+  data.idNode = true;
+
   const nodeClasses = classNames({
     'node-default': true,
-    'filled': false,
-    'outlined': true,
-    'dashed': false,
-    'dark': true,
-    'light': false,
-    'red': false,
-    'green': false,
-    'blue': false,
-    'purple': false,
+    'filled': data.fillStyle === 'filled',
+    'outlined': data.fillStyle === 'outlined',
+    'dashed': data.fillStyle === 'dashed',
+    'dark': data.fillColor === 'dark',
+    'light': data.fillColor === 'light',
+    'red': data.fillColor === 'red',
+    'green': data.fillColor === 'green',
+    'blue': data.fillColor === 'blue',
+    'purple': data.fillColor === 'purple',
   });
-
-  //return (<li className={liClasses}>{data.name}</li>);
 
   return (
     <div className={nodeClasses}>
       <Handle
+        type="source"
         className='react-flow__handle-shapenode'
         position="top"
         onConnect={(params) => console.log('handle onConnect', params)}
-        style={{ background: '#000' }}
         id='a'
       />
       <Handle
+        type="source"
         className='react-flow__handle-shapenode'
         position="left"
         onConnect={(params) => console.log('handle onConnect', params)}
-        style={{ background: '#000' }}
         id='b'
       />
       <div>
         <span className='shapenode-text'>Custom Color</span>
       </div>
       <Handle
+        type="source"
         className='react-flow__handle-shapenode'
         position="right"
         onConnect={(params) => console.log('handle onConnect', params)}
-        style={{ background: '#000' }}
         id='c'
       />
       <Handle
+        type="source"
         className='react-flow__handle-shapenode'
         position="bottom"
         onConnect={(params) => console.log('handle onConnect', params)}
-        style={{ background: '#000' }}
         id='d'
       />
     </div>
   );
-})
+}
