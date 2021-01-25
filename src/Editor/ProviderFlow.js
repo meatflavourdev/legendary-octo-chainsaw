@@ -11,9 +11,8 @@ import ReactFlow, {
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
 import AttributeToolbar from "./AttributeToolbar";
+import ShapeNode from "./nodeTypes/ShapeNode";
 import "../UpdateNode/updatenode.css";
-import { ReactComponent as Svg } from "../page-01.svg";
-import { SvgIcon } from "@material-ui/core";
 
 const onLoad = (reactFlowInstance) =>
   console.log("flow loaded:", reactFlowInstance);
@@ -23,30 +22,28 @@ const initialElements = [
     id: "provider-1",
     data: { label: "Node 1" },
     position: { x: 340, y: 150 },
-    type: "input",
+    type: "ShapeNode",
   },
-  { id: "provider-2", data: { label: "Node 2" }, position: { x: 150, y: 300 } },
-  { id: "provider-3", data: { label: "Node 3" }, position: { x: 550, y: 300 } },
+  {
+    id: "provider-2",
+    data: { label: "Node 2", fillStyle: "outlined", fillColor: "dark" },
+    position: { x: 150, y: 300 },
+    type: "default",
+  },
+  {
+    id: "provider-3",
+    data: { label: "Node 3", fillStyle: "dashed", fillColor: "light" },
+    position: { x: 550, y: 300 },
+    type: "ShapeNode",
+  },
   {
     id: "provider-4",
-    data: { label: "Node 4" },
+    data: { label: "Node 4", fillStyle: "filled", fillColor: "red" },
     position: { x: 550, y: 480 },
-    type: "output",
+    type: "ShapeNode",
   },
-  {
-    id: "provider-e1-2",
-    source: "provider-1",
-    target: "provider-2",
-    animated: false,
-    type: "smoothstep",
-  },
-  {
-    id: "provider-e1-3",
-    source: "provider-1",
-    target: "provider-3",
-    animated: false,
-    type: "smoothstep",
-  },
+  // { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
+  // { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
   {
     id: "provider-e3-4",
     source: "provider-3",
@@ -55,24 +52,36 @@ const initialElements = [
     type: "smoothstep",
   },
 ];
-const nodeTypes = {};
+const nodeTypes = {
+  ShapeNode,
+};
 
 const nodeDefaultValues = {
   background: "#2D3A49",
   color: "#FFF",
   border: "0px",
 };
+
+const block = {
+  ...nodeDefaultValues,
+  width: 100,
+  padding: "20px",
+  borderRadius: "5px",
+};
 const nodeShapes = {
-  block: {
-    ...nodeDefaultValues,
-    width: 100,
-    padding: "20px",
-    borderRadius: "5px",
-  },
+  block,
   terminator: {
     ...nodeDefaultValues,
     borderRadius: "30px",
     width: 120,
+  },
+  screenblock: {
+    ...block,
+    backgroundImage: "url(/screenblocks/page-01.svg)",
+  },
+  screenblock2: {
+    ...block,
+    backgroundImage: "url(/screenblocks/page-02.svg)",
   },
 };
 
@@ -81,11 +90,7 @@ const ProviderFlow = () => {
   const [nodeName, setNodeName] = useState("TEST");
   const [nodeBg, setNodeBg] = useState("#eee");
   const [nodeHidden, setNodeHidden] = useState(false);
-  const [nodeId, setNodeId] = useState("");
-
-  const onElementClick = (event, element) => {
-    setNodeId(element.id);
-  };
+  const [nodeid, setNodeid] = useState("");
 
   const onConnect = (params) =>
     setElements((els) => addEdge({ type: "smoothstep", ...params }, els));
@@ -111,28 +116,52 @@ const ProviderFlow = () => {
     [setElements]
   );
 
-  const addSvg = useCallback(
-    (type) => {
-      const newNode = {
-        type,
-        id: getNodeId(),
-        style: Svg,
-        data: { label: "Added node" },
-        position: {
-          x: 300,
-          y: 300,
-        },
-      };
+  const [color, setFillColor] = useState("#eee");
+  const [fillStyle, setFillStyle] = useState("filled");
 
-      setElements((els) => els.concat(newNode));
-    },
-    [setElements]
-  );
+  const onElementClick = (event, element) => {
+    setNodeid(element.id);
+    console.log("click", element);
+  };
 
   useEffect(() => {
     setElements((els) =>
       els.map((el) => {
-        if (el.id === nodeId) {
+        if (el.id === "provider-1") {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          el.data = {
+            ...el.data,
+            fillColor: color,
+          };
+          setNodeid("");
+        }
+        return el;
+      })
+    );
+  }, [color, setElements]);
+
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === nodeid) {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          el.data = {
+            ...el.data,
+            fillStyle,
+          };
+          setNodeid("");
+        }
+        return el;
+      })
+    );
+  }, [fillStyle, setElements]);
+
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === nodeid) {
           // it's important that you create a new object here in order to notify react flow about the change
           el.data = {
             ...el.data,
@@ -186,7 +215,10 @@ const ProviderFlow = () => {
             snapGrid={[10, 10]}
           >
             <Controls />
-            <AttributeToolbar />
+            <AttributeToolbar
+              fillStyle={setFillStyle}
+              fillColor={setFillColor}
+            />
             <div className="updatenode__controls">
               <label>label:</label>
               <input
@@ -209,7 +241,7 @@ const ProviderFlow = () => {
                 />
               </div>
             </div>
-            <EditorToolbar addNode={onAdd} addSvg={addSvg} />
+            <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
         </div>

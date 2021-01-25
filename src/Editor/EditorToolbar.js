@@ -57,12 +57,6 @@ export default function EditorToolbar(props) {
     props.addNode(type, shape);
   };
 
-  const handleCloseSvg = (type, shape) => {
-    setOpen(false);
-    props.addSvg(type, shape);
-  };
-  console.log("SVG", Svg);
-
   return (
     <div className={classes.root}>
       {open && (
@@ -134,7 +128,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Screenblocks">
           <IconButton
             size="small"
-            onClick={() => handleCloseSvg("default")}
+            onClick={() => handleClose("default", "block")}
             id="border2"
           >
             <DashboardIcon />

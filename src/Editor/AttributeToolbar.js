@@ -88,13 +88,16 @@ export default function AttributeToolbar(props) {
 
       {/* Color picker */}
       {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => { handleClose() 
+          props.fillColor('dark')}}>
           <FiberManualRecordIcon className="dark"/>
         </IconButton>
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => { handleClose() 
+          props.fillColor('light')}}>
           <FiberManualRecordIcon className="light"/>
         </IconButton>
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => { handleClose() 
+          props.fillColor('red')}}>
           <FiberManualRecordIcon className="red"/>
         </IconButton>
         <IconButton size='small' onClick={handleClose}>
@@ -111,17 +114,20 @@ export default function AttributeToolbar(props) {
       {/* Fill Style */}
       {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
         <Tooltip title="Dotted Edge" placement="right">
-          <IconButton size='small' onClick={handleClose}>
+          <IconButton size='small' onClick={() => { handleClose() 
+          props.fillStyle('dashed')}}>
             <BorderClearIcon/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Filled" placement="right">
-          <IconButton size='small' onClick={handleClose}>
+          <IconButton size='small' onClick={() => { handleClose() 
+          props.fillStyle('filled')}}>
             <StopIcon fontSize='large'/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Outlined" placement="right">
-          <IconButton size='small' onClick={handleClose}>
+          <IconButton size='small' onClick={() => { handleClose() 
+          props.fillStyle('outlined')}}>
             <CheckBoxOutlineBlankIcon />
           </IconButton>
         </Tooltip>
