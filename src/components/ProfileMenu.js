@@ -1,49 +1,49 @@
-import React, { useState } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { deepOrange } from '@material-ui/core/colors';
-import { Grid } from '@material-ui/core';
-import { useAuth } from "../contexts/AuthContext"
-import { useHistory } from "react-router-dom"
+import React, { useState } from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { deepOrange } from "@material-ui/core/colors";
+import { Grid } from "@material-ui/core";
+import { useAuth } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
-} from '@react-firebase/auth';
+} from "@react-firebase/auth";
 
 const useStyles = makeStyles((theme) => ({
   orange: {
     color: theme.palette.getContrastText(deepOrange[500]),
     backgroundColor: deepOrange[500],
-    marginRight: '15px',
-    marginTop:'8px'
+    marginRight: "15px",
+    marginTop: "8px",
   },
 }));
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
+    border: "1px solid #d3d4d5",
   },
 })((props) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
+      vertical: "bottom",
+      horizontal: "center",
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'left',
+      vertical: "top",
+      horizontal: "left",
     }}
     {...props}
   />
@@ -51,9 +51,9 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
   root: {
-    '&:focus': {
+    "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
         color: theme.palette.common.white,
       },
     },
@@ -72,65 +72,67 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
 
-  const [error, setError] = useState("")
-  const { currentUser, logout } = useAuth()
-  const history = useHistory()
+  const [error, setError] = useState("");
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
 
   async function handleLogout() {
-    setError("")
+    setError("");
 
     try {
-      await logout()
-      history.push("/login")
+      await logout();
+      history.push("/");
     } catch {
-      setError("Failed to log out")
+      setError("Failed to log out");
     }
   }
 
   return (
     <IfFirebaseAuthed>
- {({ isSignedIn, user, providerId }) => {
-   return (
-    <div>
-      <IconButton onClick={handleClick} color="inherit">
-        <AccountCircleIcon/>
-      </IconButton>
-      <StyledMenu
-        id="profile-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem style={{ backgroundColor: 'transparent' }}>
-        <Grid container direction='row' justify='center'>
-          <Avatar className={classes.orange}>{user.displayName.slice(0,1)}</Avatar>
-            <Grid item>
+      {({ isSignedIn, user, providerId }) => {
+        return (
+          <div>
+            <IconButton onClick={handleClick} color="inherit">
+              <AccountCircleIcon />
+            </IconButton>
+            <StyledMenu
+              id="profile-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem style={{ backgroundColor: "transparent" }}>
+                <Grid container direction="row" justify="center">
+                  <Avatar className={classes.orange}>
+                    {user.displayName.slice(0, 1)}
+                  </Avatar>
+                  <Grid item>
+                    <ListItemText
+                      primary={user.displayName}
+                      secondary={user.email}
+                    />
+                  </Grid>
+                </Grid>
+              </MenuItem>
 
-               <ListItemText primary={user.displayName} secondary={user.email} />
-          </Grid>
-          </Grid>
-          </MenuItem>
+              <StyledMenuItem>
+                <ListItemIcon>
+                  <SupervisorAccountIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Account Settings" />
+              </StyledMenuItem>
 
-        <StyledMenuItem>
-          <ListItemIcon>
-            <SupervisorAccountIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Account Settings" />
-        </StyledMenuItem>
-
-        <StyledMenuItem>
-          <ListItemIcon>
-            <ExitToAppIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText onClick={handleLogout} primary="Sign Out" />
-        </StyledMenuItem>
-
-      </StyledMenu>
-    </div>
-   );
- }}
-</IfFirebaseAuthed>
-
+              <StyledMenuItem>
+                <ListItemIcon>
+                  <ExitToAppIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText onClick={handleLogout} primary="Sign Out" />
+              </StyledMenuItem>
+            </StyledMenu>
+          </div>
+        );
+      }}
+    </IfFirebaseAuthed>
   );
 }

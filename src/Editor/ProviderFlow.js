@@ -10,9 +10,10 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
-import EditNodes from "./EditNodes";
 import AttributeToolbar from "./AttributeToolbar";
 import "../UpdateNode/updatenode.css";
+import { ReactComponent as Svg } from "../page-01.svg";
+import { SvgIcon } from "@material-ui/core";
 
 const onLoad = (reactFlowInstance) =>
   console.log("flow loaded:", reactFlowInstance);
@@ -89,10 +90,7 @@ const ProviderFlow = () => {
   const onConnect = (params) =>
     setElements((els) => addEdge({ type: "smoothstep", ...params }, els));
   const onElementsRemove = (elementsToRemove) =>
-    setElements(
-      (els) => removeElements(elementsToRemove, els),
-      console.log("REMOVED NODE")
-    );
+    setElements((els) => removeElements(elementsToRemove, els));
 
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = useCallback(
@@ -101,6 +99,24 @@ const ProviderFlow = () => {
         type,
         id: getNodeId(),
         style: nodeShapes[shape],
+        data: { label: "Added node" },
+        position: {
+          x: 300,
+          y: 300,
+        },
+      };
+
+      setElements((els) => els.concat(newNode));
+    },
+    [setElements]
+  );
+
+  const addSvg = useCallback(
+    (type) => {
+      const newNode = {
+        type,
+        id: getNodeId(),
+        style: Svg,
         data: { label: "Added node" },
         position: {
           x: 300,
@@ -193,7 +209,7 @@ const ProviderFlow = () => {
                 />
               </div>
             </div>
-            <EditorToolbar addNode={onAdd} />
+            <EditorToolbar addNode={onAdd} addSvg={addSvg} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
         </div>
