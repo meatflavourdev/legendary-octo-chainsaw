@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -10,6 +10,8 @@ import { WebsocketProvider } from 'y-websocket';
 import './provider.css';
 import EditorToolbar from "./EditorToolbar";
 import { useParams } from "react-router-dom";
+import EditNodes from './EditNodes';
+import AttributeToolbar from './AttributeToolbar';
 
 const doc = new Y.Doc();
 
@@ -19,7 +21,7 @@ const onLoad = (reactFlowInstance) => console.log('flow loaded:', reactFlowInsta
 const nodeTypes = {};
 
 const nodeDefaultValues = {
-  background: '#3b5360',
+  background: '#2D3A49',
   color: '#FFF',
   border: '0px'
 }
@@ -96,8 +98,8 @@ const ProviderFlow = () => {
       style: nodeShapes[shape],
       data: { label: 'Added node' },
       position: {
-        x: 500,
-        y: 500
+        x: 300,
+        y: 300
       },
     };
     pushValue(newNode);
@@ -163,13 +165,14 @@ const ProviderFlow = () => {
             snapGrid={[10, 10]}
           >
             <Controls />
+            <AttributeToolbar/>
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap='20' color="#484848" />
           </ReactFlow>
-
         </div>
       </ReactFlowProvider>
     </div>
   );
 };
+
 export default ProviderFlow;

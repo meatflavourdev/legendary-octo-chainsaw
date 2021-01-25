@@ -39,3 +39,30 @@
 .react-flow__background {
   background-color: #FFFFFF;
 }
+
+.react-flow__edge-path {
+  stroke-width: 2;
+  stroke: #595A66;
+}
+
+.react-flow__node-default .react-flow__handle {
+  background: #FFF;
+  padding: 2.5px;
+  border: solid 2px #595A66
+}
+
+.react-flow__handle-bottom {
+  bottom: -12px;
+}
+
+.react-flow__handle-top {
+  top: -12px;
+}
+
+.react-flow__handle-left {
+  left: -12px;
+}
+
+.react-flow__handle-right {
+  right: -12px;
+}

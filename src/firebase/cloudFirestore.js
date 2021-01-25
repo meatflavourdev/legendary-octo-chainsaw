@@ -1,4 +1,5 @@
-import { FirestoreCollection, FirestoreDocument } from '@react-firebase/firestore';
+import { FirestoreCollection, FirestoreDocument, FirestoreMutation } from '@react-firebase/firestore';
+import firebase from 'firebase';
 
 function cloudFirestore() {
   return (
@@ -15,12 +16,12 @@ function cloudFirestore() {
           );
         }}
       </FirestoreCollection>
-      <FirestoreDocument path="/docs/zMMXUvk0mtyQD3wWpvxJ">
+      <FirestoreDocument path="/docs/RttVhSyDRX5fcjEnJ1uf">
         {(d) => {
           console.log(d);
           return d.isLoading ? "Loading" : (
             <div>
-              <h2>/docs/zMMXUvk0mtyQD3wWpvxJ Document</h2>
+              <h2>/docs/RttVhSyDRX5fcjEnJ1uf Document</h2>
               <pre>
                 <code>({JSON.stringify(d, null, 2)}</code>
               </pre>
@@ -28,6 +29,27 @@ function cloudFirestore() {
           );
         }}
       </FirestoreDocument>
+      <FirestoreMutation type="set" path="/docs/RttVhSyDRX5fcjEnJ1uf">
+  {({ runMutation }) => {
+    return (
+      <div>
+        <h2> Mutate state </h2>
+        <button
+          onClick={() => {
+            runMutation({
+              nowOnCli: Date.now(),
+              nowOnServer: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(res => {
+              console.log("Ran mutation ", res);
+            });
+          }}
+        >
+          Mutate Set
+        </button>
+      </div>
+    );
+  }}
+</FirestoreMutation>
     </>
   );
 }
