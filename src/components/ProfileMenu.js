@@ -7,9 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { deepOrange } from '@material-ui/core/colors';
 import { Grid } from '@material-ui/core';
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
@@ -21,9 +19,9 @@ import {
 } from '@react-firebase/auth';
 
 const useStyles = makeStyles((theme) => ({
-  orange: {
-    color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
+  avatar: {
+    color: theme.palette.getContrastText('#00e676'),
+    backgroundColor: '#00e676',
     marginRight: '15px',
     marginTop:'8px'
   },
@@ -104,20 +102,13 @@ export default function ProfileMenu() {
       >
         <MenuItem style={{ backgroundColor: 'transparent' }}>
         <Grid container direction='row' justify='center'>
-          <Avatar className={classes.orange}>{user.displayName.slice(0,1)}</Avatar>
+          <Avatar className={classes.avatar}>{user.displayName.slice(0,1)}</Avatar>
             <Grid item>
 
                <ListItemText primary={user.displayName} secondary={user.email} />
           </Grid>
           </Grid>
           </MenuItem>
-
-        <StyledMenuItem>
-          <ListItemIcon>
-            <SupervisorAccountIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Account Settings" />
-        </StyledMenuItem>
 
         <StyledMenuItem>
           <ListItemIcon>

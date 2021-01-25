@@ -143,12 +143,21 @@ const footers = [
 
 function NavButtonsNoAuth() {
   const classes = useStyles();
+  const history = useHistory()
+
+  const googleSignin = () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/');
+      });
+  }
+
   return (
     <IfFirebaseUnAuthed>
-      <Button href="/login" color="primary" variant="contained" className={classes.link}>
-        Sign In
-      </Button>
-      <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
+      <Button onClick={googleSignin} color="primary" variant="outlined" className={classes.link}>
         Sign Up
       </Button>
     </IfFirebaseUnAuthed>
@@ -224,7 +233,7 @@ function HeroButtonsNoAuth() {
       .auth()
       .signInWithPopup(googleAuthProvider)
       .then(() => {
-        history.push('/editor');
+        history.push('/');
       });
   }
 
@@ -235,11 +244,6 @@ function HeroButtonsNoAuth() {
           <Grid item>
             <Button onClick={googleSignin} variant="contained" size="large" color="primary">
               Sign Up with Google
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button href="/login" variant="outlined" size="large" color="primary">
-              Sign Up with Email
             </Button>
           </Grid>
         </Grid>
