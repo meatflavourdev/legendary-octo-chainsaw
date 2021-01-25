@@ -1,0 +1,143 @@
+
+.node-default {
+  padding: 10px;
+  border-radius: 3px;
+  width: 150px;
+  font-size: 12px;
+  color: #222;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.react-flow__handle-shapenode {
+  background: #FFF!important;
+  padding: 2.5px;
+  border: solid 2px #595A66
+}
+
+.dark.filled {
+  /* /dark-filled-fill */
+  background: #2D3A49;
+  /* dark-filled-text */
+  color: #FFFFFF;
+}
+.light.filled {
+  /* light-filled-fill */
+  background: #EAEAEA;
+  /* light-filled-text */
+  color: #757575;
+}
+.red.filled {
+  /* red-filled-fill */
+  background: #FF426E;
+  /* red-filled-text */
+  color: #FFFFFF;
+}
+.green.filled {
+  /* green-filled-fill */
+  background: #50EBC5;
+  /* green-filled-text */
+  color: #FFFFFF;
+}
+.blue.filled {
+  /* blue-filled-fill */
+  background: #4B95FE;
+  /* blue-filled-text */
+  color: #FFFFFF;
+}
+.purple.filled {
+  /* purple-filled-fill */
+  background: #785FFF;
+  /* purple-filled-text */
+  color: #FFFFFF;
+}
+
+/* --------------------------------------- */
+.dark.outlined {
+  /* dark-outline-fill */
+  background: #8B96A3;
+  border: 2px solid #2D3A49;
+  /* dark-outline-text */
+  color: #333C46;
+}
+
+.light.outlined {
+  /* light-outline-fill */
+  background: #EAEAEA;
+  border: 2px solid rgba(45, 58, 73, 0.46);
+  /* light-outline-text */
+  color: #757575;
+}
+.red.outlined {
+  /* red-outline-fill */
+  background: #FFB0C3;
+  border: 2px solid #E85779;
+  /* red-outline-text */
+  color: #CB3659;
+}
+.green.outlined {
+  /* green-outline-fill */
+  background: #BCFCEC;
+  border: 2px solid #2DAE8E;
+  /* green-outline-text */
+  color: #2A8871;
+}
+.blue.outlined {
+  /* blue-outline-fill */
+  background: #B1D0FC;
+  border: 2px solid #3B7EDD;
+  /* blue-outline-text */
+  color: #336DBF;
+}
+.purple.outlined {
+  /* purple-outline-fill */
+  background: #CFC6FF;
+  border: 2px solid #745EE7;
+  /* purple-outline-text */
+  color: #6C56DE;
+}
+
+/* --------------------------------------- */
+.dark.dashed {
+  /* dark-outline-fill */
+  background: #8B96A3;
+  border: 2px dashed #2D3A49;
+  /* dark-outline-text */
+  color: #333C46;
+}
+.light.dashed {
+  /* light-outline-fill */
+  background: #EAEAEA;
+  border: 2px dashed rgba(45, 58, 73, 0.46);
+  /* light-outline-text */
+  color: #757575;
+}
+.red.dashed {
+  /* red-outline-fill */
+  background: #FFB0C3;
+  border: 2px dashed #E85779;
+  /* red-outline-text */
+  color: #CB3659;
+}
+.green.dashed {
+  /* green-outline-fill */
+  background: #BCFCEC;
+  border: 2px dashed #2DAE8E;
+  /* green-outline-text */
+  color: #2A8871;
+}
+.blue.dashed {
+  /* blue-outline-fill */
+  background: #B1D0FC;
+  border: 2px dashed #3B7EDD;
+  /* blue-outline-text */
+  color: #336DBF;
+}
+.purple.dashed {
+  /* purple-outline-fill */
+  background: #CFC6FF;
+  border: 2px dashed #745EE7;
+  /* purple-outline-text */
+  color: #6C56DE;
+}
