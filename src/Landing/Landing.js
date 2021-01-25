@@ -18,8 +18,11 @@ import AppPerspective from './AppPerspective';
 import logo from '../logo.png';
 import { Avatar } from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';
-import { useAuth } from "../contexts/AuthContext"
-import { useHistory } from "react-router-dom"
+import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { IfFirebaseAuthedAnd, IfFirebaseUnAuthed } from '@react-firebase/auth';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -141,61 +144,107 @@ const footers = [
 function NavButtonsNoAuth() {
   const classes = useStyles();
   return (
-    <>
+    <IfFirebaseUnAuthed>
       <Button href="/login" color="primary" variant="contained" className={classes.link}>
         Sign In
       </Button>
       <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
         Sign Up
       </Button>
-    </>
+    </IfFirebaseUnAuthed>
   );
 }
-function NavButtonsAuth() {
+function NavButtonsAuth(props) {
   const classes = useStyles();
   return (
-    <>
-      <Avatar className={classes.avatar}>J</Avatar>
-      <Typography variant="h6" color="inherit" noWrap className={classes.link}>
-        Johnny Username
-      </Typography>
-      <Button href="/signout" color="primary" variant="outlined" className={classes.link}>
-        Sign Out
-      </Button>
-    </>
+    <IfFirebaseAuthedAnd
+      filter={({ providerId, user }) => {
+        if (!user.email) {
+          return false;
+        }
+        return providerId !== 'anonymous';
+      }}
+    >
+      {({ isSignedIn, user, providerId }) => {
+        return (
+          <>
+            <Avatar className={classes.avatar}>{user.displayName.slice(0,1)}</Avatar>
+            <Typography variant="h6" color="inherit" noWrap className={classes.link}>
+              {user.displayName}
+            </Typography>
+            <Button onClick={props.handleLogout} color="primary" variant="outlined" className={classes.link}>
+              Sign Out
+            </Button>
+          </>
+        );
+      }}
+    </IfFirebaseAuthedAnd>
   );
 }
 function HeroButtonsAuth() {
   const classes = useStyles();
   return (
-    <div className={classes.heroButtons}>
-    <Grid container spacing={2} justify="center">
-      <Grid item>
-        <Button href="/app" variant="contained" className={classes.heroButtonExtraLarge} size="large" color="primary">
-          Check it out!
-        </Button>
-      </Grid>
-    </Grid>
-  </div>
+    <IfFirebaseAuthedAnd
+      filter={({ providerId, user }) => {
+        if (!user.email) {
+          return false;
+        }
+        return providerId !== 'anonymous';
+      }}
+    >
+      {({ isSignedIn, user, providerId }) => {
+        return (
+          <div className={classes.heroButtons}>
+            <Grid container spacing={2} justify="center">
+              <Grid item>
+                <Button
+                  href="/app"
+                  variant="contained"
+                  className={classes.heroButtonExtraLarge}
+                  size="large"
+                  color="primary"
+                >
+                  Check it out!
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }}
+    </IfFirebaseAuthedAnd>
   );
 }
 function HeroButtonsNoAuth() {
   const classes = useStyles();
+  const history = useHistory()
+
+  const googleSignin = () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/editor');
+      });
+  }
+
   return (
-    <div className={classes.heroButtons}>
-    <Grid container spacing={2} justify="center">
-      <Grid item>
-        <Button variant="contained" size="large" color="primary">
-          Sign Up with Google
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button href="/login" variant="outlined" size="large" color="primary">
-          Sign Up with Email
-        </Button>
-      </Grid>
-    </Grid>
-  </div>
+    <IfFirebaseUnAuthed>
+      <div className={classes.heroButtons}>
+        <Grid container spacing={2} justify="center">
+          <Grid item>
+            <Button onClick={googleSignin} variant="contained" size="large" color="primary">
+              Sign Up with Google
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button href="/login" variant="outlined" size="large" color="primary">
+              Sign Up with Email
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
+    </IfFirebaseUnAuthed>
   );
 }
 
@@ -215,18 +264,18 @@ function Copyright() {
 export default function Landing() {
   const classes = useStyles();
 
-  const [error, setError] = useState("")
-  const { currentUser, logout } = useAuth()
-  const history = useHistory()
+  const [error, setError] = useState('');
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
 
   async function handleLogout() {
-    setError("")
+    setError('');
 
     try {
-      await logout()
-      history.push("/")
+      await logout();
+      history.push('/');
     } catch {
-      setError("Failed to log out")
+      setError('Failed to log out');
     }
   }
 
@@ -239,7 +288,7 @@ export default function Landing() {
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Entropy
           </Typography>
-          <NavButtonsAuth />
+          <NavButtonsAuth handleLogout={handleLogout} />
           <NavButtonsNoAuth />
         </Toolbar>
       </AppBar>
