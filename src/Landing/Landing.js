@@ -139,19 +139,19 @@ const tiers = [
 const footers = [
   {
     title: 'Jeremy Dombrowski',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Nathan Mckenzie',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Nik Sofianos',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Open Source',
-    description: ['Design Docs', 'Github'],
+    description: [{text: 'Design Docs', href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b'}, {text: 'Github', href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/'}],
   },
 ];
 
@@ -350,9 +350,9 @@ export default function Landing() {
               </Typography>
               <ul>
                 {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
+                  <li key={item.href}>
+                    <Link href={item.href} variant="subtitle1" color="textSecondary">
+                      {item.text}
                     </Link>
                   </li>
                 ))}
