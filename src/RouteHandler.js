@@ -31,8 +31,6 @@ function RouteHandler() {
       <AuthProvider>
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
           <Route exact path="/app">
             {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
             <Editor />

@@ -73,9 +73,23 @@ const useStyles = makeStyles((theme) => ({
   heroButtons: {
     padding: '0.5em',
   },
-  heroButtonExtraLarge: {
+  heroButtonXL: {
+    padding: '0.6em 2.5em',
+    fontSize: '1.25em',
+    height: '59px',
+  },
+  heroButtonGoogle: {
+    padding: '0.6em 1em',
+    fontSize: '1.25em',
+  },
+  heroButtonXXL: {
     padding: '0.6em 2.5em',
     fontSize: '1.5em',
+  },
+  heroGoogleIcon: {
+    margin: '0',
+    marginRight: '0.5em',
+    padding: '0',
   },
   cardHeader: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
@@ -125,30 +139,39 @@ const tiers = [
 const footers = [
   {
     title: 'Jeremy Dombrowski',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Nathan Mckenzie',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Nik Sofianos',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
   },
   {
     title: 'Open Source',
-    description: ['Design Docs', 'Github'],
+    description: [{text: 'Design Docs', href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b'}, {text: 'Github', href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/'}],
   },
 ];
 
 function NavButtonsNoAuth() {
   const classes = useStyles();
+  const history = useHistory()
+
+  const googleSignin = () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/');
+      });
+  }
+
   return (
     <IfFirebaseUnAuthed>
-      <Button href="/login" color="primary" variant="contained" className={classes.link}>
-        Sign In
-      </Button>
-      <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
+      <Button onClick={googleSignin} color="primary" variant="outlined" className={classes.link}>
         Sign Up
       </Button>
     </IfFirebaseUnAuthed>
@@ -200,7 +223,7 @@ function HeroButtonsAuth() {
                 <Button
                   href="/app"
                   variant="contained"
-                  className={classes.heroButtonExtraLarge}
+                  className={classes.heroButtonXXL}
                   size="large"
                   color="primary"
                 >
@@ -224,7 +247,7 @@ function HeroButtonsNoAuth() {
       .auth()
       .signInWithPopup(googleAuthProvider)
       .then(() => {
-        history.push('/editor');
+        history.push('/');
       });
   }
 
@@ -233,13 +256,9 @@ function HeroButtonsNoAuth() {
       <div className={classes.heroButtons}>
         <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button onClick={googleSignin} variant="contained" size="large" color="primary">
-              Sign Up with Google
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button href="/login" variant="outlined" size="large" color="primary">
-              Sign Up with Email
+            <Button className={classes.heroButtonGoogle} onClick={googleSignin} variant="contained" size="large" color="primary">
+              <img className={classes.heroGoogleIcon} src="/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
+              Sign In with Google
             </Button>
           </Grid>
         </Grid>
@@ -253,7 +272,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Entropy Project
+        Legendary Octo Chainsaw
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -331,9 +350,9 @@ export default function Landing() {
               </Typography>
               <ul>
                 {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
+                  <li key={item.href}>
+                    <Link href={item.href} variant="subtitle1" color="textSecondary">
+                      {item.text}
                     </Link>
                   </li>
                 ))}

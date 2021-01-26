@@ -126,6 +126,7 @@ const ProviderFlow = () => {
             nodeTypes={nodeTypes}
             snapToGrid={true}
             snapGrid={[10, 10]}
+            connectionMode="loose"
           >
             <Controls />
             <AttributeToolbar

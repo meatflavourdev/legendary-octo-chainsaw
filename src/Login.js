@@ -148,9 +148,6 @@ export default function Login() {
                 </Box>
               </Grid>
               <Grid container>
-                <Grid item xs>
-                  <Link to="/error">Forgot password?</Link>
-                </Grid>
                 <Grid item>
                   Don't have an account?
                   <Link to="/signup"> Sign Up</Link>
