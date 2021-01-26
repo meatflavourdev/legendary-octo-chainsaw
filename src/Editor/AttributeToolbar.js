@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, ButtonGroup, Tooltip, Divider } from '@material-ui/core';
+import { IconButton, ButtonGroup, Tooltip, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TitleIcon from '@material-ui/icons/Title';
 import FormatSizeIcon from '@material-ui/icons/FormatSize';
@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
   attributeGroup: {
     paddingTop: '5px',
+  },
+  nodetext: {
+    zIndex: 10,
+    postition: 'absolute',
+    top:'50px',
+    width: '100px'
   }
 }));
 
@@ -86,7 +92,7 @@ export default function AttributeToolbar(props) {
           </IconButton>
         </Tooltip>
         <Tooltip title="Change Text" placement="right">
-          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleUpdateNodeData('default', 'terminator')}>
+          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleOpen('text')}>
             <TitleIcon/>
           </IconButton>
         </Tooltip>
@@ -137,6 +143,13 @@ export default function AttributeToolbar(props) {
           </IconButton>
         </Tooltip>
       </ButtonGroup> }
+
+      {open && menu === 'text' && <TextField onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              console.log('Enter key pressed');
+              handleUpdateNodeData({label: 'hello'})
+            }
+    }} className={classes.nodetext} id="outlined-basic" multiline label="Label" variant="outlined" />}
     </div>
   );
 }
