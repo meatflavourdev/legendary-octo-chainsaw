@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { IconButton, ButtonGroup, Tooltip, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TitleIcon from '@material-ui/icons/Title';
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   nodetext: {
     zIndex: 10,
     postition: 'absolute',
-    top:'50px',
-    width: '100px'
+    top:'30px',
+    width: '100px',
   }
 }));
 
@@ -44,7 +44,7 @@ export default function AttributeToolbar(props) {
   const classes = useStyles();
   const [menu, setMenu] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  
+  const labelRef = useRef();
   
   const handleOpen = (menu) => {
     setMenu(menu);
@@ -144,12 +144,12 @@ export default function AttributeToolbar(props) {
         </Tooltip>
       </ButtonGroup> }
 
-      {open && menu === 'text' && <TextField onKeyPress={(e) => {
+      {open && menu === 'text' && <TextField inputRef={labelRef} onKeyPress={(e) => {
             if (e.key === 'Enter') {
               console.log('Enter key pressed');
-              handleUpdateNodeData({label: 'hello'})
+              handleUpdateNodeData({label: labelRef.current.value})
             }
-    }} className={classes.nodetext} id="outlined-basic" multiline label="Label" variant="outlined" />}
+    }} className={classes.nodetext} id="outlined-basic" multiline label="Node Text" variant="filled" />}
     </div>
   );
 }
