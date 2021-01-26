@@ -1,14 +1,15 @@
-import React, { memo } from 'react';
-import { Handle } from 'react-flow-renderer';
-import './nodestyles.css';
-import classNames from 'classnames';
+import React, { memo } from "react";
+import { Handle } from "react-flow-renderer";
+import "./nodestyles.css";
+import classNames from "classnames";
 
+  // So we can check for all node elements easily
 export default function ShapeNode({ data }) {
 
   data.idNode = true;
 
   const nodeClasses = classNames({
-    'node-default': true,
+    'node-shapenode': true,
     'filled': data.fillStyle === 'filled',
     'outlined': data.fillStyle === 'outlined',
     'dashed': data.fillStyle === 'dashed',
@@ -37,7 +38,7 @@ export default function ShapeNode({ data }) {
         id='b'
       />
       <div>
-        <span className='shapenode-text'>Custom Color</span>
+        <span className="shapenode-text">{data.label}</span>
       </div>
       <Handle
         type="source"
