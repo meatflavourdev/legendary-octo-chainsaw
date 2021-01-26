@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 // Material UI Imports
@@ -23,8 +24,6 @@ import LibraryList from '../components/LibraryList';
 import ProfileMenu from '../components/ProfileMenu';
 import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
-import EditorAppBar from './EditorAppBar';
-
 
 const drawerWidth = 240;
 
@@ -103,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Editor() {
+export default function EditorAppBar() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const theme = useTheme();
@@ -116,14 +115,106 @@ export default function Editor() {
   const [isPublicEditable, setIsPublicEditable] = React.useState(false);
   const [createdDate, setCreatedDate] = React.useState(new Date());
 
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
 
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
+  };
 
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  //GET DOCS FROM FIRESTORE
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const db = firebase.firestore();
+      const data = await db.collection("docs").get();
+      setDocs(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    fetchData();
+  }, []);
+
+  const onCreate = () => {
+    const db = firebase.firestore();
+    db.collection("docs").add({ created_date: createdDate, is_public: isPublic, name: newDocName, public_editable: isPublicEditable});
+  };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <EditorAppBar />
-      <ProviderFlow />
-    </div>
+    <>
+    <AppBar className={clsx(classes.appBar, {
+      [classes.appBarShift]: openDrawer,
+    })} position="fixed">
+    <Toolbar>
+      <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          edge="start"
+          className={clsx(classes.menuButton, {
+            [classes.hide]: openDrawer,
+          })}
+        >
+          <MenuIcon />
+        </IconButton>
+      <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
+      <Typography variant="h6" className={classes.title}>
+        Entropy
+      </Typography>
+      {auth && (
+        <ShareMenu/>
+        )}
+        <ProfileMenu/>
+    </Toolbar>
+    </AppBar>
+          <Drawer
+          variant="permanent"
+          className={clsx(classes.drawer, {
+            [classes.drawerOpen]: openDrawer,
+            [classes.drawerClose]: !openDrawer,
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: openDrawer,
+              [classes.drawerClose]: !openDrawer,
+            }),
+          }}
+        >
+          <div className={classes.toolbar}>
+            <Typography variant="body1" align="left">
+              Documents
+            </Typography>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <div className={classes.newdoc}>
+            <Typography variant="body1">
+              Private
+              <TextField
+                value={newDocName}
+                onChange={e => setNewDocName(e.target.value)}
+              />
+            </Typography>
+            <IconButton>
+              {<AddBoxIcon onClick={onCreate}> </AddBoxIcon>}
+            </IconButton>
+              </div>
+          <LibraryList public='false'/>
+          <Divider/>
+          <div className={classes.newdoc}>
+            <Typography variant="body1">
+              Shared
+            </Typography>
+            <IconButton>
+              {<AddBoxIcon/>}
+            </IconButton>
+          </div>
+          <LibraryList public='true'/>
+      </Drawer>
+      </>
   );
 }

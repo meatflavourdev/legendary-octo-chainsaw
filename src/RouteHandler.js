@@ -11,6 +11,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import { AuthProvider } from "./contexts/AuthContext"
 import Editor from "./Editor/Editor";
+import EditorLayout from "./Editor/EditorLayout";
 import Error from "./Error";
 import YjsTest from "./yjsSubscriber/YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
@@ -37,6 +38,10 @@ function RouteHandler() {
           <Route exact path="/app">
             {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
             <Editor />
+          </Route>
+          <Route exact path="/apptest">
+            {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
+            <EditorLayout />
           </Route>
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
