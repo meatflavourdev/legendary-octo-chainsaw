@@ -15,7 +15,6 @@ import Error from "./Error";
 import YjsTest from "./yjsSubscriber/YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
 import cloudFirestore from "./firebase/cloudFirestore";
-import MenuAppBar from "./components/MenuAppBar";
 import Landing from "./Landing/Landing";
 import firebase from 'firebase';
 import 'firebase/firestore';
