@@ -73,9 +73,23 @@ const useStyles = makeStyles((theme) => ({
   heroButtons: {
     padding: '0.5em',
   },
-  heroButtonExtraLarge: {
+  heroButtonXL: {
+    padding: '0.6em 2.5em',
+    fontSize: '1.25em',
+    height: '59px',
+  },
+  heroButtonGoogle: {
+    padding: '0.6em 1em',
+    fontSize: '1.25em',
+  },
+  heroButtonXXL: {
     padding: '0.6em 2.5em',
     fontSize: '1.5em',
+  },
+  heroGoogleIcon: {
+    margin: '0',
+    marginRight: '0.5em',
+    padding: '0',
   },
   cardHeader: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
@@ -209,7 +223,7 @@ function HeroButtonsAuth() {
                 <Button
                   href="/app"
                   variant="contained"
-                  className={classes.heroButtonExtraLarge}
+                  className={classes.heroButtonXXL}
                   size="large"
                   color="primary"
                 >
@@ -242,8 +256,9 @@ function HeroButtonsNoAuth() {
       <div className={classes.heroButtons}>
         <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button onClick={googleSignin} variant="contained" size="large" color="primary">
-              Sign Up with Google
+            <Button className={classes.heroButtonGoogle} onClick={googleSignin} variant="contained" size="large" color="primary">
+              <img className={classes.heroGoogleIcon} src="/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
+              Sign In with Google
             </Button>
           </Grid>
         </Grid>
@@ -257,7 +272,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Entropy Project
+        Legendary Octo Chainsaw
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
