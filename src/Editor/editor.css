@@ -79,5 +79,5 @@ a {
  display: inline-block!important;
 }
 .docListLink:hover .docListLinkDelete path {
- fill:rgba(0, 0, 0, 0.54);
+ fill:rgba(0, 0, 0, 0.445);
 }
