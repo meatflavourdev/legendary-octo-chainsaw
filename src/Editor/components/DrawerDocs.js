@@ -113,19 +113,19 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           <FolderIcon />
                         </ListItemIcon>
                         <ListItemText className={classes.docFolder} primary="Private" />
-                        <AddBoxRoundedIcon />
+                        <button className="docsAddIconButton"><AddBoxRoundedIcon className="docsAddIcon" /></button>
                       </ListItem>
                       <List>
                         {docsData.value
                           .filter((doc) => !doc.is_public)
                           .map((doc, index) => (
-                            <Link to={`/${doc.url}`}>
+                            <Link className="docListLink" to={`/${doc.url}`}>
                               <ListItem button key={docsData.ids[index]}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
                                 <ListItemText className={classes.docFileName} secondary={doc.name} />
-                                <DeleteForeverRoundedIcon />
+                                <DeleteForeverRoundedIcon className="docListLinkDelete" />
                               </ListItem>
                             </Link>
                           ))}
@@ -136,19 +136,19 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           <FolderSharedRoundedIcon />
                         </ListItemIcon>
                         <ListItemText className={classes.docFolder} primary="Public" />
-                        <AddBoxRoundedIcon />
+                        <button className="docsAddIconButton"><AddBoxRoundedIcon className="docsAddIcon" /></button>
                       </ListItem>
                       <List>
                         {docsData.value
                           .filter((doc) => doc.is_public)
                           .map((doc, index) => (
-                            <Link to={`/${doc.url}`}>
+                            <Link className="docListLink"to={`/${doc.url}`}>
                               <ListItem button key={docsData.ids[index]}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
                                 <ListItemText className={classes.docFileName} secondary={doc.name} />
-                                <DeleteForeverRoundedIcon />
+                                <DeleteForeverRoundedIcon className="docListLinkDelete" />
                               </ListItem>
                             </Link>
                           ))}
@@ -171,28 +171,6 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                             is_public_editable: false,
                             created_date: firebase.firestore.FieldValue.serverTimestamp(),
                             uid: uid,
-                          }).then((res) => {
-                            console.log('Ran mutation ', res);
-                          });
-                        }}
-                      >
-                        Mutate Set
-                      </button>
-                    </div>
-                  );
-                }}
-              </FirestoreMutation>
-              <FirestoreMutation type="set" path={`/users/${uid}`}>
-                {({ runMutation }) => {
-                  return (
-                    <div>
-                      <h2> Add User </h2>
-                      <button
-                        onClick={() => {
-                          runMutation({
-                            name: authData.user.displayName,
-                            email: authData.user.email,
-                            created_date: firebase.firestore.FieldValue.serverTimestamp(),
                           }).then((res) => {
                             console.log('Ran mutation ', res);
                           });
