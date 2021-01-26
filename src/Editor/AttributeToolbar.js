@@ -9,6 +9,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
+import { useStoreState } from 'react-flow-renderer';
 import './editor.css'; 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,13 +46,30 @@ export default function AttributeToolbar(props) {
   };
   
 
- 
-  const handleClose = () => {
+  const selectedElements = useStoreState(store => store.selectedElements);
+
+  const handleUpdateNodeData = (dataObj) => {
     setOpen(false);
+    console.log('selectedElements:', selectedElements);
+    if (selectedElements && selectedElements.length > 0) {
+      for (const element of selectedElements) {
+        props.setEls((els) =>
+            els.map((el) => {
+              if (el.id === element.id && ['ShapeNode', 'HandleNode'].includes(el.type)) {
+                el.data = {
+                  ...el.data,
+                  ...dataObj,
+                };
+              }
+              return el;
+            })
+          );
+      }
+
+    }
   }
 
-
-
+  
   return (
 
     <div className={classes.root}>
@@ -75,12 +93,12 @@ export default function AttributeToolbar(props) {
           </IconButton>
         </Tooltip>
         <Tooltip title="Change Text" placement="right">
-          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleClose('default', 'terminator')}>
+          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleUpdateNodeData('default', 'terminator')}>
             <TitleIcon/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Text Size" placement="right">
-          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleClose('default', 'screenblock')}>
+          <IconButton className={classes.attributeGroup} size='small' onClick={() => handleUpdateNodeData('default', 'screenblock')}>
             <FormatSizeIcon/>
           </IconButton>
         </Tooltip>
@@ -88,25 +106,22 @@ export default function AttributeToolbar(props) {
 
       {/* Color picker */}
       {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
-        <IconButton size='small' onClick={() => { handleClose() 
-          props.fillColor('dark')}}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'dark'})}>
           <FiberManualRecordIcon className="dark"/>
         </IconButton>
-        <IconButton size='small' onClick={() => { handleClose() 
-          props.fillColor('light')}}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'light'})}>
           <FiberManualRecordIcon className="light"/>
         </IconButton>
-        <IconButton size='small' onClick={() => { handleClose() 
-          props.fillColor('red')}}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'red'})}>
           <FiberManualRecordIcon className="red"/>
         </IconButton>
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'green'})}>
           <FiberManualRecordIcon className="green"/>
         </IconButton>
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'blue'})}>
           <FiberManualRecordIcon className="blue"/>
         </IconButton>
-        <IconButton size='small' onClick={handleClose}>
+        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'purple'})}>
           <FiberManualRecordIcon className="darkblue"/>
         </IconButton>
       </ButtonGroup> }
@@ -114,20 +129,17 @@ export default function AttributeToolbar(props) {
       {/* Fill Style */}
       {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
         <Tooltip title="Dotted Edge" placement="right">
-          <IconButton size='small' onClick={() => { handleClose() 
-          props.fillStyle('dashed')}}>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
             <BorderClearIcon/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Filled" placement="right">
-          <IconButton size='small' onClick={() => { handleClose() 
-          props.fillStyle('filled')}}>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'filled'})}>
             <StopIcon fontSize='large'/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Outlined" placement="right">
-          <IconButton size='small' onClick={() => { handleClose() 
-          props.fillStyle('outlined')}}>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'outlined'})}>
             <CheckBoxOutlineBlankIcon />
           </IconButton>
         </Tooltip>
