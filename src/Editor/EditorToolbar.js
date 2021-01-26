@@ -9,11 +9,6 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
 import "./editor.css";
-import Svg1 from "../screenblocks/page-01.svg";
-import Svg2 from "../screenblocks/page-02.svg";
-import Svg3 from "../screenblocks/page-03.svg";
-import Svg4 from "../screenblocks/page-04.svg";
-import Svg5 from "../screenblocks/page-05.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +48,16 @@ const useStyles = makeStyles((theme) => ({
     borderRight: "2px solid darkgrey",
     borderRightColor: "darkgrey",
   },
+  screenblockbuttons: {
+    minWidth: '20px',
+  },
+  sbmenu: {
+    width: '311px',
+    marginLeft: '200px',
+    zIndex: 10,
+    bottom: "70px",
+    position: "absolute"
+  }
 }));
 
 export default function EditorToolbar(props) {
@@ -64,47 +69,28 @@ export default function EditorToolbar(props) {
     setOpen(!open);
   };
 
-  const createElement = (type) => {
+  const createElement = (type, customData) => {
     setOpen(false);
-    props.addNode(type);
+    props.addNode(type, customData);
   };
 
-  return (
-    <div className={classes.root}>
-      {open && (
-        <ButtonGroup
-          className={classes.screenBlockGroup}
-          variant="outlined"
-          color="default"
-        >
-            <IconButton
-              size="small"
-              onClick={() => createElement('ScreenBlockNode')}
-            >
-              <div className="svgIcons">
-                <img src={Svg1} />
-              </div>
-            </IconButton>
-          <IconButton
-            size="small"
-            onClick={() => createElement('ScreenBlockNode')}
-          >
-            <div className="svgIcons">
-              <img src={Svg2} />
-            </div>
-          </IconButton>
-          <IconButton
-            size="small"
-            onClick={() => createElement('ScreenBlockNode')}
-          >
-            <div className="svgIcons">
-              <img src={Svg3} />
-            </div>
-          </IconButton>
-          
-        </ButtonGroup>
-      )}
+  const screenBlockButtons = [];
 
+  for (let i = 1; i < 121; i++) {
+    let icon = i < 10 ? `/screenblocks/page-0${i}.svg` : `/screenblocks/page-${i}.svg`
+    screenBlockButtons.push(
+    <IconButton
+      key={i}
+      className={classes.screenblockbuttons}
+      size="small"
+      onClick={() => createElement('ScreenBlockNode', {screenBlockID: `${i}`})}
+    >
+      <img src={icon} width="20" height="20"/>
+    </IconButton>)
+  }
+  return (
+    <div >
+      <div className={classes.root}>
       {/* ~~~~~EDITOR TOOLBAR~~~~~ */}
       <ButtonGroup
         className={classes.toolbarGroup}
@@ -115,7 +101,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Block Node">
           <IconButton
             size="small"
-            onClick={() => createElement("ShapeNode")}
+            onClick={() => createElement("ShapeNode", {fillColor: 'dark', fillStyle: 'filled'})}
           >
             <CheckBoxOutlineBlankIcon />
           </IconButton>
@@ -187,5 +173,18 @@ export default function EditorToolbar(props) {
         </Tooltip>
       </ButtonGroup>
     </div>
+    <div className={classes.sbmenu}>
+      {/* ScreenBlocks Menu */}
+      {open && (
+        <ButtonGroup
+          className={classes.screenBlockGroup}
+          variant="outlined"
+          color="default"
+        >
+         {screenBlockButtons}
+        </ButtonGroup>
+      )}
+    </div>
+  </div>
   );
 }

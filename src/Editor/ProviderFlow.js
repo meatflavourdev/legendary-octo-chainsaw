@@ -77,13 +77,13 @@ const ProviderFlow = () => {
   
   //CREATES NEW ELEMENTS
   const onAdd = useCallback(
-    (type) => {
+    (type, customData) => {
       let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1)) + 20) * 10;
       const newNode = {
         type,
         id: newNodeId(),
         type,
-        data: { label: "New node", fillColor: "dark", fillStyle: "filled" },
+        data: { ...customData, label: "New node" },
         position: {
           x: 300,
           y: 300,
