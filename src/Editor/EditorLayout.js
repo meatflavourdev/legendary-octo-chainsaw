@@ -6,13 +6,30 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
+import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
+import Avatar from '@material-ui/core/Avatar';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import ProfileMenu from '../components/ProfileMenu';
 import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
+
+import red from '@material-ui/core/colors/red';
+import pink from '@material-ui/core/colors/pink';
+import purple from '@material-ui/core/colors/purple';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import blue from '@material-ui/core/colors/blue';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import cyan from '@material-ui/core/colors/cyan';
+import green from '@material-ui/core/colors/green';
+import lightGreen from '@material-ui/core/colors/lightGreen';
+import yellow from '@material-ui/core/colors/yellow';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+
 
 const drawerWidth = 300;
 
@@ -26,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    boxShadow: '0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.16)',
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -36,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   docTitle: {
+    marginLeft: '0.75em',
     flexGrow: 1,
   },
   menuButton: {
@@ -86,6 +105,7 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        elevation={3}
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDocs,
         })}
@@ -100,24 +120,34 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
+          <Brightness4RoundedIcon color='secondary'/>
           <Typography className={classes.docTitle} variant="h6">
             Document Name
           </Typography>
+          <AvatarGroup max={10} spacing="25">
+          <Avatar className={classes.deepPurple}>N</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.deepPurple}>N</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          <Avatar className={classes.purple}>OP</Avatar>
+          </AvatarGroup>
           <IconButton onClick={handleChatDrawerToggle} color="inherit">
-            <ChatIcon />
+            <Badge badgeContent={4} color="secondary">
+              <ChatIcon />
+            </Badge>
           </IconButton>
           {auth && <ShareMenu />}
           <ProfileMenu />
         </Toolbar>
       </AppBar>
-      <DrawerDocs
-        openDocs={openDocs}
-        handleDocsDrawerClose={handleDocsDrawerClose}
-      />
-        <ProviderFlow />
-        <DrawerChat
-          openChat={openChat}
-        />
+      <DrawerDocs openDocs={openDocs} handleDocsDrawerClose={handleDocsDrawerClose} />
+      <ProviderFlow />
+      <DrawerChat openChat={openChat} />
     </div>
   );
 }
