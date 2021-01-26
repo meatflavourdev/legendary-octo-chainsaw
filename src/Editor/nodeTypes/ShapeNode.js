@@ -39,9 +39,7 @@ export default function ShapeNode({ data }) {
         onConnect={(params) => console.log('handle onConnect', params)}
         id='b'
       />
-      <div>
-        <span className="shapenode-text">{data.label}</span>
-      </div>
+        <div className="shapenode-text">{data.label}</div>
       <Handle
         type="source"
         className='react-flow__handle-shapenode'

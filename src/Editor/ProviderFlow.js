@@ -27,7 +27,7 @@ const initialElements = [
     id: "provider-2",
     data: { label: "Node 2", fillStyle: "outlined", fillColor: "dark" },
     position: { x: 150, y: 300 },
-    type: "ShapeNode",
+    type: "default",
   },
   {
     id: "provider-3",
