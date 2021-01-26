@@ -28,14 +28,6 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid darkgrey",
     padding: "4px",
   },
-  screenBlockGroup: {
-    background: "#FFF",
-    border: "1px solid darkgrey",
-    padding: "4px",
-    display: "block",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-  },
   undoGroup: {
     border: "1px solid darkgrey",
     padding: "4px",
@@ -52,12 +44,22 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '20px',
   },
   sbmenu: {
-    width: '311px',
-    marginLeft: '200px',
+    width: '100vw',
     zIndex: 10,
     bottom: "70px",
-    position: "absolute"
-  }
+    position: "absolute",
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  screenBlockGroup: {
+    background: "#FFF",
+    border: "1px solid darkgrey",
+    padding: "4px",
+    display: "block",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: '311px',
+  },
 }));
 
 export default function EditorToolbar(props) {
