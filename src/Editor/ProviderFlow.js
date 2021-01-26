@@ -1,21 +1,21 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
   removeElements,
   Controls,
-  useStoreState,
-  useStoreActions,
   Background,
 } from "react-flow-renderer";
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
 import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
+import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 
-const onLoad = (reactFlowInstance) =>
-  console.log("flow loaded:", reactFlowInstance);
+//Fires when flowchart has loaded
+const onLoad = (reactFlowInstance) => console.log("flow loaded:", reactFlowInstance);
 
+//Elements loaded on startup
 const initialElements = [
   {
     id: "1",
@@ -27,7 +27,7 @@ const initialElements = [
     id: "provider-2",
     data: { label: "Node 2", fillStyle: "outlined", fillColor: "dark" },
     position: { x: 150, y: 300 },
-    type: "default",
+    type: "ShapeNode",
   },
   {
     id: "provider-3",
@@ -41,8 +41,6 @@ const initialElements = [
     position: { x: 550, y: 480 },
     type: "ShapeNode",
   },
-  // { id: 'provider-e1-2', source: 'provider-1', target: 'provider-2', animated: false, type: 'smoothstep' },
-  // { id: 'provider-e1-3', source: 'provider-1', target: 'provider-3', animated: false, type: 'smoothstep' },
   {
     id: "provider-e3-4",
     source: "provider-3",
@@ -51,29 +49,39 @@ const initialElements = [
     type: "smoothstep",
   },
 ];
+
+//Custom node types go here
 const nodeTypes = {
   ShapeNode,
+  ScreenBlockNode
 };
 
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const [nodeName, setNodeName] = useState("Node 1");
+
+  //Fires when you connect 2 handles
   const onConnect = (params) =>
     setElements((els) => addEdge({ type: "smoothstep", ...params }, els));
+
+  //Fires when an element is deleted  
   const onElementsRemove = (elementsToRemove) =>
     setElements(
       (els) => removeElements(elementsToRemove, els),
       console.log("REMOVED NODE")
     );
-
-  const getNodeId = () => `randomnode_${+new Date()}`;
+  
+  //Generates an ID for each new node
+  const newNodeId = () => `randomnode_${+new Date()}`;
+  
+  //CREATES NEW ELEMENTS
   const onAdd = useCallback(
     (type) => {
       let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1)) + 20) * 10;
       const newNode = {
         type,
-        id: getNodeId(),
+        id: newNodeId(),
         type,
         data: { label: "New node", fillColor: "dark", fillStyle: "filled" },
         position: {
@@ -86,32 +94,11 @@ const ProviderFlow = () => {
     },
     [setElements]
   );
-
-  const [nodeid, setNodeid] = useState("");
-  const [color, setFillColor] = useState("#eee");
-  const [fillStyle, setFillStyle] = useState("filled");
-
+  
+  //Fires when an element is clicked
   const onElementClick = (event, element) => {
-    setNodeid(element.id);
     console.log("click", element);
   };
-
-  // useEffect(() => {
-  //   setElements((els) =>
-  //     els.map((el) => {
-  //       if (el.id === nodeid) {
-  //         // it's important that you create a new object here
-  //         // in order to notify react flow about the change
-  //         el.data = {
-  //           ...el.data,
-  //           fillStyle,
-  //         };
-  //         setNodeid("");
-  //       }
-  //       return el;
-  //     })
-  //   );
-  // }, [color, fillStyle, setElements]);
 
   return (
     <div className="providerflow">
@@ -131,8 +118,6 @@ const ProviderFlow = () => {
             <Controls />
             <AttributeToolbar
               setEls={setElements}
-              fillStyle={setFillStyle}
-              fillColor={setFillColor}
             />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />

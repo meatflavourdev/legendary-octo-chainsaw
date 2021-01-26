@@ -16,7 +16,7 @@ import {
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
-} from "@react-firebase/auth";
+} from '@react-firebase/auth';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -29,19 +29,19 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledMenu = withStyles({
   paper: {
-    border: "1px solid #d3d4d5",
+    border: '1px solid #d3d4d5'
   },
 })((props) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center",
+      vertical: 'bottom',
+      horizontal: 'center',
     }}
     transformOrigin={{
-      vertical: "top",
-      horizontal: "left",
+      vertical: 'top',
+      horizontal: 'left',
     }}
     {...props}
   />
@@ -49,9 +49,9 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
   root: {
-    "&:focus": {
+    '&:focus': {
       backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
         color: theme.palette.common.white,
       },
     },
@@ -70,18 +70,18 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
 
-  const [error, setError] = useState("");
-  const { currentUser, logout } = useAuth();
-  const history = useHistory();
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
 
   async function handleLogout() {
-    setError("");
+    setError("")
 
     try {
       await logout()
       history.push("/")
     } catch {
-      setError("Failed to log out");
+      setError("Failed to log out")
     }
   }
 
@@ -105,12 +105,10 @@ export default function ProfileMenu() {
           <Avatar className={classes.avatar}>{user.displayName.slice(0,1)}</Avatar>
             <Grid item>
 
-              <StyledMenuItem>
-                <ListItemIcon>
-                  <SupervisorAccountIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary="Account Settings" />
-              </StyledMenuItem>
+               <ListItemText primary={user.displayName} secondary={user.email} />
+          </Grid>
+          </Grid>
+          </MenuItem>
 
         <StyledMenuItem>
           <ListItemIcon>

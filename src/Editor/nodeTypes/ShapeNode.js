@@ -9,7 +9,7 @@ export default function ShapeNode({ data }) {
   data.idNode = true;
 
   const nodeClasses = classNames({
-    'node-default': true,
+    'node-shapenode': true,
     'filled': data.fillStyle === 'filled',
     'outlined': data.fillStyle === 'outlined',
     'dashed': data.fillStyle === 'dashed',

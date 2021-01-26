@@ -74,33 +74,30 @@ export default function EditorToolbar(props) {
       {open && (
         <ButtonGroup
           className={classes.screenBlockGroup}
-          disableElevation
           variant="outlined"
           color="default"
         >
-          <Tooltip>
             <IconButton
               size="small"
-              onClick={() => createElement("default", "screenblock1")}
+              onClick={() => createElement('ScreenBlockNode')}
             >
-              <div class="svgIcons">
+              <div className="svgIcons">
                 <img src={Svg1} />
               </div>
             </IconButton>
-          </Tooltip>
           <IconButton
             size="small"
-            onClick={() => createElement("default", "screenblock2")}
+            onClick={() => createElement('ScreenBlockNode')}
           >
-            <div class="svgIcons">
+            <div className="svgIcons">
               <img src={Svg2} />
             </div>
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => createElement("default", "screenblock3")}
+            onClick={() => createElement('ScreenBlockNode')}
           >
-            <div class="svgIcons">
+            <div className="svgIcons">
               <img src={Svg3} />
             </div>
           </IconButton>
@@ -108,17 +105,13 @@ export default function EditorToolbar(props) {
         </ButtonGroup>
       )}
 
-      {/* <Tooltip title="Create Node">
-          <IconButton size='small' onClick={handleOpen} >
-          {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
-          <DashboardIcon/>
-        </IconButton> */}
+      {/* ~~~~~EDITOR TOOLBAR~~~~~ */}
       <ButtonGroup
         className={classes.toolbarGroup}
-        disableElevation
         variant="outlined"
         color="default"
       >
+        {/* Shape Node Buttons */}
         <Tooltip title="Block Node">
           <IconButton
             size="small"
@@ -144,12 +137,15 @@ export default function EditorToolbar(props) {
             <Crop75Icon />
           </IconButton>
         </Tooltip>
+
+        {/* ScreenBlock Button */}
         <Tooltip title="Screenblocks">
           <IconButton size="small" onClick={handleOpen} id="border2">
             <DashboardIcon />
           </IconButton>
         </Tooltip>
 
+        {/* Annotation Buttons */}
         <IconButton className={classes.annotation}>
           <img src="./annotations/check-circle.svg" />
         </IconButton>
@@ -162,6 +158,8 @@ export default function EditorToolbar(props) {
         <IconButton className={classes.annotation} id="border3">
           <img src="./annotations/question-circle.svg" />
         </IconButton>
+
+        {/* Create Arrow Button */}
         <Tooltip title="Custom Handle">
           <IconButton size="small">
             <TimelineIcon />
@@ -169,6 +167,7 @@ export default function EditorToolbar(props) {
         </Tooltip>
       </ButtonGroup>
 
+      {/* Undo Redo Buttons */}
       <ButtonGroup className={classes.toolbarGroup}>
         <Tooltip title="Undo">
           <IconButton

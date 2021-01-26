@@ -74,14 +74,7 @@ export default function AttributeToolbar(props) {
 
     <div className={classes.root}>
 
-        {/* <Tooltip title="Create Node">
-          <IconButton size='small' onClick={handleOpen} >
-          {open?<ButtonGroup className={classes.group2} disableElevation variant="outlined" color="default"></ButtonGroup>:null}
-          <DashboardIcon/>
-        </IconButton> */}
-        
-      {/* Attribute Toolbar */}
-      <ButtonGroup className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
+      <ButtonGroup className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
         <Tooltip title="Change Color" placement="right">
           <IconButton className={classes.attributeGroup} size='small' onClick={() => handleOpen('color')}>
             <ColorLensOutlinedIcon/>
@@ -105,7 +98,7 @@ export default function AttributeToolbar(props) {
       </ButtonGroup>
 
       {/* Color picker */}
-      {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
+      {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
         <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'dark'})}>
           <FiberManualRecordIcon className="dark"/>
         </IconButton>
@@ -127,7 +120,7 @@ export default function AttributeToolbar(props) {
       </ButtonGroup> }
 
       {/* Fill Style */}
-      {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" disableElevation variant="outlined" color="default">
+      {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
         <Tooltip title="Dotted Edge" placement="right">
           <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
             <BorderClearIcon/>
