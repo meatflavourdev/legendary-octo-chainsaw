@@ -37,7 +37,7 @@ const initialElements = [
   },
   {
     id: "provider-4",
-    data: { label: "Node 4", fillStyle: "filled", fillColor: "red" },
+    data: { label: "Node 4ssssssssssssssssssssssssss", fillStyle: "filled", fillColor: "red" },
     position: { x: 550, y: 480 },
     type: "ShapeNode",
   },
@@ -55,46 +55,6 @@ const nodeTypes = {
   ShapeNode,
 };
 
-const nodeDefaultValues = {
-  background: "#2D3A49",
-  color: "#FFF",
-  border: "0px",
-};
-
-const block = {
-  ...nodeDefaultValues,
-  width: 100,
-  padding: "20px",
-  borderRadius: "5px",
-};
-const nodeShapes = {
-  block,
-  terminator: {
-    ...nodeDefaultValues,
-    borderRadius: "30px",
-    width: 120,
-  },
-  screenblock1: {
-    ...block,
-    backgroundImage: "url(/screenblocks/page-01.svg)",
-  },
-  screenblock2: {
-    ...block,
-    backgroundImage: "url(/screenblocks/page-02.svg)",
-  },
-  screenblock3: {
-    ...block,
-    backgroundImage: "url(/screenblocks/page-03.svg)",
-  },
-  screenblock4: {
-    ...block,
-    backgroundImage: "url(/screenblocks/page-04.svg)",
-  },
-  screenblock5: {
-    ...block,
-    backgroundImage: "url(/screenblocks/page-05.svg)",
-  },
-}
 
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
@@ -109,13 +69,13 @@ const ProviderFlow = () => {
 
   const getNodeId = () => `randomnode_${+new Date()}`;
   const onAdd = useCallback(
-    (type, shape) => {
+    (type) => {
       let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1)) + 20) * 10;
       const newNode = {
         type,
         id: getNodeId(),
-        style: nodeShapes[shape],
-        data: { label: "Added node" },
+        type,
+        data: { label: "New node", fillColor: "dark", fillStyle: "filled" },
         position: {
           x: 300,
           y: 300,

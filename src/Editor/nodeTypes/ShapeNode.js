@@ -37,7 +37,7 @@ export default function ShapeNode({ data }) {
         id="b"
       />
       <div>
-        <span className="shapenode-text">Custom Color</span>
+        <span className="shapenode-text">{data.label}</span>
       </div>
       <Handle
         type="source"

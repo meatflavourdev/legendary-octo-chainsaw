@@ -2,7 +2,8 @@
 .node-shapenode {
   padding: 10px;
   border-radius: 8px;
-  width: 150px;
+  width: 80px;
+  height: 80px;
   font-size: 12px;
   color: #222;
   text-align: center;
