@@ -8,8 +8,8 @@ import {
 
 import Login from "./Login";
 import SignUp from "./SignUp";
-import { AuthProvider } from "./contexts/AuthContext";
-import Editor from "./Editor/Editor";
+import { AuthProvider } from "./contexts/AuthContext"
+import EditorLayout from "./Editor/EditorLayout";
 import Error from "./Error";
 import YjsTest from "./yjsSubscriber/YjsTest";
 import firebaseAuth from "./firebase/firebaseAuth";
@@ -33,13 +33,13 @@ function RouteHandler() {
           <Route exact path="/" component={Landing} />
           <Route exact path="/app">
             {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
-            <Editor />
+            <EditorLayout />
           </Route>
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/firebaseauth" component={firebaseAuth} />
           <Route exact path="/cloudfirestore" component={cloudFirestore} />
-          <Route path="/:doc_id" component={Editor} />
+          <Route path="/:doc_id" component={EditorLayout} />
         </Switch>
       </AuthProvider>
     </Router>
