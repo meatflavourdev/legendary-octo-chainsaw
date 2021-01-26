@@ -11,6 +11,17 @@
   border-style: solid;
 }
 
+.shapeTerminator {
+  width: 80px;
+  height: 30px;
+  border-radius: 50px;
+}
+.shapeDecision {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
 .node-screenblocknode {
   font-size: 12px;
   color: #222;

@@ -101,7 +101,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Block Node">
           <IconButton
             size="small"
-            onClick={() => createElement("ShapeNode", {fillColor: 'dark', fillStyle: 'filled'})}
+            onClick={() => createElement("ShapeNode", {fillColor: 'dark', fillStyle: 'filled', shape: 'block'})}
           >
             <CheckBoxOutlineBlankIcon />
           </IconButton>
@@ -109,7 +109,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Decision Node">
           <IconButton
             size="small"
-            onClick={() => createElement("default", "decision")}
+            onClick={() => createElement("ShapeNode", {fillColor: 'dark', fillStyle: 'filled', shape: 'decision'})}
           >
             <ChangeHistoryIcon />
           </IconButton>
@@ -117,7 +117,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Terminator Node">
           <IconButton
             size="small"
-            onClick={() => createElement("default", "terminator")}
+            onClick={() => createElement("ShapeNode", {fillColor: 'dark', fillStyle: 'filled', shape: 'term'})}
             id="border1"
           >
             <Crop75Icon />

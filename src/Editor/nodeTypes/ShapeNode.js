@@ -19,6 +19,8 @@ export default function ShapeNode({ data }) {
     'green': data.fillColor === 'green',
     'blue': data.fillColor === 'blue',
     'purple': data.fillColor === 'purple',
+    'shapeTerminator': data.shape === 'term',
+    'shapeDecision': data.shape === 'decision'
   });
 
   return (
