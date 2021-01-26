@@ -9,6 +9,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useStoreState } from 'react-flow-renderer';
 import './editor.css'; 
 
@@ -49,6 +50,9 @@ export default function AttributeToolbar(props) {
   const handleOpen = (menu) => {
     setMenu(menu);
     setOpen(true);
+  };
+  const handleClickAway = () => {
+    setOpen(false);
   };
   
 
@@ -104,52 +108,63 @@ export default function AttributeToolbar(props) {
       </ButtonGroup>
 
       {/* Color picker */}
-      {open && menu === 'color' && <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'dark'})}>
-          <FiberManualRecordIcon className="dark"/>
-        </IconButton>
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'light'})}>
-          <FiberManualRecordIcon className="light"/>
-        </IconButton>
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'red'})}>
-          <FiberManualRecordIcon className="red"/>
-        </IconButton>
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'green'})}>
-          <FiberManualRecordIcon className="green"/>
-        </IconButton>
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'blue'})}>
-          <FiberManualRecordIcon className="blue"/>
-        </IconButton>
-        <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'purple'})}>
-          <FiberManualRecordIcon className="darkblue"/>
-        </IconButton>
-      </ButtonGroup> }
+      {open && menu === 'color' && 
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'dark'})}>
+            <FiberManualRecordIcon className="dark"/>
+          </IconButton>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'light'})}>
+            <FiberManualRecordIcon className="light"/>
+          </IconButton>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'red'})}>
+            <FiberManualRecordIcon className="red"/>
+          </IconButton>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'green'})}>
+            <FiberManualRecordIcon className="green"/>
+          </IconButton>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'blue'})}>
+            <FiberManualRecordIcon className="blue"/>
+          </IconButton>
+          <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'purple'})}>
+            <FiberManualRecordIcon className="darkblue"/>
+          </IconButton>
+        </ButtonGroup>
+      </ClickAwayListener> }
 
       {/* Fill Style */}
-      {open && menu === 'fill' && <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
-        <Tooltip title="Dotted Edge" placement="right">
-          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
-            <BorderClearIcon/>
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Filled" placement="right">
-          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'filled'})}>
-            <StopIcon fontSize='large'/>
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Outlined" placement="right">
-          <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'outlined'})}>
-            <CheckBoxOutlineBlankIcon />
-          </IconButton>
-        </Tooltip>
-      </ButtonGroup> }
+      {open && menu === 'fill' && 
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
+          <Tooltip title="Dotted Edge" placement="right">
+            <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
+              <BorderClearIcon/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Filled" placement="right">
+            <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'filled'})}>
+              <StopIcon fontSize='large'/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Outlined" placement="right">
+            <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'outlined'})}>
+              <CheckBoxOutlineBlankIcon />
+            </IconButton>
+          </Tooltip>
+        </ButtonGroup>
+      </ClickAwayListener> }
 
-      {open && menu === 'text' && <TextField inputRef={labelRef} onKeyPress={(e) => {
+      {/* Text Edit */}
+      {open && menu === 'text' && 
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <TextField inputRef={labelRef} onKeyPress={(e) => {
             if (e.key === 'Enter') {
               console.log('Enter key pressed');
               handleUpdateNodeData({label: labelRef.current.value})
             }
-    }} className={classes.nodetext} id="outlined-basic" multiline label="Node Text" variant="filled" />}
+    }} className={classes.nodetext} id="outlined-basic" multiline label="Node Text" variant="filled" />
+      </ClickAwayListener>
+      }
     </div>
   );
 }
