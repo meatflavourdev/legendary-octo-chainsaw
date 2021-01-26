@@ -15,6 +15,10 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import logo from '../../logo.png';
 
+import FolderIcon from '@material-ui/icons/Folder';
+import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
+import FolderSharedRoundedIcon from '@material-ui/icons/FolderSharedRounded';
+
 const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
@@ -29,9 +33,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '0.8em',
     marginRight: '0.5em',
   },
-  entropyLogoText: {
-
-  },
+  entropyLogoText: {},
+  docFolder: {},
+  docFileName: {},
+  docFileIcon: {},
   docTitle: {
     flexGrow: 1,
   },
@@ -42,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperDocs: {
     width: drawerWidth,
+    boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
   },
   drawerHeaderDocs: {
     display: 'flex',
@@ -59,43 +65,55 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
 
   return (
     <Drawer
-        className={classes.drawerDocs}
-        variant="persistent"
-        anchor="left"
-        open={openDocs}
-        classes={{
-          paper: classes.drawerPaperDocs,
-        }}
-      >
-        <div className={classes.drawerHeaderDocs}>
-          <div className={classes.entropyLogo}>
-            <img className={classes.entropyLogoImg} src={logo} alt="Entropy Logo" height="32" width="32" />
-            <Typography className={classes.entropyLogoText} variant="h6" className={classes.title}>
-              Entropy
-            </Typography>
-          </div>
-          <IconButton onClick={handleDocsDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+      className={classes.drawerDocs}
+      variant="persistent"
+      anchor="left"
+      open={openDocs}
+      classes={{
+        paper: classes.drawerPaperDocs,
+      }}
+    >
+      <div className={classes.drawerHeaderDocs}>
+        <div className={classes.entropyLogo}>
+          <img className={classes.entropyLogoImg} src={logo} alt="Entropy Logo" height="32" width="32" />
+          <Typography className={classes.entropyLogoText} variant="h6" className={classes.title}>
+            Entropy
+          </Typography>
         </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+        <IconButton onClick={handleDocsDrawerClose}>
+          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </div>
+      <Divider />
+      <ListItem>
+        <ListItemIcon>
+          <FolderIcon />
+        </ListItemIcon>
+        <ListItemText className={classes.docFolder} primary="Private" />
+      </ListItem>
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon><DescriptionRoundedIcon className={classes.docFileIcon} /></ListItemIcon>
+            <ListItemText className={classes.docFileName} secondary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <ListItem>
+        <ListItemIcon>
+          <FolderSharedRoundedIcon />
+        </ListItemIcon>
+        <ListItemText className={classes.docFolder} primary="Public" />
+      </ListItem>
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon><DescriptionRoundedIcon className={classes.docFileIcon} /></ListItemIcon>
+            <ListItemText className={classes.docFileName} secondary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </Drawer>
   );
-};
+}
