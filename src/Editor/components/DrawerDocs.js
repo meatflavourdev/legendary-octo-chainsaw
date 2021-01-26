@@ -15,6 +15,8 @@ import logo from '../../logo.png';
 import FolderIcon from '@material-ui/icons/Folder';
 import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import FolderSharedRoundedIcon from '@material-ui/icons/FolderSharedRounded';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 
 import { FirebaseAuthConsumer } from '@react-firebase/auth';
 import { FirestoreCollection, FirestoreDocument, FirestoreMutation } from '@react-firebase/firestore';
@@ -111,18 +113,22 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           <FolderIcon />
                         </ListItemIcon>
                         <ListItemText className={classes.docFolder} primary="Private" />
+                        <AddBoxRoundedIcon />
                       </ListItem>
                       <List>
-                        {docsData.value.filter((doc) => !doc.is_public).map((doc, index) => (
-                          <Link to={`/${doc.url}`}>
-                          <ListItem button key={docsData.ids[index]}>
-                            <ListItemIcon>
-                              <DescriptionRoundedIcon className={classes.docFileIcon} />
-                            </ListItemIcon>
-                            <ListItemText className={classes.docFileName} secondary={doc.name} />
-                          </ListItem>
-                          </Link>
-                        ))}
+                        {docsData.value
+                          .filter((doc) => !doc.is_public)
+                          .map((doc, index) => (
+                            <Link to={`/${doc.url}`}>
+                              <ListItem button key={docsData.ids[index]}>
+                                <ListItemIcon>
+                                  <DescriptionRoundedIcon className={classes.docFileIcon} />
+                                </ListItemIcon>
+                                <ListItemText className={classes.docFileName} secondary={doc.name} />
+                                <DeleteForeverRoundedIcon />
+                              </ListItem>
+                            </Link>
+                          ))}
                       </List>
                       <Divider />
                       <ListItem>
@@ -130,16 +136,22 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           <FolderSharedRoundedIcon />
                         </ListItemIcon>
                         <ListItemText className={classes.docFolder} primary="Public" />
+                        <AddBoxRoundedIcon />
                       </ListItem>
                       <List>
-                      {docsData.value.filter((doc) => doc.is_public).map((doc, index) => (
-                          <ListItem button key={docsData.ids[index]}>
-                            <ListItemIcon>
-                              <DescriptionRoundedIcon className={classes.docFileIcon} />
-                            </ListItemIcon>
-                            <ListItemText className={classes.docFileName} secondary={doc.name} />
-                          </ListItem>
-                        ))}
+                        {docsData.value
+                          .filter((doc) => doc.is_public)
+                          .map((doc, index) => (
+                            <Link to={`/${doc.url}`}>
+                              <ListItem button key={docsData.ids[index]}>
+                                <ListItemIcon>
+                                  <DescriptionRoundedIcon className={classes.docFileIcon} />
+                                </ListItemIcon>
+                                <ListItemText className={classes.docFileName} secondary={doc.name} />
+                                <DeleteForeverRoundedIcon />
+                              </ListItem>
+                            </Link>
+                          ))}
                       </List>
                     </>
                   );
@@ -158,7 +170,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                             is_public: true,
                             is_public_editable: false,
                             created_date: firebase.firestore.FieldValue.serverTimestamp(),
-                            uid : uid,
+                            uid: uid,
                           }).then((res) => {
                             console.log('Ran mutation ', res);
                           });
