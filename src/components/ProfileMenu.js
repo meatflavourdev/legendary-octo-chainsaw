@@ -102,14 +102,11 @@ export default function ProfileMenu() {
       >
         <MenuItem style={{ backgroundColor: 'transparent' }}>
         <Grid container direction='row' justify='center'>
-          <Avatar className={classes.avatar}>{user.displayName.slice(0,1)}</Avatar>
-            <Grid item>
+          <Avatar className={classes.avatar} src={user.photoURL} />
 
                <ListItemText primary={user.displayName} secondary={user.email} />
           </Grid>
-          </Grid>
           </MenuItem>
-
         <StyledMenuItem>
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />

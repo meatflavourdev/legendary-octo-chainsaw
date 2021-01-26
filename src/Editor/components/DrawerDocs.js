@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -11,13 +10,20 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import logo from '../../logo.png';
 
 import FolderIcon from '@material-ui/icons/Folder';
 import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import FolderSharedRoundedIcon from '@material-ui/icons/FolderSharedRounded';
+
+import { FirebaseAuthConsumer } from '@react-firebase/auth';
+import { FirestoreCollection, FirestoreDocument, FirestoreMutation } from '@react-firebase/firestore';
+import firebase from 'firebase';
+import 'firebase/auth';
+import { Link } from 'react-router-dom';
+
+const randomAnimalName = require('random-animal-name');
+const uuid62 = require('uuid62');
 
 const drawerWidth = 300;
 
@@ -85,35 +91,111 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
         </IconButton>
       </div>
       <Divider />
-      <ListItem>
-        <ListItemIcon>
-          <FolderIcon />
-        </ListItemIcon>
-        <ListItemText className={classes.docFolder} primary="Private" />
-      </ListItem>
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon><DescriptionRoundedIcon className={classes.docFileIcon} /></ListItemIcon>
-            <ListItemText className={classes.docFileName} secondary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <ListItem>
-        <ListItemIcon>
-          <FolderSharedRoundedIcon />
-        </ListItemIcon>
-        <ListItemText className={classes.docFolder} primary="Public" />
-      </ListItem>
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon><DescriptionRoundedIcon className={classes.docFileIcon} /></ListItemIcon>
-            <ListItemText className={classes.docFileName} secondary={text} />
-          </ListItem>
-        ))}
-      </List>
+
+      <FirebaseAuthConsumer>
+        {(authData) => {
+          console.log('authData: ', authData);
+          const uid = authData.user.uid.toString();
+          return (
+            <>
+              <FirestoreCollection path={`/users/${uid}/docs/`}>
+                {(docsData) => {
+                  console.log('docsData', docsData);
+                  if (docsData.isLoading) {
+                    return 'Loading';
+                  }
+                  return (
+                    <>
+                      <ListItem>
+                        <ListItemIcon>
+                          <FolderIcon />
+                        </ListItemIcon>
+                        <ListItemText className={classes.docFolder} primary="Private" />
+                      </ListItem>
+                      <List>
+                        {docsData.value.filter((doc) => !doc.is_public).map((doc, index) => (
+                          <Link to={`/${doc.url}`}>
+                          <ListItem button key={docsData.ids[index]}>
+                            <ListItemIcon>
+                              <DescriptionRoundedIcon className={classes.docFileIcon} />
+                            </ListItemIcon>
+                            <ListItemText className={classes.docFileName} secondary={doc.name} />
+                          </ListItem>
+                          </Link>
+                        ))}
+                      </List>
+                      <Divider />
+                      <ListItem>
+                        <ListItemIcon>
+                          <FolderSharedRoundedIcon />
+                        </ListItemIcon>
+                        <ListItemText className={classes.docFolder} primary="Public" />
+                      </ListItem>
+                      <List>
+                      {docsData.value.filter((doc) => doc.is_public).map((doc, index) => (
+                          <ListItem button key={docsData.ids[index]}>
+                            <ListItemIcon>
+                              <DescriptionRoundedIcon className={classes.docFileIcon} />
+                            </ListItemIcon>
+                            <ListItemText className={classes.docFileName} secondary={doc.name} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </>
+                  );
+                }}
+              </FirestoreCollection>
+              <FirestoreMutation type="add" path={`/users/${uid}/docs/`}>
+                {({ runMutation }) => {
+                  return (
+                    <div>
+                      <h2> Mutate state </h2>
+                      <button
+                        onClick={() => {
+                          runMutation({
+                            name: randomAnimalName(),
+                            url: uuid62.v4(),
+                            is_public: true,
+                            is_public_editable: false,
+                            created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                            uid : uid,
+                          }).then((res) => {
+                            console.log('Ran mutation ', res);
+                          });
+                        }}
+                      >
+                        Mutate Set
+                      </button>
+                    </div>
+                  );
+                }}
+              </FirestoreMutation>
+              <FirestoreMutation type="set" path={`/users/${uid}`}>
+                {({ runMutation }) => {
+                  return (
+                    <div>
+                      <h2> Add User </h2>
+                      <button
+                        onClick={() => {
+                          runMutation({
+                            name: authData.user.displayName,
+                            email: authData.user.email,
+                            created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                          }).then((res) => {
+                            console.log('Ran mutation ', res);
+                          });
+                        }}
+                      >
+                        Mutate Set
+                      </button>
+                    </div>
+                  );
+                }}
+              </FirestoreMutation>
+            </>
+          );
+        }}
+      </FirebaseAuthConsumer>
     </Drawer>
   );
 }
