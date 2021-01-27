@@ -50,6 +50,11 @@
   box-shadow: none;
 }
 
+.node-annotationnode {
+  width: 22px;
+  height: 22px;
+}
+
 .react-flow__node.selected:before {
   content: '';
   position: absolute;
@@ -83,7 +88,6 @@
   animation: dashdraw .5s linear infinite;
 }
 
-.react-flow__handle-shapenode {
 .react-flow__handle-shapenode, .react-flow__handle-handlenode {
   background: #FFF;
   padding: 2.5px;
