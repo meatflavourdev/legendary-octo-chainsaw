@@ -40,6 +40,39 @@
   box-shadow: none;
 }
 
+.react-flow__node.selected:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  z-index: -1;
+  border: 2px dashed rgb(54 133 255 / 47%);
+  border-radius: 3px;
+  background-color: #59bdff17;
+}
+
+.react-flow__selection {
+  background-color: #59bdff17;
+  border: 2px dashed rgb(54 133 255 / 47%);
+  border-radius: 3px;
+}
+
+.react-flow__nodesselection-rect {
+  display: none;
+}
+
+.shapeDecision.selected:before {
+  border-radius: 100%;
+}
+
+.react-flow__edge.selected {
+  stroke-dasharray: 5;
+  /* -webkit-animation: dashdraw .5s linear infinite; */
+  animation: dashdraw .5s linear infinite;
+}
+
 .react-flow__handle-shapenode {
   background: #FFF;
   padding: 2.5px;
