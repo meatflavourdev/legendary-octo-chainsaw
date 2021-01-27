@@ -1,3 +1,8 @@
+.root {
+  width: 100vw;
+  height: 100vh;
+}
+
 .providerflow {
   height: 100%;
   width: 100%;
