@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    color: '#fff',
+    backgroundColor: '#795cfc',
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -60,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     color: theme.palette.getContrastText('#00e676'),
     backgroundColor: '#00e676',
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px',
   },
   heroContent: {
     padding: theme.spacing(6, 0, 7),
@@ -139,15 +142,27 @@ const tiers = [
 const footers = [
   {
     title: 'Jeremy Dombrowski',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Twitter', href: 'https://twitter.com/meatflavourdev' },
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/jeremydombrowski/' },
+      { text: 'Github', href: 'https://github.com/meatflavourdev' },
+      { text: 'Portfolio', href: 'https://www.meatflavour.dev/' },
+      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' }],
   },
   {
     title: 'Nathan Mckenzie',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/nathan-mckenzie-2020/' },
+      { text: 'Github', href: 'https://github.com/nathantmckenzie' },
+      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' }],
   },
   {
     title: 'Nik Sofianos',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Twitter', href: '#' },
+      { text: 'Linkedin', href: '#' },
+      { text: 'Portfolio', href: '#' },
+      { text: 'Email', href: '#' }],
   },
   {
     title: 'Open Source',
@@ -171,7 +186,7 @@ function NavButtonsNoAuth() {
 
   return (
     <IfFirebaseUnAuthed>
-      <Button onClick={googleSignin} color="primary" variant="outlined" className={classes.link}>
+      <Button onClick={googleSignin} color="secondary" variant="outlined" className={classes.link}>
         Sign Up
       </Button>
     </IfFirebaseUnAuthed>
@@ -191,11 +206,11 @@ function NavButtonsAuth(props) {
       {({ isSignedIn, user, providerId }) => {
         return (
           <>
-            <Avatar className={classes.avatar}>{user.displayName.slice(0,1)}</Avatar>
+            <Avatar className={classes.avatar} src={user.photoURL} />
             <Typography variant="h6" color="inherit" noWrap className={classes.link}>
               {user.displayName}
             </Typography>
-            <Button onClick={props.handleLogout} color="primary" variant="outlined" className={classes.link}>
+            <Button onClick={props.handleLogout} color="secondary" variant="outlined" className={classes.link}>
               Sign Out
             </Button>
           </>
@@ -301,7 +316,7 @@ export default function Landing() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+      <AppBar position="static" color="default" elevation={4} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
@@ -335,7 +350,7 @@ export default function Landing() {
       {/* End hero unit */}
       {/* Screenshot */}
       <Container>
-        <Box className={classes.appBox} boxShadow={10}>
+        <Box className={classes.appBox} boxShadow={15}>
           <img className={classes.appShot} src="./landing/browserframe_01.png" alt="App Screenshot" />
         </Box>
       </Container>
