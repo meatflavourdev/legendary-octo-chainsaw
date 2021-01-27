@@ -15,40 +15,8 @@ import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 //Fires when flowchart has loaded
 const onLoad = (reactFlowInstance) => console.log("flow loaded:", reactFlowInstance);
 
-//Elements loaded on startup
-const initialElements = [
-  {
-    id: "1",
-    data: { label: "Node 1" },
-    position: { x: 340, y: 150 },
-    type: "ShapeNode",
-  },
-  {
-    id: "provider-2",
-    data: { label: "Node 2", fillStyle: "outlined", fillColor: "dark" },
-    position: { x: 150, y: 300 },
-    type: "default",
-  },
-  {
-    id: "provider-3",
-    data: { label: "Node 3", fillStyle: "dashed", fillColor: "light" },
-    position: { x: 550, y: 300 },
-    type: "ShapeNode",
-  },
-  {
-    id: "provider-4",
-    data: { label: "Node 4ssssssssssssssssssssssssss", fillStyle: "filled", fillColor: "red" },
-    position: { x: 550, y: 480 },
-    type: "ShapeNode",
-  },
-  {
-    id: "provider-e3-4",
-    source: "provider-3",
-    target: "provider-4",
-    animated: true,
-    type: "smoothstep",
-  },
-];
+//Elements loaded on new doc
+import initialElements from './initialElements';
 
 //Custom node types go here
 const nodeTypes = {
