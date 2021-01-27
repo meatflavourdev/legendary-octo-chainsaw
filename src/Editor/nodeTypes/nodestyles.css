@@ -38,6 +38,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .node-screenblocknode {
@@ -53,6 +54,7 @@
 .node-annotationnode {
   width: 22px;
   height: 22px;
+  z-index: 1000;
 }
 
 .react-flow__node.selected:before {
