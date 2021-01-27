@@ -14,6 +14,10 @@ import { WebsocketProvider } from 'y-websocket';
 //Elements loaded on new doc
 import initialElements from './initialElements';
 
+//Environment variables
+const host = process.env.YHOST || 'localhost'
+const port = process.env.YPORT || 5001
+
 //Custom node types go here
 const nodeTypes = {
   ShapeNode,
@@ -54,7 +58,9 @@ const ProviderFlow = () => {
   React.useEffect(() => {
     ydoc.current = new Y.Doc({guid: doc_id});
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
-    new WebsocketProvider('ws://localhost:5001', 'collab', ydoc.current);
+
+
+    new WebsocketProvider(`ws://${host}:${port}`, doc_id, ydoc.current);
     const nodes = ydoc.current.getArray('all-nodes');
     if (nodes.toArray().length === 0) {
       initialElements.forEach((element, index) => {
