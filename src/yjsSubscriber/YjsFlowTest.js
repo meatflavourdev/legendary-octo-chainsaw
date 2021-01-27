@@ -33,7 +33,7 @@ export default function YjsFlowTest() {
   const onConnect = (params) => setElements((els) => addEdge(params, els));
   React.useEffect(() => {
     ydoc.current = new Y.Doc();
-    new WebsocketProvider('ws://localhost:5000', 'collab', ydoc.current);
+    new WebsocketProvider('ws://143.110.233.19/example', 'collab', ydoc.current);
     const nodes = ydoc.current.getArray('all-nodes');
     if (nodes.toArray().length === 0) {
       initialElements.forEach((element, index) => {

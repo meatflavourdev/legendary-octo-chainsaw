@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -19,10 +19,11 @@ import { WebsocketProvider } from 'y-websocket';
 
 //Elements loaded on new doc
 import initialElements from './initialElements';
+import { useParams } from "react-router-dom";
 
 //Environment variables
-const host = process.env.YHOST || 'localhost'
-const port = process.env.YPORT || 5001
+const host = process.env.REACT_APP_YYHOST || 'localhost'
+const port = process.env.REACT_APP_YYPORT || 5001
 
 //Custom node types go here
 const nodeTypes = {
@@ -67,7 +68,7 @@ const ProviderFlow = () => {
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
 
-    new WebsocketProvider(`ws://${host}:${port}`, doc_id, ydoc.current);
+    new WebsocketProvider(`ws://143.110.233.19/example`, doc_id, ydoc.current);
     const nodes = ydoc.current.getArray('all-nodes');
     if (nodes.toArray().length === 0) {
       initialElements.forEach((element, index) => {
