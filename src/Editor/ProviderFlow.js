@@ -12,6 +12,7 @@ import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
 import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
+import AnnotationNode from "./nodeTypes/AnnotationNode";
 
 //Fires when flowchart has loaded
 const onLoad = (reactFlowInstance) => console.log("flow loaded:", reactFlowInstance);
@@ -55,7 +56,8 @@ const initialElements = [
 const nodeTypes = {
   ShapeNode,
   ScreenBlockNode,
-  HandleNode
+  HandleNode,
+  AnnotationNode
 };
 
 
