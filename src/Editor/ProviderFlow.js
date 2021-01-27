@@ -12,6 +12,7 @@ import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
 import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
+import AnnotationNode from "./nodeTypes/AnnotationNode";
 
 // Yjs Imports
 import * as Y from 'yjs';
@@ -29,7 +30,8 @@ const port = process.env.REACT_APP_YYPORT || 5001
 const nodeTypes = {
   ShapeNode,
   ScreenBlockNode,
-  HandleNode
+  HandleNode,
+  AnnotationNode
 };
 
 const ProviderFlow = () => {

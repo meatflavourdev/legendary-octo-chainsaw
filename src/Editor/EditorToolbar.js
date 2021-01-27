@@ -135,20 +135,32 @@ export default function EditorToolbar(props) {
         </Tooltip>
 
         {/* Annotation Buttons */}
-        <IconButton className={classes.annotation}>
+        <IconButton 
+          className={classes.annotation} 
+          onClick={() => createElement("AnnotationNode", {annotation: 'check'})}
+        >
           <img src="./annotations/check-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+         className={classes.annotation}
+         onClick={() => createElement("AnnotationNode", {annotation: 'times'})}
+         >
           <img src="./annotations/times-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+         className={classes.annotation}
+         onClick={() => createElement("AnnotationNode", {annotation: 'info'})}
+         >
           <img src="./annotations/info-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation} id="border3">
+        <IconButton
+         className={classes.annotation} id="border3"
+         onClick={() => createElement("AnnotationNode", {annotation: 'question'})}
+         >
           <img src="./annotations/question-circle.svg" />
         </IconButton>
 
-        {/* Create Arrow Button */}
+        {/* Create Handle Node Button */}
         <Tooltip title="Handle Node">
           <IconButton 
             size="small"
