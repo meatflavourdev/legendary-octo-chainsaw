@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -10,6 +10,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import CreateIcon from "@material-ui/icons/Create";
+import TextField from "@material-ui/core/TextField";
+import AddCircle from "@material-ui/icons/AddCircle";
 import logo from "../../logo.png";
 
 import FolderIcon from "@material-ui/icons/Folder";
@@ -68,12 +71,24 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   },
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
 }));
 
 export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
   const classes = useStyles();
   const theme = useTheme();
   const inputRef = useRef([]);
+  const [name, setName] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Drawer
       className={classes.drawerDocs}
@@ -124,16 +139,23 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                     return "Loading";
                   }
 
-                  let onDelete = () => {
-                    let ids = docsData.ids;
-                    for (let id of ids) {
-                      var db = firebase.firestore();
-                      db.collection("users")
-                        .doc(uid)
-                        .collection("docs")
-                        .doc(id)
-                        .delete();
-                    }
+                  let onUpdate = (id) => () => {
+                    var db = firebase.firestore();
+                    db.collection("users")
+                      .doc(uid)
+                      .collection("docs")
+                      .doc(id)
+                      .set({ name });
+                  };
+
+                  let onDelete = (id) => () => {
+                    var database = firebase.firestore();
+                    database
+                      .collection("users")
+                      .doc(uid)
+                      .collection("docs")
+                      .doc(id)
+                      .delete();
                   };
 
                   return (
@@ -175,30 +197,43 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           }}
                         </FirestoreMutation>
                       </ListItem>
-                      <input />
+
                       <List>
                         {docsData.value
                           .filter((doc) => !doc.is_public)
                           .map((doc, index) => (
-                            <Link className="docListLink" to={`/${doc.url}`}>
-                              <ListItem
-                                button
-                                key={docsData.ids[index]}
-                                ref={(el) => (inputRef.current[index] = el)}
-                              >
+                            <Link
+                              className="docListLink"
+                              to={`/${doc.url}`}
+                              key={docsData.ids[index]}
+                            >
+                              <ListItem button>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon
                                     className={classes.docFileIcon}
                                   />
                                 </ListItemIcon>
-                                <ListItemText
-                                  className={classes.docFileName}
-                                  secondary={doc.name}
-                                />
-                                <DeleteForeverRoundedIcon
-                                  className="docListLinkDelete"
-                                  onClick={onDelete}
-                                />
+                                {!open ? (
+                                  <div>
+                                    <ListItemText
+                                      className={classes.docFileName}
+                                      secondary={doc.name}
+                                    />
+                                    <CreateIcon
+                                      className="docListLinkDelete"
+                                      onClick={handleOpen}
+                                    />
+                                    <DeleteForeverRoundedIcon
+                                      className="docListLinkDelete"
+                                      onClick={onDelete(docsData.ids[index])}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <TextField />
+                                    <AddCircle className="docListLinkDelete" />
+                                  </div>
+                                )}
                               </ListItem>
                             </Link>
                           ))}
@@ -241,7 +276,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                           }}
                         </FirestoreMutation>
                       </ListItem>
-                      <input />
+
                       <List>
                         {docsData.value
                           .filter((doc) => doc.is_public)
@@ -253,14 +288,27 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                                     className={classes.docFileIcon}
                                   />
                                 </ListItemIcon>
-                                <ListItemText
-                                  className={classes.docFileName}
-                                  secondary={doc.name}
-                                />
-                                <DeleteForeverRoundedIcon
-                                  className="docListLinkDelete"
-                                  onClick={onDelete}
-                                />
+                                {!open ? (
+                                  <div>
+                                    <ListItemText
+                                      className={classes.docFileName}
+                                      secondary={doc.name}
+                                    />
+                                    <CreateIcon
+                                      className="docListLinkDelete"
+                                      onClick={onUpdate(docsData.ids[index])}
+                                    />
+                                    <DeleteForeverRoundedIcon
+                                      className="docListLinkDelete"
+                                      onClick={onDelete(docsData.ids[index])}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <TextField />
+                                    <AddCircle className="docListLinkDelete" />
+                                  </div>
+                                )}
                               </ListItem>
                             </Link>
                           ))}
