@@ -140,12 +140,20 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                   }
 
                   let onUpdate = (id) => () => {
+                    console.log("ONUPDATE ID", id);
                     var db = firebase.firestore();
                     db.collection("users")
                       .doc(uid)
                       .collection("docs")
                       .doc(id)
-                      .set({ name });
+                      .set({
+                        name: name,
+                        url: uuid62.v4(),
+                        is_public: false,
+                        is_public_editable: false,
+                        created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                        uid: uid,
+                      });
                   };
 
                   let onDelete = (id) => () => {
@@ -230,8 +238,15 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                                   </div>
                                 ) : (
                                   <div>
-                                    <TextField />
-                                    <AddCircle className="docListLinkDelete" />
+                                    <TextField
+                                      onChange={(e) => {
+                                        setName(e.target.value);
+                                      }}
+                                    />
+                                    <AddCircle
+                                      className="docListLinkDelete"
+                                      onClick={onUpdate(docsData.ids[index])}
+                                    />
                                   </div>
                                 )}
                               </ListItem>
@@ -281,7 +296,11 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                         {docsData.value
                           .filter((doc) => doc.is_public)
                           .map((doc, index) => (
-                            <Link className="docListLink" to={`/${doc.url}`}>
+                            <Link
+                              className="docListLink"
+                              to={`/${doc.url}`}
+                              key={docsData.ids[index]}
+                            >
                               <ListItem button key={docsData.ids[index]}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon
@@ -305,8 +324,15 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                                   </div>
                                 ) : (
                                   <div>
-                                    <TextField />
-                                    <AddCircle className="docListLinkDelete" />
+                                    <TextField
+                                      onChange={(e) => {
+                                        setName(e.target.value);
+                                      }}
+                                    />
+                                    <AddCircle
+                                      className="docListLinkDelete"
+                                      onClick={onUpdate(docsData.ids[index])}
+                                    />
                                   </div>
                                 )}
                               </ListItem>
