@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { users } from './users.js';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,7 +18,6 @@ import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
-
 import red from '@material-ui/core/colors/red';
 import pink from '@material-ui/core/colors/pink';
 import purple from '@material-ui/core/colors/purple';
@@ -79,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  avatarGroup: {
+    marginRight: '10px',
+  },
+  userAvatar: {
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+  }
 }));
 
 export default function PersistentDrawerLeft() {
@@ -100,6 +106,12 @@ export default function PersistentDrawerLeft() {
     setOpenChat(!openChat);
   };
 
+  const userAvatars = [];
+  
+  for (const user of users) {
+  userAvatars.push(<Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -118,27 +130,18 @@ export default function PersistentDrawerLeft() {
             edge="start"
             className={clsx(classes.menuButton, openDocs && classes.hide)}
           >
-            <MenuIcon />
+            <MenuIcon style={{ fontSize: 30 }}/>
           </IconButton>
-          <Brightness4RoundedIcon color='secondary'/>
+          <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 35 }}/>
           <Typography className={classes.docTitle} variant="h6">
             Document Name
           </Typography>
-          <AvatarGroup max={10} spacing="25">
-          <Avatar className={classes.deepPurple}>N</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.deepPurple}>N</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
-          <Avatar className={classes.purple}>OP</Avatar>
+          <AvatarGroup className={classes.avatarGroup} max={10} spacing="25">
+            {userAvatars}
           </AvatarGroup>
-          <IconButton onClick={handleChatDrawerToggle} color="inherit">
+          <IconButton onClick={handleChatDrawerToggle} color="inherit" >
             <Badge badgeContent={4} color="secondary">
-              <ChatIcon />
+              <ChatIcon style={{ fontSize: 26 }}/>
             </Badge>
           </IconButton>
           {auth && <ShareMenu />}
