@@ -10,6 +10,7 @@ import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
 import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
+import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 
 //Fires when flowchart has loaded
@@ -53,7 +54,8 @@ const initialElements = [
 //Custom node types go here
 const nodeTypes = {
   ShapeNode,
-  ScreenBlockNode
+  ScreenBlockNode,
+  HandleNode
 };
 
 

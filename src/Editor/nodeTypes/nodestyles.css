@@ -30,6 +30,16 @@
   overflow: hidden;
 }
 
+.node-handlenode {
+  width:40px;
+  height:40px;
+  border-radius: 100%;
+  background-color: rgba(0,0,255,0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .node-screenblocknode {
   font-size: 12px;
   color: #222;
@@ -74,9 +84,14 @@
 }
 
 .react-flow__handle-shapenode {
+.react-flow__handle-shapenode, .react-flow__handle-handlenode {
   background: #FFF;
   padding: 2.5px;
-  border: solid 2px #595A66
+  border: solid 2px #595A66;
+}
+
+.react-flow__handle-handlenode {
+  top: 16px;
 }
 
 .react-flow__handle-screenblocknode {
