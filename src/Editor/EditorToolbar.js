@@ -149,7 +149,10 @@ export default function EditorToolbar(props) {
 
         {/* Create Arrow Button */}
         <Tooltip title="Custom Handle">
-          <IconButton size="small">
+          <IconButton 
+            size="small"
+            onClick={() => createElement("HandleNode", {fillColor: 'dark', fillStyle: 'filled'})}
+          >
             <TimelineIcon />
           </IconButton>
         </Tooltip>
