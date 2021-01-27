@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     overflow: 'hidden',
+    width: '100vw',
+    height: '100vh',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -82,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  // Get doc_id from router
+  let { doc_id } = useParams();
+
   const [auth, setAuth] = React.useState(true);
   const classes = useStyles();
   const theme = useTheme();
@@ -122,7 +128,7 @@ export default function PersistentDrawerLeft() {
           </IconButton>
           <Brightness4RoundedIcon color='secondary'/>
           <Typography className={classes.docTitle} variant="h6">
-            Document Name
+            { doc_id }
           </Typography>
           <AvatarGroup max={10} spacing="25">
           <Avatar className={classes.deepPurple}>N</Avatar>
