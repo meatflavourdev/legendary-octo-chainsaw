@@ -7,6 +7,7 @@ import UndoIcon from "@material-ui/icons/Undo";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
+import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import "./editor.css";
 
@@ -148,12 +149,12 @@ export default function EditorToolbar(props) {
         </IconButton>
 
         {/* Create Arrow Button */}
-        <Tooltip title="Custom Handle">
+        <Tooltip title="Handle Node">
           <IconButton 
             size="small"
             onClick={() => createElement("HandleNode", {fillColor: 'dark', fillStyle: 'filled'})}
           >
-            <TimelineIcon />
+            <TouchAppIcon />
           </IconButton>
         </Tooltip>
       </ButtonGroup>
