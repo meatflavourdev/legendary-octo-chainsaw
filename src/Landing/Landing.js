@@ -142,15 +142,27 @@ const tiers = [
 const footers = [
   {
     title: 'Jeremy Dombrowski',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Twitter', href: 'https://twitter.com/meatflavourdev' },
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/jeremydombrowski/' },
+      { text: 'Github', href: 'https://github.com/meatflavourdev' },
+      { text: 'Portfolio', href: 'https://www.meatflavour.dev/' },
+      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' }],
   },
   {
     title: 'Nathan Mckenzie',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/nathan-mckenzie-2020/' },
+      { text: 'Github', href: 'https://github.com/nathantmckenzie' },
+      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' }],
   },
   {
     title: 'Nik Sofianos',
-    description: [{ text: 'Twitter', href: '#' }, { text: 'Linkedin', href: '#' }, { text: 'Portfolio', href: '#' }, { text: 'Email', href: '#' }],
+    description: [
+      { text: 'Twitter', href: '#' },
+      { text: 'Linkedin', href: '#' },
+      { text: 'Portfolio', href: '#' },
+      { text: 'Email', href: '#' }],
   },
   {
     title: 'Open Source',
