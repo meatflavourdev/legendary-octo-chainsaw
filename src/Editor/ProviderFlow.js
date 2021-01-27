@@ -1,11 +1,17 @@
-import React, { useState, useCallback, useRef } from 'react';
-import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background } from 'react-flow-renderer';
-import { useParams } from 'react-router-dom';
-import './provider.css';
-import EditorToolbar from './EditorToolbar';
-import AttributeToolbar from './AttributeToolbar';
-import ShapeNode from './nodeTypes/ShapeNode';
-import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
+import { useState, useCallback } from "react";
+import ReactFlow, {
+  ReactFlowProvider,
+  addEdge,
+  removeElements,
+  Controls,
+  Background,
+} from "react-flow-renderer";
+import "./provider.css";
+import EditorToolbar from "./EditorToolbar";
+import AttributeToolbar from "./AttributeToolbar";
+import ShapeNode from "./nodeTypes/ShapeNode";
+import HandleNode from "./nodeTypes/HandleNode";
+import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 
 // Yjs Imports
 import * as Y from 'yjs';
@@ -22,6 +28,7 @@ const port = process.env.YPORT || 5001
 const nodeTypes = {
   ShapeNode,
   ScreenBlockNode,
+  HandleNode
 };
 
 const ProviderFlow = () => {
