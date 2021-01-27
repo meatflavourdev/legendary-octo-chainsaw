@@ -91,7 +91,7 @@ export default function ProfileMenu() {
    return (
     <div>
       <IconButton onClick={handleClick} color="inherit">
-        <AccountCircleIcon/>
+        <AccountCircleIcon  style={{ fontSize: 26 }}/>
       </IconButton>
       <StyledMenu
         id="profile-menu"
@@ -109,7 +109,7 @@ export default function ProfileMenu() {
           </MenuItem>
         <StyledMenuItem>
           <ListItemIcon>
-            <ExitToAppIcon fontSize="small" />
+            <ExitToAppIcon fontSize="medium" />
           </ListItemIcon>
           <ListItemText onClick={handleLogout} primary="Sign Out" />
         </StyledMenuItem>
