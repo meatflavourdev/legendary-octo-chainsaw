@@ -15,32 +15,21 @@ import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 import AnnotationNode from "./nodeTypes/AnnotationNode";
 
 //Fires when flowchart has loaded
-const onLoad = (reactFlowInstance) => console.log("flow loaded:", reactFlowInstance);
+const onLoad = (reactFlowInstance) =>
+  console.log("flow loaded:", reactFlowInstance);
 
 //Elements loaded on startup
 const initialElements = [
   {
-    id: "1",
-    data: { label: "Node 1" },
-    position: { x: 340, y: 150 },
-    type: "ShapeNode",
-  },
-  {
-    id: "provider-2",
-    data: { label: "Node 2", fillStyle: "outlined", fillColor: "dark" },
-    position: { x: 150, y: 300 },
-    type: "default",
-  },
-  {
     id: "provider-3",
-    data: { label: "Node 3", fillStyle: "dashed", fillColor: "light" },
-    position: { x: 550, y: 300 },
+    data: { label: "Node 1", fillStyle: "dashed", fillColor: "light" },
+    position: { x: 400, y: 200 },
     type: "ShapeNode",
   },
   {
     id: "provider-4",
-    data: { label: "Node 4ssssssssssssssssssssssssss", fillStyle: "filled", fillColor: "red" },
-    position: { x: 550, y: 480 },
+    data: { label: "Node 2", fillStyle: "filled", fillColor: "red" },
+    position: { x: 400, y: 380 },
     type: "ShapeNode",
   },
   {
@@ -60,7 +49,6 @@ const nodeTypes = {
   AnnotationNode
 };
 
-
 const ProviderFlow = () => {
   const [elements, setElements] = useState(initialElements);
   const [nodeName, setNodeName] = useState("Node 1");
@@ -69,16 +57,16 @@ const ProviderFlow = () => {
   const onConnect = (params) =>
     setElements((els) => addEdge({ type: "smoothstep", ...params }, els));
 
-  //Fires when an element is deleted  
+  //Fires when an element is deleted
   const onElementsRemove = (elementsToRemove) =>
     setElements(
       (els) => removeElements(elementsToRemove, els),
       console.log("REMOVED NODE")
     );
-  
+
   //Generates an ID for each new node
   const newNodeId = () => `randomnode_${+new Date()}`;
-  
+
   //CREATES NEW ELEMENTS
   const onAdd = useCallback(
     (type, customData) => {
@@ -98,7 +86,7 @@ const ProviderFlow = () => {
     },
     [setElements]
   );
-  
+
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
     console.log("click", element);
@@ -121,9 +109,7 @@ const ProviderFlow = () => {
             connectionLineType="smoothstep"
           >
             <Controls />
-            <AttributeToolbar
-              setEls={setElements}
-            />
+            <AttributeToolbar setEls={setElements} />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
