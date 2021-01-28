@@ -63,7 +63,7 @@ export default function AttributeToolbar(props) {
     console.log('selectedElements:', selectedElements);
     if (selectedElements && selectedElements.length > 0) {
       for (const element of selectedElements) {
-        props.setEls((els) =>
+        props.setElements((els) =>
             els.map((el) => {
               if (el.id === element.id && ['ShapeNode', 'HandleNode'].includes(el.type)) {
                 el.data = {
