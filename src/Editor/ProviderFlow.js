@@ -7,6 +7,7 @@ import ShapeNode from './nodeTypes/ShapeNode';
 import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
+import useWindowDimensions from '../hooks/getWindowDimensions';
 
 // Yjs Imports
 import * as Y from 'yjs';
@@ -31,6 +32,9 @@ const nodeTypes = {
 const ProviderFlow = () => {
   // Get doc_id from router
   let { doc_id } = useParams();
+
+  //Window Dimensions hook
+  const { height, width } = useWindowDimensions();
 
   // Get yjs lib and create a reference to it
   const ydoc = React.useRef(null);
@@ -116,24 +120,25 @@ const ProviderFlow = () => {
   const newNodeId = () => `randomnode_${+new Date()}`;
 
   //CREATES NEW ELEMENTS
-  const onAdd = useCallback(
-    (type, customData) => {
-      let randomNumber = (Math.floor(Math.random() * (60 - 20 + 1)) + 20) * 10;
-      const newNode = {
-        type,
-        id: newNodeId(),
-        type,
-        data: { ...customData, label: 'New node' },
-        position: {
-          x: 300,
-          y: 300,
-        },
-      };
-
-      setElements((els) => els.concat(newNode));
-    },
-    [setElements]
-  );
+  const onAdd = (type, customData) => {
+    const nodePosition = reactFlowRef.current.project({
+      x: width / 2,
+      y: height * 0.75,
+    })
+    const newNode = {
+      type,
+      id: newNodeId(),
+      key: newNodeId(),
+      type,
+      data: { ...customData, label: 'New node' },
+      position: nodePosition,
+    };
+    const yNode = new Y.Map();
+    for (let [k, v] of Object.entries(newNode)) {
+      yNode.set(k, v);
+    }
+    ydoc.current.getArray('elements').push([yNode]);
+  };
 
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
