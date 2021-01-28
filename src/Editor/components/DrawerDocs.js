@@ -129,7 +129,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
       <FirebaseAuthConsumer>
         {(authData) => {
           console.log("authData: ", authData);
-          const uid = authData.user.uid.toString();
+          const uid = authData.isSignedIn ? authData.user.uid.toString() : 0;
           return (
             <>
               <FirestoreCollection path={`/users/${uid}/docs/`}>
