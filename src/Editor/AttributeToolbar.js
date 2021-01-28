@@ -11,7 +11,7 @@ import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useStoreState } from 'react-flow-renderer';
-import './editor.css'; 
+import './editor.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AttributeToolbar(props) {
+export default function AttributeToolbar({ydoc, reactFlowRef}) {
   const classes = useStyles();
   const [menu, setMenu] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const labelRef = useRef();
-  
+
   const handleOpen = (menu) => {
     setMenu(menu);
     setOpen(true);
@@ -54,32 +54,23 @@ export default function AttributeToolbar(props) {
   const handleClickAway = () => {
     setOpen(false);
   };
-  
+
 
   const selectedElements = useStoreState(store => store.selectedElements);
 
-  const handleUpdateNodeData = (dataObj) => {
+  const handleUpdateNodeData = (data) => {
     setOpen(false);
-    console.log('selectedElements:', selectedElements);
-    if (selectedElements && selectedElements.length > 0) {
-      for (const element of selectedElements) {
-        props.setElements((els) =>
-            els.map((el) => {
-              if (el.id === element.id && ['ShapeNode', 'HandleNode'].includes(el.type)) {
-                el.data = {
-                  ...el.data,
-                  ...dataObj,
-                };
-              }
-              return el;
-            })
-          );
+    const selectedIds = [];
+    for (const elm of selectedElements) {
+      selectedIds.push(elm.id);
+    }
+    for (const elmMap of ydoc.current.getArray('elements')) {
+      if (selectedIds.includes(elmMap.get('id')) && ['ShapeNode', 'HandleNode'].includes(elmMap.get('type'))) {
+        elmMap.set('data', {...elmMap.get('data'), ...data});
       }
-
     }
   }
 
-  
   return (
 
     <div className={classes.root}>
@@ -108,7 +99,7 @@ export default function AttributeToolbar(props) {
       </ButtonGroup>
 
       {/* Color picker */}
-      {open && menu === 'color' && 
+      {open && menu === 'color' &&
       <ClickAwayListener onClickAway={handleClickAway}>
         <ButtonGroup id='colorPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
           <IconButton size='small' onClick={() => handleUpdateNodeData({fillColor:'dark'})}>
@@ -133,7 +124,7 @@ export default function AttributeToolbar(props) {
       </ClickAwayListener> }
 
       {/* Fill Style */}
-      {open && menu === 'fill' && 
+      {open && menu === 'fill' &&
       <ClickAwayListener onClickAway={handleClickAway}>
         <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
           <Tooltip title="Dotted Edge" placement="right">
@@ -155,7 +146,7 @@ export default function AttributeToolbar(props) {
       </ClickAwayListener> }
 
       {/* Text Edit */}
-      {open && menu === 'text' && 
+      {open && menu === 'text' &&
       <ClickAwayListener onClickAway={handleClickAway}>
         <TextField inputRef={labelRef} onKeyPress={(e) => {
             if (e.key === 'Enter') {

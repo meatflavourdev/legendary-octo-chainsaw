@@ -192,7 +192,7 @@ const ProviderFlow = () => {
             deleteKeyCode="Delete"
           >
             <Controls />
-            <AttributeToolbar setElements={setElements} />
+            <AttributeToolbar ydoc={ydoc} reactFlowRef={reactFlowRef} />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
