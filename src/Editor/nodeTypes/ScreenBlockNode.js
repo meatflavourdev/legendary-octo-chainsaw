@@ -17,14 +17,14 @@ export default function ScreenBlockNode({ data }) {
         type="source"
         className="react-flow__handle-screenblocknode"
         position="top"
-        onConnect={(params) => console.log("handle onConnect", params)}
+        //onConnect={(params) => console.log("handle onConnect", params)}
         id="a"
       />
       <Handle
         type="source"
         className="react-flow__handle-screenblocknode"
         position="left"
-        onConnect={(params) => console.log("handle onConnect", params)}
+        //onConnect={(params) => console.log("handle onConnect", params)}
         id="b"
       />
       <div>
@@ -34,14 +34,14 @@ export default function ScreenBlockNode({ data }) {
         type="source"
         className="react-flow__handle-screenblocknode"
         position="right"
-        onConnect={(params) => console.log("handle onConnect", params)}
+        //onConnect={(params) => console.log("handle onConnect", params)}
         id="c"
       />
       <Handle
         type="source"
         className="react-flow__handle-screenblocknode"
         position="bottom"
-        onConnect={(params) => console.log("handle onConnect", params)}
+        //onConnect={(params) => console.log("handle onConnect", params)}
         id="d"
       />
     </div>

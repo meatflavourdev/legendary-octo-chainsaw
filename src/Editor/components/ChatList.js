@@ -1,4 +1,5 @@
 import React from 'react';
+import { messages } from '../messages.js'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,17 +12,45 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: '36ch',
     backgroundColor: theme.palette.background.paper,
+    maxHeight: '75%',
+    overflow: 'auto',
   },
   inline: {
     display: 'inline',
   },
 }));
 
+
 export default function ChatList() {
   const classes = useStyles();
 
+  const chatMessages = [];
+
+  for (const message of messages) {
+    chatMessages.push(
+      <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <Avatar alt="Remy Sharp" src={message.user.photoURL} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={message.user.displayName}
+            secondary={
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                >
+                </Typography>
+                {message.message}
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+    )
+  }
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
@@ -89,6 +118,7 @@ export default function ChatList() {
           }
         />
       </ListItem>
+      {chatMessages}
     </List>
   );
 }

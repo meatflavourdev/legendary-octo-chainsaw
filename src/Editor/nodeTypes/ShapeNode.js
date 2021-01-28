@@ -29,14 +29,14 @@ export default function ShapeNode({ data }) {
         type="source"
         className='react-flow__handle-shapenode'
         position="top"
-        onConnect={(params) => console.log('handle onConnect', params)}
+        //onConnect={(params) => console.log('handle onConnect', params)}
         id='a'
       />
       <Handle
         type="source"
         className='react-flow__handle-shapenode'
         position="left"
-        onConnect={(params) => console.log('handle onConnect', params)}
+        //onConnect={(params) => console.log('handle onConnect', params)}
         id='b'
       />
         <div className="shapenode-text">{data.label}</div>
@@ -44,14 +44,14 @@ export default function ShapeNode({ data }) {
         type="source"
         className='react-flow__handle-shapenode'
         position="right"
-        onConnect={(params) => console.log('handle onConnect', params)}
+        //onConnect={(params) => console.log('handle onConnect', params)}
         id='c'
       />
       <Handle
         type="source"
         className='react-flow__handle-shapenode'
         position="bottom"
-        onConnect={(params) => console.log('handle onConnect', params)}
+        //onConnect={(params) => console.log('handle onConnect', params)}
         id='d'
       />
     </div>

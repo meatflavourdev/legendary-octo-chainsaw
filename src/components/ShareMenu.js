@@ -63,7 +63,7 @@ export default function ProfileMenu() {
   return (
     <div>
       <IconButton onClick={handleClick} color="inherit">
-        <SendIcon/>
+        <SendIcon  style={{ fontSize: 26 }}/>
       </IconButton>
 
       <StyledMenu

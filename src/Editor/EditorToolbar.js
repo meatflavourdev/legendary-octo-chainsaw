@@ -7,6 +7,7 @@ import UndoIcon from "@material-ui/icons/Undo";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
+import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import "./editor.css";
 
@@ -134,23 +135,38 @@ export default function EditorToolbar(props) {
         </Tooltip>
 
         {/* Annotation Buttons */}
-        <IconButton className={classes.annotation}>
+        <IconButton 
+          className={classes.annotation} 
+          onClick={() => createElement("AnnotationNode", {annotation: 'check'})}
+        >
           <img src="./annotations/check-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+         className={classes.annotation}
+         onClick={() => createElement("AnnotationNode", {annotation: 'times'})}
+         >
           <img src="./annotations/times-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation}>
+        <IconButton
+         className={classes.annotation}
+         onClick={() => createElement("AnnotationNode", {annotation: 'info'})}
+         >
           <img src="./annotations/info-circle.svg" />
         </IconButton>
-        <IconButton className={classes.annotation} id="border3">
+        <IconButton
+         className={classes.annotation} id="border3"
+         onClick={() => createElement("AnnotationNode", {annotation: 'question'})}
+         >
           <img src="./annotations/question-circle.svg" />
         </IconButton>
 
-        {/* Create Arrow Button */}
-        <Tooltip title="Custom Handle">
-          <IconButton size="small">
-            <TimelineIcon />
+        {/* Create Handle Node Button */}
+        <Tooltip title="Handle Node">
+          <IconButton 
+            size="small"
+            onClick={() => createElement("HandleNode", {fillColor: 'dark', fillStyle: 'filled'})}
+          >
+            <TouchAppIcon />
           </IconButton>
         </Tooltip>
       </ButtonGroup>

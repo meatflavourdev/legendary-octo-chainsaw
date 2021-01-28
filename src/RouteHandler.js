@@ -12,12 +12,14 @@ import { AuthProvider } from "./contexts/AuthContext"
 import EditorLayout from "./Editor/EditorLayout";
 import Error from "./Error";
 import YjsTest from "./yjsSubscriber/YjsTest";
+import YjsFlowTest from "./yjsSubscriber/YjsFlowTest";
 import firebaseAuth from "./firebase/firebaseAuth";
 import cloudFirestore from "./firebase/cloudFirestore";
 import Landing from "./Landing/Landing";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
+import ProviderFlow from './Editor/ProviderFlow';
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -37,6 +39,7 @@ function RouteHandler() {
           </Route>
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
+          <Route exact path="/yjsflowtest" component={YjsFlowTest} />
           <Route exact path="/firebaseauth" component={firebaseAuth} />
           <Route exact path="/cloudfirestore" component={cloudFirestore} />
           <Route path="/:doc_id" component={EditorLayout} />
