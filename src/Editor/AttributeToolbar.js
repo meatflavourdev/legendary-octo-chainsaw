@@ -64,6 +64,7 @@ export default function AttributeToolbar({ydoc, reactFlowRef}) {
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     }
+    console.log(`Element type: ${typeof(elmMap)}`);
     for (const elmMap of ydoc.current.getArray('elements')) {
       if (selectedIds.includes(elmMap.get('id')) && ['ShapeNode', 'HandleNode'].includes(elmMap.get('type'))) {
         elmMap.set('data', {...elmMap.get('data'), ...data});

@@ -105,7 +105,8 @@ const ProviderFlow = () => {
     } */
     for (const elmMap of ydoc.current.getArray('elements')) {
       //if (selectedIds.includes(elmMap.get('id'))) {
-      if (elmMap.get('id') === node.id) {
+      console.log(`Element type: ${typeof(elmMap)}`);
+      if (elmMap?.get('id') === node.id) {
         elmMap.set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }));
       }
     }
