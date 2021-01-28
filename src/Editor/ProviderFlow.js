@@ -1,18 +1,12 @@
-import React, { useState, useCallback } from "react";
-import ReactFlow, {
-  ReactFlowProvider,
-  addEdge,
-  removeElements,
-  Controls,
-  Background,
-} from "react-flow-renderer";
-import "./provider.css";
-import EditorToolbar from "./EditorToolbar";
-import AttributeToolbar from "./AttributeToolbar";
-import ShapeNode from "./nodeTypes/ShapeNode";
-import HandleNode from "./nodeTypes/HandleNode";
-import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
-import AnnotationNode from "./nodeTypes/AnnotationNode";
+import React, { useState, useCallback } from 'react';
+import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background } from 'react-flow-renderer';
+import './provider.css';
+import EditorToolbar from './EditorToolbar';
+import AttributeToolbar from './AttributeToolbar';
+import ShapeNode from './nodeTypes/ShapeNode';
+import HandleNode from './nodeTypes/HandleNode';
+import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
+import AnnotationNode from './nodeTypes/AnnotationNode';
 
 // Yjs Imports
 import * as Y from 'yjs';
@@ -20,21 +14,21 @@ import { WebsocketProvider } from 'y-websocket';
 
 //Elements loaded on new doc
 import initialElements from './initialElements';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 //Environment variables
-const host = process.env.REACT_APP_YYHOST || 'localhost'
-const port = process.env.REACT_APP_YYPORT || 5001
+const host = process.env.REACT_APP_YYHOST || 'localhost';
+const port = process.env.REACT_APP_YYPORT || 5001;
 
 //Custom node types go here
 const nodeTypes = {
   ShapeNode,
   ScreenBlockNode,
   HandleNode,
-  AnnotationNode
+  AnnotationNode,
 };
 
-const ProviderFlow = () => {
+const ProviderFlow = ({ydoc}) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -58,21 +52,19 @@ const ProviderFlow = () => {
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
   const onLoad = (reactFlowInstance) => {
-    console.log('flow loaded:', reactFlowInstance)
+    console.log('flow loaded:', reactFlowInstance);
     reactFlowRef.current = reactFlowInstance;
   };
 
-  // Handles React Flow Element removal (from Yjs shared type and thus, the state)
-  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
-
   React.useEffect(() => {
-    ydoc.current = new Y.Doc({guid: doc_id});
+    ydoc.current = new Y.Doc({ guid: doc_id });
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
-
     new WebsocketProvider(`ws://143.110.233.19/example`, doc_id, ydoc.current);
-    const nodes = ydoc.current.getArray('all-nodes');
-    if (nodes.toArray().length === 0) {
+
+    const elementsYjs = ydoc.current.getArray('elements');
+
+    if (elementsYjs.toArray().length === 0) {
       initialElements.forEach((element, index) => {
         const node = ydoc.current.getMap('node-' + element.id);
         for (let [k, v] of Object.entries(element)) {
@@ -93,23 +85,23 @@ const ProviderFlow = () => {
             }
           });
         }
-        nodes.insert(index, [element]);
+        elementsYjs.insert(index, [element]);
       });
-      nodes.observe((event, transaction) => {});
-      setElements(nodes.toArray());
+
+      elementsYjs.observe((event, transaction) => {});
+      setElements(elementsYjs.toArray());
     }
   }, [doc_id]);
 
-  const onNodeDragStart = (event, node) => {
-    nodeDraggingRef.current = node.id;
-    document.addEventListener('mousemove', onDragRef.current);
-  };
-  const onNodeDragStop = (event, node) => {
-    nodeDraggingRef.current = node.id;
-    document.removeEventListener('mousemove', onDragRef.current);
+  const onNodeDrag = (event, node) => {
+    // onDrag, update the yDoc with the node's current position
+    ydoc.current.getMap('node-' + node.id).set('position', { x: node.position.x, y: node.position.y });
   };
 
-  //Fires when you connect 2 handles
+  // Called when element deleted
+  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
+
+  // Called when new edge connected
   const onConnect = (params) => setElements((els) => addEdge({ type: 'smoothstep', ...params }, els));
 
   //Generates an ID for each new node
@@ -150,8 +142,7 @@ const ProviderFlow = () => {
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
-            onNodeDragStart={onNodeDragStart}
-            onNodeDragStop={onNodeDragStop}
+            onNodeDrag={onNodeDrag}
             nodeTypes={nodeTypes}
             snapToGrid={true}
             snapGrid={[10, 10]}
