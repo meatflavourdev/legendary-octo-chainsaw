@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function PersistentDrawerLeft() {
+export default function EditorLayout() {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -113,7 +113,7 @@ export default function PersistentDrawerLeft() {
   };
 
   const userAvatars = [];
-  
+
   for (const user of users) {
   userAvatars.push(<Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
   }
