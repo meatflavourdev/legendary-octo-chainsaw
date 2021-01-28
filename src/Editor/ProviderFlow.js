@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background, updateEdge } from 'react-flow-renderer';
+import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background, updateEdge, useStoreState } from 'react-flow-renderer';
 import './provider.css';
 import EditorToolbar from './EditorToolbar';
 import AttributeToolbar from './AttributeToolbar';
@@ -17,6 +17,8 @@ import { WebsocketProvider } from 'y-websocket';
 import initialElements from './initialElements';
 import { useParams } from 'react-router-dom';
 
+const uuid62 = require('uuid62');
+
 //Environment variables
 const host = process.env.REACT_APP_YYHOST || 'localhost';
 const port = process.env.REACT_APP_YYPORT || 5001;
@@ -28,6 +30,7 @@ const nodeTypes = {
   HandleNode,
   AnnotationNode,
 };
+
 
 const ProviderFlow = () => {
   // Get doc_id from router
@@ -51,6 +54,13 @@ const ProviderFlow = () => {
     reactFlowRef.current = reactFlowInstance;
   };
 
+  // Selected Elements
+  //const selectedElements = useStoreState((state) => state.selectedElements);
+
+  //Generates an ID for each new node
+  const newNodeId = () => `node_${uuid62.v4()}`;
+  const newEdgeId = () => `edge_${uuid62.v4()}`;
+
   React.useEffect(() => {
     ydoc.current = new Y.Doc({ guid: doc_id });
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
@@ -70,6 +80,7 @@ const ProviderFlow = () => {
           for (let [k, v] of Object.entries(element)) {
             node.set(k, v);
           }
+          node.set('key', element.id);
           elementsYjs.insert(index, [node]);
         });
         console.log('Filled Array: ', elementsYjs.toJSON())
@@ -86,12 +97,17 @@ const ProviderFlow = () => {
     setElements([]);
   }, [doc_id]);
 
+
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
+/*     const selectedIds = [];
+    for (const elm of selectedElements) {
+      selectedIds.push(elm.id);
+    } */
     for (const elmMap of ydoc.current.getArray('elements')) {
+      //if (selectedIds.includes(elmMap.get('id'))) {
       if (elmMap.get('id') === node.id) {
         elmMap.set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }));
-        break;
       }
     }
   };
@@ -101,6 +117,7 @@ const ProviderFlow = () => {
     const elementsYjs = ydoc.current.getArray('elements');
     for (const elm of elementsToRemove) {
       for (const [i, elmMap] of ydoc.current.getArray('elements').toArray().entries()) {
+        //console.log(`elm type: ${typeof (elmMap)} value: `, elmMap);
         if (elmMap.get('id') === elm.id) {
           console.log(`Deleted node id: '${elm.id}' at elementsYjs[${i}]`)
          elementsYjs.delete(i, 1);
@@ -112,12 +129,21 @@ const ProviderFlow = () => {
   };
 
   // Called when new edge connected
-  const onConnect = (params) => setElements((els) => addEdge({ type: 'smoothstep', ...params }, els));
+  const onConnect = (params) => {
+    const newEdges = addEdge({ type: 'smoothstep', ...params }, []);
+    const yEdge = new Y.Map();
+    for (let [k, v] of Object.entries(newEdges[0])) {
+      yEdge.set(k, v);
+    }
+    console.log(`Attempting to add edge: `, newEdges[0]);
+    //yEdge.set('id', newEdgeId);
+    ydoc.current.getArray('elements').push([yEdge]);
+  }
 
-  const onEdgeUpdate = (oldEdge, newConnection) => setElements((els) => updateEdge(oldEdge, newConnection, els));
-
-  //Generates an ID for each new node
-  const newNodeId = () => `randomnode_${+new Date()}`;
+   const onEdgeUpdate = (oldEdge, newConnection) => {
+    onElementsRemove([oldEdge]);
+    onConnect(newConnection);
+  }
 
   //CREATES NEW ELEMENTS
   const onAdd = (type, customData) => {
