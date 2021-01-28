@@ -28,26 +28,17 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = ({ydoc}) => {
+const ProviderFlow = () => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
   // Get yjs lib and create a reference to it
   const ydoc = React.useRef(null);
+  const awareness = React.useRef(null);
 
   // Get a state array for React Flow's elements array.
   // We'll use this to update React Flow from Yjs
   const [elements, setElements] = React.useState([]);
-
-  // A Reference to the currently dragging node ID
-  const nodeDraggingRef = React.useRef(null);
-  // A Reference to the currently dragging React Flow node's drag listener
-  const onDragRef = React.useRef((event) =>
-    // onDrag, update the yDoc with the node's current pixel space coords projected into project coords
-    ydoc.current
-      .getMap('node-' + nodeDraggingRef.current)
-      .set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }))
-  );
 
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
@@ -56,46 +47,85 @@ const ProviderFlow = ({ydoc}) => {
     reactFlowRef.current = reactFlowInstance;
   };
 
+  const setObserver = (node) => {
+    node.observe((event, transaction) => {
+      if (event.keysChanged.has("position")) {
+        setElements((elements) =>
+          elements.map((element) => {
+            if (element.id === event.currentTarget.get("id")) {
+              return {
+                ...element,
+                position: event.currentTarget.get("position"),
+              };
+            }
+            return element;
+          })
+        );
+      }
+    });
+  }
+
   React.useEffect(() => {
     ydoc.current = new Y.Doc({ guid: doc_id });
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
-    new WebsocketProvider(`ws://143.110.233.19/example`, doc_id, ydoc.current);
+    const wsProvider = new WebsocketProvider(`ws://143.110.233.19/example`, doc_id, ydoc.current);
+
 
     const elementsYjs = ydoc.current.getArray('elements');
 
-    if (elementsYjs.toArray().length === 0) {
-      initialElements.forEach((element, index) => {
-        const node = ydoc.current.getMap('node-' + element.id);
-        for (let [k, v] of Object.entries(element)) {
-          node.set(k, v);
-          node.observe((event, transaction) => {
-            if (event.keysChanged.has('position')) {
-              setElements((elements) =>
-                elements.map((element) => {
-                  if (element.id === event.currentTarget.get('id')) {
-                    return {
-                      ...element,
-                      position: event.currentTarget.get('position'),
-                    };
-                  }
-                  return element;
-                })
-              );
-            }
-          });
-        }
-        elementsYjs.insert(index, [element]);
-      });
+    wsProvider.on('sync', (isSynced) => {
+      console.log(`wsProvider-- isSynced: ${isSynced}`)
+      console.log('Listing elements', elementsYjs.toArray());
 
-      elementsYjs.observe((event, transaction) => {});
+      if (elementsYjs.toArray().length === 0) {
+        console.log(`empty array-- loading initial elements`);
+        initialElements.forEach((element, index) => {
+          const node = ydoc.current.getMap('node-' + element.id);
+          for (let [k, v] of Object.entries(element)) {
+            node.set(k, v);
+          }
+
+          //
+          setObserver(node);
+          elementsYjs.insert(index, [node]);
+        });
+        setElements(elementsYjs.toArray());
+      } else {
+        const elementsYjsUpdate = elementsYjs.toArray();
+
+        //TODO-- This has to actually change the elements array!
+        elementsYjs.map((elm, i) => {
+          const node = ydoc.current.getMap('node-' + elm.id);
+          setObserver(node);
+          //console.log(`${'node-' + elm.id} position: `, node.get("position"))
+          return {
+            ...elm,
+            position: node.get("position"),
+          }
+        });
+
+        setElements(elementsYjsUpdate);
+      }
+
+
+    });
+
+    //
+/*     elementsYjs.observe((event, transaction) => {
       setElements(elementsYjs.toArray());
-    }
+      console.log('Elements Observer fired:', elementsYjs.toArray());
+    }); */
+
+    // Set the elements array to empty while loading elements from server
+    setElements([]);
+
   }, [doc_id]);
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
-    ydoc.current.getMap('node-' + node.id).set('position', { x: node.position.x, y: node.position.y });
+    //console.log(`OnNodeDrag: `, node)
+    ydoc.current.getMap('node-' + node.id).set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }));
   };
 
   // Called when element deleted
