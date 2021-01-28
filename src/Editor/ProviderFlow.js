@@ -185,7 +185,7 @@ const ProviderFlow = () => {
             onNodeDrag={onNodeDrag}
             nodeTypes={nodeTypes}
             snapToGrid={true}
-            snapGrid={[10, 10]}
+            snapGrid={[5, 5]}
             connectionMode="loose"
             connectionLineType="smoothstep"
             multiSelectionKeyCode="Control"
