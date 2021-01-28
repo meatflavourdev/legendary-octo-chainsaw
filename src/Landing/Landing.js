@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   heroText: {
     padding: '0.25em',
   },
+  heroDescription: {
+    maxWidth: '65em',
+  },
   heroButtons: {
     padding: '0.5em',
   },
@@ -159,8 +162,8 @@ const footers = [
   {
     title: 'Nik Sofianos',
     description: [
-      { text: 'Twitter', href: '#' },
-      { text: 'Linkedin', href: '#' },
+      { text: 'Twitter', href: '' },
+      { text: 'Linkedin', href: 'mailto:sofianos.n@outlook.com' },
       { text: 'Portfolio', href: '#' },
       { text: 'Email', href: '#' }],
   },
@@ -339,9 +342,13 @@ export default function Landing() {
           >
             Communicate visually
           </Typography>
+          </Container>
+          <Container className={classes.heroDescription}>
+          <Typography className={classes.heroText} variant="h4" align="center" color="textSecondary" paragraph>
+            Your design process needs real-time collaboration.
+          </Typography>
           <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
-            Something short and leading about the collection below—its contents, the creator, etc. Make it short and
-            sweet, but not too short so folks don&apos;t simply skip over it entirely.
+          Entropy enables users to create flow diagrams &amp; communicate visually in real-time. Powered by React and Websockets.
           </Typography>
           <HeroButtonsAuth />
           <HeroButtonsNoAuth />
