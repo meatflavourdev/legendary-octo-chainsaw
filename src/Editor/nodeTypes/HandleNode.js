@@ -15,7 +15,7 @@ export default function HandleNode({ data }) {
             type="source"
             className='react-flow__handle-handlenode'
             position="top"
-            onConnect={(params) => console.log('handle onConnect', params)}
+            //onConnect={(params) => console.log('handle onConnect', params)}
             id='a'
           />
         </div>
