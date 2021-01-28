@@ -13,15 +13,28 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: theme.spacing(1),
+    width: '95%'
   },
+  textfield: {
+    width:'95%'
+  },
+  chatForm: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    bottom: '15px'
+
+  }
 }));
 
 export default function BasicTextFields() {
   const classes = useStyles();
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="outlined-basic" label="Got something to say?" variant="outlined" />
+    <form className={classes.chatForm} noValidate autoComplete="off">
+      <TextField className={classes.textfield} id="outlined-basic" label="Got something to say?" variant="outlined" />
       <Button
         variant="contained"
         color="primary"

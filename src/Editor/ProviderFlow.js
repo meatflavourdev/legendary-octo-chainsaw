@@ -31,7 +31,6 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-
 const ProviderFlow = () => {
   // Get doc_id from router
   let { doc_id } = useParams();

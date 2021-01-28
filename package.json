@@ -18,6 +18,7 @@
     "firebase": "^8.2.3",
     "firestore-export-import": "^0.9.0",
     "logrocket": "^1.0.14",
+    "project-name-generator": "^2.1.9",
     "random-animal-name": "^0.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
