@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background } from 'react-flow-renderer';
+import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background, updateEdge } from 'react-flow-renderer';
 import './provider.css';
 import EditorToolbar from './EditorToolbar';
 import AttributeToolbar from './AttributeToolbar';
@@ -47,30 +47,11 @@ const ProviderFlow = () => {
     reactFlowRef.current = reactFlowInstance;
   };
 
-  const setObserver = (node) => {
-    node.observe((event, transaction) => {
-      if (event.keysChanged.has("position")) {
-        setElements((elements) =>
-          elements.map((element) => {
-            if (element.id === event.currentTarget.get("id")) {
-              return {
-                ...element,
-                position: event.currentTarget.get("position"),
-              };
-            }
-            return element;
-          })
-        );
-      }
-    });
-  }
-
   React.useEffect(() => {
     ydoc.current = new Y.Doc({ guid: doc_id });
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
     const wsProvider = new WebsocketProvider(`ws://143.110.233.19/example`, doc_id, ydoc.current);
-
 
     const elementsYjs = ydoc.current.getArray('elements');
 
@@ -85,46 +66,24 @@ const ProviderFlow = () => {
           for (let [k, v] of Object.entries(element)) {
             node.set(k, v);
           }
-
-          //setObserver(node);
           elementsYjs.insert(index, [node]);
         });
         console.log('Filled Array: ', elementsYjs.toJSON())
         setElements(elementsYjs.toJSON());
       } else {
         setElements(elementsYjs.toJSON());
-        //const elementsYjsUpdate = elementsYjs.toArray();
-
-        //TODO-- This has to actually change the elements array!
-/*         elementsYjs.map((elm, i) => {
-          const node = ydoc.current.getMap('node-' + elm.id);
-          setObserver(node);
-          return {
-            ...elm,
-            position: node.get("position"),
-          }
-        });
-
-        setElements(elementsYjsUpdate); */
       }
     });
-
     // Update state on changes to Yjs elements Array
-    elementsYjs.observeDeep((event, transaction) => {
+    elementsYjs.observeDeep(() => {
       setElements(elementsYjs.toJSON());
-      console.log('Elements Observer fired:', elementsYjs.toJSON());
     });
-
     // Set the elements array to empty while loading elements from server
     setElements([]);
-
   }, [doc_id]);
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
-    //console.log(`OnNodeDrag: `, node)
-    //ydoc.current.getMap('node-' + node.id).set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }));
-
     for (const elmMap of ydoc.current.getArray('elements')) {
       if (elmMap.get('id') === node.id) {
         elmMap.set('position', reactFlowRef.current.project({ x: event.clientX, y: event.clientY }));
@@ -134,10 +93,24 @@ const ProviderFlow = () => {
   };
 
   // Called when element deleted
-  const onElementsRemove = (elementsToRemove) => setElements((els) => removeElements(elementsToRemove, els));
+  const onElementsRemove = (elementsToRemove) => {
+    const elementsYjs = ydoc.current.getArray('elements');
+    for (const elm of elementsToRemove) {
+      for (const [i, elmMap] of ydoc.current.getArray('elements').toArray().entries()) {
+        if (elmMap.get('id') === elm.id) {
+          console.log(`Deleted node id: '${elm.id}' at elementsYjs[${i}]`)
+         elementsYjs.delete(i, 1);
+         break;
+       }
+     }
+    }
+    console.log(elementsToRemove)
+  };
 
   // Called when new edge connected
   const onConnect = (params) => setElements((els) => addEdge({ type: 'smoothstep', ...params }, els));
+
+  const onEdgeUpdate = (oldEdge, newConnection) => setElements((els) => updateEdge(oldEdge, newConnection, els));
 
   //Generates an ID for each new node
   const newNodeId = () => `randomnode_${+new Date()}`;
@@ -176,6 +149,7 @@ const ProviderFlow = () => {
             onElementClick={onElementClick}
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
+            onEdgeUpdate={onEdgeUpdate}
             onLoad={onLoad}
             onNodeDrag={onNodeDrag}
             nodeTypes={nodeTypes}
@@ -183,6 +157,8 @@ const ProviderFlow = () => {
             snapGrid={[10, 10]}
             connectionMode="loose"
             connectionLineType="smoothstep"
+            multiSelectionKeyCode="Control"
+            deleteKeyCode="Delete"
           >
             <Controls />
             <AttributeToolbar setEls={setElements} />
