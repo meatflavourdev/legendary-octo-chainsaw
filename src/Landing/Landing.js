@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -16,19 +16,13 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import AppPerspective from './AppPerspective';
 import logo from '../logo.png';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Entropy Project
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Avatar } from '@material-ui/core';
+import { deepOrange } from '@material-ui/core/colors';
+import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { IfFirebaseAuthedAnd, IfFirebaseUnAuthed } from '@react-firebase/auth';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -50,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    color: '#fff',
+    backgroundColor: '#795cfc',
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -63,6 +59,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
   },
+  avatar: {
+    color: theme.palette.getContrastText('#00e676'),
+    backgroundColor: '#00e676',
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px',
+  },
   heroContent: {
     padding: theme.spacing(6, 0, 7),
   },
@@ -72,12 +73,32 @@ const useStyles = makeStyles((theme) => ({
   heroText: {
     padding: '0.25em',
   },
+  heroDescription: {
+    maxWidth: '65em',
+  },
   heroButtons: {
     padding: '0.5em',
   },
+  heroButtonXL: {
+    padding: '0.6em 2.5em',
+    fontSize: '1.25em',
+    height: '59px',
+  },
+  heroButtonGoogle: {
+    padding: '0.6em 1em',
+    fontSize: '1.25em',
+  },
+  heroButtonXXL: {
+    padding: '0.6em 2.5em',
+    fontSize: '1.5em',
+  },
+  heroGoogleIcon: {
+    margin: '0',
+    marginRight: '0.5em',
+    padding: '0',
+  },
   cardHeader: {
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
   },
   cardPricing: {
     display: 'flex',
@@ -109,24 +130,14 @@ const tiers = [
     title: 'Me',
     subheader: 'Most popular',
     price: '15',
-    description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
-    ],
+    description: ['20 users included', '10 GB of storage', 'Help center access', 'Priority email support'],
     buttonText: 'Get started',
     buttonVariant: 'contained',
   },
   {
     title: 'with Features',
     price: '30',
-    description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
-    ],
+    description: ['50 users included', '30 GB of storage', 'Help center access', 'Phone & email support'],
     buttonText: 'Contact us',
     buttonVariant: 'outlined',
   },
@@ -134,72 +145,219 @@ const tiers = [
 const footers = [
   {
     title: 'Jeremy Dombrowski',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],
+    description: [
+      { text: 'Twitter', href: 'https://twitter.com/meatflavourdev' },
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/jeremydombrowski/' },
+      { text: 'Github', href: 'https://github.com/meatflavourdev' },
+      { text: 'Portfolio', href: 'https://www.meatflavour.dev/' },
+      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' }],
   },
   {
     title: 'Nathan Mckenzie',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],  },
+    description: [
+      { text: 'Linkedin', href: 'https://www.linkedin.com/in/nathan-mckenzie-2020/' },
+      { text: 'Github', href: 'https://github.com/nathantmckenzie' },
+      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' }],
+  },
   {
     title: 'Nik Sofianos',
-    description: ['Twitter', 'Linkedin', 'Portfolio', 'Email'],  },
+    description: [
+      { text: 'Twitter', href: '' },
+      { text: 'Linkedin', href: 'mailto:sofianos.n@outlook.com' },
+      { text: 'Portfolio', href: '#' },
+      { text: 'Email', href: '#' }],
+  },
   {
     title: 'Open Source',
-    description: ['Design Docs', 'Github'],
+    description: [{text: 'Design Docs', href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b'}, {text: 'Github', href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/'}],
   },
 ];
+
+function NavButtonsNoAuth() {
+  const classes = useStyles();
+  const history = useHistory()
+
+  const googleSignin = () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/');
+      });
+  }
+
+  return (
+    <IfFirebaseUnAuthed>
+      <Button onClick={googleSignin} color="secondary" variant="outlined" className={classes.link}>
+        Sign Up
+      </Button>
+    </IfFirebaseUnAuthed>
+  );
+}
+function NavButtonsAuth(props) {
+  const classes = useStyles();
+  return (
+    <IfFirebaseAuthedAnd
+      filter={({ providerId, user }) => {
+        if (!user.email) {
+          return false;
+        }
+        return providerId !== 'anonymous';
+      }}
+    >
+      {({ isSignedIn, user, providerId }) => {
+        return (
+          <>
+            <Avatar className={classes.avatar} src={user.photoURL} />
+            <Typography variant="h6" color="inherit" noWrap className={classes.link}>
+              {user.displayName}
+            </Typography>
+            <Button onClick={props.handleLogout} color="secondary" variant="outlined" className={classes.link}>
+              Sign Out
+            </Button>
+          </>
+        );
+      }}
+    </IfFirebaseAuthedAnd>
+  );
+}
+function HeroButtonsAuth() {
+  const classes = useStyles();
+  return (
+    <IfFirebaseAuthedAnd
+      filter={({ providerId, user }) => {
+        if (!user.email) {
+          return false;
+        }
+        return providerId !== 'anonymous';
+      }}
+    >
+      {({ isSignedIn, user, providerId }) => {
+        return (
+          <div className={classes.heroButtons}>
+            <Grid container spacing={2} justify="center">
+              <Grid item>
+                <Button
+                  href="/editor"
+                  variant="contained"
+                  className={classes.heroButtonXXL}
+                  size="large"
+                  color="primary"
+                >
+                  Check it out!
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }}
+    </IfFirebaseAuthedAnd>
+  );
+}
+function HeroButtonsNoAuth() {
+  const classes = useStyles();
+  const history = useHistory()
+
+  const googleSignin = () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/');
+      });
+  }
+
+  return (
+    <IfFirebaseUnAuthed>
+      <div className={classes.heroButtons}>
+        <Grid container spacing={2} justify="center">
+          <Grid item>
+            <Button className={classes.heroButtonGoogle} onClick={googleSignin} variant="contained" size="large" color="primary">
+              <img className={classes.heroGoogleIcon} src="/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
+              Sign In with Google
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
+    </IfFirebaseUnAuthed>
+  );
+}
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Legendary Octo Chainsaw
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function Landing() {
   const classes = useStyles();
 
+  const [error, setError] = useState('');
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
+
+  async function handleLogout() {
+    setError('');
+
+    try {
+      await logout();
+      history.push('/');
+    } catch {
+      setError('Failed to log out');
+    }
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+      <AppBar position="static" color="default" elevation={4} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Entropy
           </Typography>
-
-          <Button href="#" color="primary" variant="contained" className={classes.link}>
-            Sign In
-          </Button>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}>
-            Sign Up
-          </Button>
+          <NavButtonsAuth handleLogout={handleLogout} />
+          <NavButtonsNoAuth />
         </Toolbar>
       </AppBar>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="md">
-          <Typography className={classes.heroTitle} component="h1" variant="h2" align="center" color="textPrimary"  gutterBottom>
-              Communicate visually
-            </Typography>
-            <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" size="large" color="primary">
-                    Sign Up with Google
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" size="large" color="primary">
-                    Sign Up with Email
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
+      {/* Hero unit */}
+      <div className={classes.heroContent}>
+        <Container maxWidth="md">
+          <Typography
+            className={classes.heroTitle}
+            component="h1"
+            variant="h2"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Communicate visually
+          </Typography>
           </Container>
-        </div>
+          <Container className={classes.heroDescription}>
+          <Typography className={classes.heroText} variant="h4" align="center" color="textSecondary" paragraph>
+            Your design process needs real-time collaboration.
+          </Typography>
+          <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
+          Entropy enables users to create flow diagrams &amp; communicate visually in real-time. Powered by React and Websockets.
+          </Typography>
+          <HeroButtonsAuth />
+          <HeroButtonsNoAuth />
+        </Container>
+      </div>
       {/* End hero unit */}
       {/* Screenshot */}
       <Container>
-        <Box className={classes.appBox} boxShadow={10}>
+        <Box className={classes.appBox} boxShadow={15}>
           <img className={classes.appShot} src="./landing/browserframe_01.png" alt="App Screenshot" />
         </Box>
       </Container>
@@ -214,9 +372,9 @@ export default function Landing() {
               </Typography>
               <ul>
                 {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
+                  <li key={item.href}>
+                    <Link href={item.href} variant="subtitle1" color="textSecondary">
+                      {item.text}
                     </Link>
                   </li>
                 ))}

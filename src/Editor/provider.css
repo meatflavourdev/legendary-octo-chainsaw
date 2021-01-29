@@ -1,10 +1,10 @@
 .providerflow {
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
 .reactflow-wrapper {
-  height: 100%;
+  height: 100vh;
   width: 100%;
 }
 
@@ -41,8 +41,9 @@
 }
 
 .react-flow__edge-path {
-  stroke-width: 2;
-  stroke: #595A66;
+  stroke-width: 2 !important;
+  stroke: #595A66 !important;
+  z-index: 1000;;
 }
 
 .react-flow__node-default .react-flow__handle {

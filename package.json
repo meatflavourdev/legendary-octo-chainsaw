@@ -7,23 +7,28 @@
     "@emotion/styled": "latest",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@react-firebase/auth": "^0.2.10",
     "@react-firebase/firestore": "^0.5.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.10.3",
+    "classnames": "^2.2.6",
     "firebase": "^8.2.3",
     "firestore-export-import": "^0.9.0",
     "logrocket": "^1.0.14",
+    "project-name-generator": "^2.1.9",
+    "random-animal-name": "^0.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "react-firebase-hooks": "^2.2.0",
-    "react-flow-renderer": "^8.3.7",
+    "react-flow-renderer": "^8.7.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "styled-components": "^5.2.1",
+    "uuid62": "^1.0.1",
     "web-vitals": "^0.2.4",
     "y-websocket": "^1.3.9",
     "yjs": "^13.4.12"
@@ -32,7 +37,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build && echo ‘/* /index.html 200’ | cat >build/_redirects",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "y-websocket-server": "PORT=5001 y-websocket-server"
   },
   "eslintConfig": {
     "extends": [
@@ -51,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^5.5.0"
   }
 }

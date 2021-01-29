@@ -1,0 +1,243 @@
+
+.node-shapenode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  width: 120px;
+  height: 80px;
+  font-size: 12px;
+  color: #222;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.shapeTerminator {
+  width: 100px;
+  height: 40px;
+  border-radius: 50px;
+}
+.shapeDecision {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+.shapenode-text {
+  width: 100%;
+  overflow: hidden;
+}
+
+.node-handlenode {
+  width:40px;
+  height:40px;
+  border-radius: 100%;
+  background-color: rgba(0,0,255,0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.node-screenblocknode {
+  font-size: 12px;
+  color: #222;
+  text-align: center;
+  border-radius: 8px;
+  width: 140px;
+  height:130px;
+  box-shadow: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.node-annotationnode {
+  width: 30px;
+  height: 30px;
+  z-index: 1000;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.react-flow__node.selected:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  z-index: -1;
+  border: 2px dashed rgb(54 133 255 / 47%);
+  border-radius: 3px;
+  background-color: #59bdff17;
+}
+
+.react-flow__selection {
+  background-color: #59bdff17;
+  border: 2px dashed rgb(54 133 255 / 47%);
+  border-radius: 3px;
+}
+
+.react-flow__nodesselection-rect {
+  display: none;
+}
+
+.shapeDecision.selected:before {
+  border-radius: 100%;
+}
+
+.react-flow__edge.selected {
+  stroke-dasharray: 5 !important;
+  /* -webkit-animation: dashdraw .5s linear infinite; */
+  animation: dashdraw .5s linear infinite !important;
+}
+
+.react-flow__handle-shapenode, .react-flow__handle-handlenode {
+  background: #FFF !important;
+  padding: 2.5px !important;
+  border: solid 2px #595A66 !important;
+}
+
+.react-flow__handle-handlenode {
+  top: 16px !important;
+}
+
+.react-flow__handle-screenblocknode {
+  background: #FFF !important;
+  padding: 2.5px !important;
+  border: solid 2px #595A66 !important;
+}
+
+.dark.filled {
+  /* /dark-filled-fill */
+  background: #2D3A49;
+  /* dark-filled-text */
+  color: #FFFFFF;
+  border: 0;
+}
+.light.filled {
+  /* light-filled-fill */
+  background: #EAEAEA;
+  /* light-filled-text */
+  color: #757575;
+  border: 0;
+}
+.red.filled {
+  /* red-filled-fill */
+  background: #FF426E;
+  /* red-filled-text */
+  color: #FFFFFF;
+  border: 0;
+}
+.green.filled {
+  /* green-filled-fill */
+  background: #50EBC5;
+  /* green-filled-text */
+  color: #FFFFFF;
+  border: 0;
+}
+.blue.filled {
+  /* blue-filled-fill */
+  background: #4B95FE;
+  /* blue-filled-text */
+  color: #FFFFFF;
+  border: 0;
+}
+.purple.filled {
+  /* purple-filled-fill */
+  background: #785FFF;
+  /* purple-filled-text */
+  color: #FFFFFF;
+  border: 0;
+}
+
+/* --------------------------------------- */
+.dark.outlined {
+  /* dark-outline-fill */
+  background: #8B96A3;
+  border: 2px solid #2D3A49;
+  /* dark-outline-text */
+  color: #333C46;
+}
+
+.light.outlined {
+  /* light-outline-fill */
+  background: #EAEAEA;
+  border: 2px solid rgba(45, 58, 73, 0.46);
+  /* light-outline-text */
+  color: #757575;
+}
+.red.outlined {
+  /* red-outline-fill */
+  background: #FFB0C3;
+  border: 2px solid #E85779;
+  /* red-outline-text */
+  color: #CB3659;
+}
+.green.outlined {
+  /* green-outline-fill */
+  background: #BCFCEC;
+  border: 2px solid #2DAE8E;
+  /* green-outline-text */
+  color: #2A8871;
+}
+.blue.outlined {
+  /* blue-outline-fill */
+  background: #B1D0FC;
+  border: 2px solid #3B7EDD;
+  /* blue-outline-text */
+  color: #336DBF;
+}
+.purple.outlined {
+  /* purple-outline-fill */
+  background: #CFC6FF;
+  border: 2px solid #745EE7;
+  /* purple-outline-text */
+  color: #6C56DE;
+}
+
+/* --------------------------------------- */
+.dark.dashed {
+  /* dark-outline-fill */
+  background: #8B96A3;
+  border: 2px dashed #2D3A49;
+  /* dark-outline-text */
+  color: #333C46;
+}
+.light.dashed {
+  /* light-outline-fill */
+  background: #EAEAEA;
+  border: 2px dashed rgba(45, 58, 73, 0.46);
+  /* light-outline-text */
+  color: #757575;
+}
+.red.dashed {
+  /* red-outline-fill */
+  background: #FFB0C3;
+  border: 2px dashed #E85779;
+  /* red-outline-text */
+  color: #CB3659;
+}
+.green.dashed {
+  /* green-outline-fill */
+  background: #BCFCEC;
+  border: 2px dashed #2DAE8E;
+  /* green-outline-text */
+  color: #2A8871;
+}
+.blue.dashed {
+  /* blue-outline-fill */
+  background: #B1D0FC;
+  border: 2px dashed #3B7EDD;
+  /* blue-outline-text */
+  color: #336DBF;
+}
+.purple.dashed {
+  /* purple-outline-fill */
+  background: #CFC6FF;
+  border: 2px dashed #745EE7;
+  /* purple-outline-text */
+  color: #6C56DE;
+}
