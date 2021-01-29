@@ -33,6 +33,10 @@ function RouteHandler() {
       <AuthProvider>
         <Switch>
           <Route exact path="/" component={Landing} />
+          <Route exact path="/app">
+            {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
+            <EditorLayout />
+          </Route>
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/yjsflowtest" component={YjsFlowTest} />
