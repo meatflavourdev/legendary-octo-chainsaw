@@ -100,7 +100,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
       }}
     >
       <div className={classes.drawerHeaderDocs}>
-        <div className={classes.entropyLogo}>
+        <Link to='/' className={classes.entropyLogo}>
           <img
             className={classes.entropyLogoImg}
             src={logo}
@@ -115,7 +115,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
           >
             Entropy
           </Typography>
-        </div>
+        </Link>
         <IconButton onClick={handleDocsDrawerClose}>
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
@@ -129,7 +129,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
       <FirebaseAuthConsumer>
         {(authData) => {
           console.log("authData: ", authData);
-          const uid = authData.user.uid.toString();
+          const uid = authData.isSignedIn ? authData.user.uid.toString() : 0;
           return (
             <>
               <FirestoreCollection path={`/users/${uid}/docs/`}>

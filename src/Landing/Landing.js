@@ -239,7 +239,7 @@ function HeroButtonsAuth() {
             <Grid container spacing={2} justify="center">
               <Grid item>
                 <Button
-                  href="/app"
+                  href="/editor"
                   variant="contained"
                   className={classes.heroButtonXXL}
                   size="large"
