@@ -19,18 +19,6 @@ import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
-import red from '@material-ui/core/colors/red';
-import pink from '@material-ui/core/colors/pink';
-import purple from '@material-ui/core/colors/purple';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import blue from '@material-ui/core/colors/blue';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import cyan from '@material-ui/core/colors/cyan';
-import green from '@material-ui/core/colors/green';
-import lightGreen from '@material-ui/core/colors/lightGreen';
-import yellow from '@material-ui/core/colors/yellow';
-import deepOrange from '@material-ui/core/colors/deepOrange';
-
 
 const drawerWidth = 300;
 
