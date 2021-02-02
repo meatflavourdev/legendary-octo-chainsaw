@@ -31,8 +31,9 @@ import firebase from "firebase";
 import "firebase/auth";
 import { Link } from "react-router-dom";
 
+import { randomConcept } from "../../helpers/nameGenerators";
 const uuid62 = require("uuid62");
-const generate = require("project-name-generator");
+
 const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
@@ -187,7 +188,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                                   className="docsAddIconButton"
                                   onClick={() => {
                                     runMutation({
-                                      name: generate().dashed,
+                                      name: randomConcept(),
                                       url: uuid62.v4(),
                                       is_public: false,
                                       is_public_editable: false,
@@ -273,7 +274,7 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
                                   className="docsAddIconButton"
                                   onClick={() => {
                                     runMutation({
-                                      name: generate().dashed,
+                                      name: randomConcept(),
                                       url: uuid62.v4(),
                                       is_public: true,
                                       is_public_editable: false,
