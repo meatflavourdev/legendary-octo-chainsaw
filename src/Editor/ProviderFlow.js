@@ -121,7 +121,7 @@ const ProviderFlow = () => {
     } */
     for (const elmMap of ydoc.current.getArray("elements")) {
       //if (selectedIds.includes(elmMap.get('id'))) {
-      console.log(`Element type: ${typeof elmMap}`);
+      //console.log(`Element type: ${typeof elmMap}`);
       if (elmMap?.get("id") === node.id) {
         elmMap.set(
           "position",
