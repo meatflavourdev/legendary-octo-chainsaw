@@ -73,7 +73,7 @@ const ProviderFlow = () => {
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
     const wsProvider = new WebsocketProvider(
-      `wss://143.110.233.19/example`,
+      `ws://143.110.233.19/example`,
       doc_id,
       ydoc.current
     );
@@ -106,6 +106,11 @@ const ProviderFlow = () => {
     });
     // Set the elements array to empty while loading elements from server
     setElements([]);
+
+    //Cleanup the websocket connection
+    return () => {
+      wsProvider.destroy();
+    }
   }, [doc_id]);
 
   const onNodeDrag = (event, node) => {
