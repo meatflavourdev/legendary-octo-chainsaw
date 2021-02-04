@@ -103,7 +103,7 @@ export default function EditorLayout() {
   const userAvatars = [];
 
   for (const user of users) {
-  userAvatars.push(<Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
+  userAvatars.push(<Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
   }
 
   return (
