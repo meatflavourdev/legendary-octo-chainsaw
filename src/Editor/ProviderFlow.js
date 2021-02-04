@@ -197,8 +197,6 @@ const ProviderFlow = () => {
   };
 
   return (
-    <div className="providerflow">
-      <ReactFlowProvider>
         <div className="reactflow-wrapper">
           <ReactFlow
             elements={elements}
@@ -221,8 +219,6 @@ const ProviderFlow = () => {
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
         </div>
-      </ReactFlowProvider>
-    </div>
   );
 };
 
