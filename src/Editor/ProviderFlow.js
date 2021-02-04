@@ -4,6 +4,7 @@ import ReactFlow, {
   Controls,
   Background,
   isNode,
+  useStoreState,
 } from "react-flow-renderer";
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
@@ -120,12 +121,18 @@ const ProviderFlow = () => {
     console.log('Selection Change: ', selectedNodeIDs);
   }, [selectedNodeIDs])
 
+  const nodes = useStoreState((state) => state.nodes);
+
   const onNodeDrag = (event, node) => {
+    //const currentElements = reactFlowRef.current.getElements();
     for (const elmMap of ydoc.current.getArray("elements")) {
-      if (selectedNodeIDs.includes(elmMap?.get("id"))) {
+      const currentElementID = elmMap?.get("id");
+      if (selectedNodeIDs.includes(currentElementID)) {
+        const thisNode = nodes.find(elm => elm.id === currentElementID)
+        console.log(`update ID: ${thisNode.id} position{x: ${thisNode.__rf.position.x}, y: ${thisNode.__rf.position.y}}`, thisNode);
         elmMap.set(
           "position",
-          node.position
+          thisNode.__rf.position
         );
       }
     }
