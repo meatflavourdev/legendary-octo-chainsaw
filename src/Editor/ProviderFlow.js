@@ -106,6 +106,11 @@ const ProviderFlow = () => {
     });
     // Set the elements array to empty while loading elements from server
     setElements([]);
+
+    //Cleanup the websocket connection
+    return () => {
+      wsProvider.destroy();
+    }
   }, [doc_id]);
 
   const onNodeDrag = (event, node) => {
