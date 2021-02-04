@@ -73,7 +73,7 @@ const ProviderFlow = () => {
     console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
 
     const wsProvider = new WebsocketProvider(
-      `ws://143.110.233.19/example`,
+      `wss://143.110.233.19/example`,
       doc_id,
       ydoc.current
     );
