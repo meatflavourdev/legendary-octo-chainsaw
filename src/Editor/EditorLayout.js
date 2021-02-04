@@ -19,6 +19,7 @@ import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
+import { ReactFlowProvider } from 'react-flow-renderer';
 
 const drawerWidth = 300;
 
@@ -143,7 +144,11 @@ export default function EditorLayout() {
         </Toolbar>
       </AppBar>
       <DrawerDocs openDocs={openDocs} handleDocsDrawerClose={handleDocsDrawerClose} />
-      <ProviderFlow />
+        <div className="providerflow">
+          <ReactFlowProvider>
+            <ProviderFlow />
+          </ReactFlowProvider>
+        </div>
       <DrawerChat openChat={openChat} />
     </div>
   );
