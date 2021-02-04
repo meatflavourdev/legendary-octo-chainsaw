@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactFlow, {
   addEdge,
   Controls,
   Background,
+  isNode,
 } from "react-flow-renderer";
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
@@ -107,19 +108,24 @@ const ProviderFlow = () => {
     }
   }, [doc_id]);
 
+  const [selectedNodeIDs, setSelectedNodeIDs] = useState([]);
+  const onSelectionChange = (elements) => {
+    const nodeIDs = !elements ? [] : elements.reduce((acc, elm) => {
+      if (isNode(elm)) acc.push(elm.id);
+      return acc;
+    }, []);
+    setSelectedNodeIDs(nodeIDs);
+  };
+  React.useEffect(() => {
+    console.log('Selection Change: ', selectedNodeIDs);
+  }, [selectedNodeIDs])
+
   const onNodeDrag = (event, node) => {
-    // onDrag, update the yDoc with the node's current position
-    /*     const selectedIds = [];
-    for (const elm of selectedElements) {
-      selectedIds.push(elm.id);
-    } */
     for (const elmMap of ydoc.current.getArray("elements")) {
-      //if (selectedIds.includes(elmMap.get('id'))) {
-      //console.log(`Element type: ${typeof elmMap}`);
-      if (elmMap?.get("id") === node.id) {
+      if (selectedNodeIDs.includes(elmMap?.get("id"))) {
         elmMap.set(
           "position",
-          reactFlowRef.current.project({ x: event.clientX, y: event.clientY })
+          node.position
         );
       }
     }
@@ -186,7 +192,7 @@ const ProviderFlow = () => {
 
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
-    console.log("click", element);
+    //console.log("click", element);
   };
 
   return (
@@ -199,6 +205,7 @@ const ProviderFlow = () => {
             onEdgeUpdate={onEdgeUpdate}
             onLoad={onLoad}
             onNodeDrag={onNodeDrag}
+            onSelectionChange={onSelectionChange}
             nodeTypes={nodeTypes}
             snapToGrid={true}
             snapGrid={[5, 5]}
