@@ -1,12 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import ReactFlow, {
-  ReactFlowProvider,
   addEdge,
-  removeElements,
   Controls,
   Background,
-  updateEdge,
-  useStoreState,
 } from "react-flow-renderer";
 import "./provider.css";
 import EditorToolbar from "./EditorToolbar";
@@ -28,8 +24,8 @@ import { useParams } from "react-router-dom";
 const uuid62 = require("uuid62");
 
 //Environment variables
-const host = process.env.REACT_APP_YYHOST || "localhost";
-const port = process.env.REACT_APP_YYPORT || 5001;
+//const host = process.env.REACT_APP_YYHOST || "localhost";
+//const port = process.env.REACT_APP_YYPORT || 5001;
 
 //Custom node types go here
 const nodeTypes = {
@@ -48,7 +44,7 @@ const ProviderFlow = () => {
 
   // Get yjs lib and create a reference to it
   const ydoc = React.useRef(null);
-  const awareness = React.useRef(null);
+  //const awareness = React.useRef(null);
 
   // Get a state array for React Flow's elements array.
   // We'll use this to update React Flow from Yjs
@@ -66,7 +62,6 @@ const ProviderFlow = () => {
 
   //Generates an ID for each new node
   const newNodeId = () => `node_${uuid62.v4()}`;
-  const newEdgeId = () => `edge_${uuid62.v4()}`;
 
   React.useEffect(() => {
     ydoc.current = new Y.Doc({ guid: doc_id });
@@ -81,8 +76,7 @@ const ProviderFlow = () => {
     const elementsYjs = ydoc.current.getArray("elements");
 
     wsProvider.on("sync", (isSynced) => {
-      console.log(`wsProvider-- isSynced: ${isSynced}`);
-      console.log("Listing elements", elementsYjs.toJSON());
+      console.log(`wsProvider isSynced: ${isSynced}`);
 
       if (elementsYjs.toArray().length === 0) {
         console.log(`empty array-- loading initial elements`);
@@ -177,7 +171,6 @@ const ProviderFlow = () => {
       y: height * 0.75,
     });
     const newNode = {
-      type,
       id: newNodeId(),
       key: newNodeId(),
       type,
