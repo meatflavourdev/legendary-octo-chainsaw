@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -173,29 +173,19 @@ const footers = [
   },
 ];
 
-function NavButtonsNoAuth() {
+function NavButtonsNoAuth({googleSignin}) {
   const classes = useStyles();
-  const history = useHistory()
-
-  const googleSignin = () => {
-    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(googleAuthProvider)
-      .then(() => {
-        history.push('/');
-      });
-  }
 
   return (
     <IfFirebaseUnAuthed>
-      <Button onClick={googleSignin} color="secondary" variant="outlined" className={classes.link}>
+      <Button onClick={googleSignin} color="secondary" variant="contained" className={classes.link}>
         Sign Up
       </Button>
     </IfFirebaseUnAuthed>
   );
 }
-function NavButtonsAuth(props) {
+
+function NavButtonsAuth({handleLogout}) {
   const classes = useStyles();
   return (
     <IfFirebaseAuthedAnd
@@ -213,7 +203,7 @@ function NavButtonsAuth(props) {
             <Typography variant="h6" color="inherit" noWrap className={classes.link}>
               {user.displayName}
             </Typography>
-            <Button onClick={props.handleLogout} color="secondary" variant="outlined" className={classes.link}>
+            <Button onClick={handleLogout} color="secondary" variant="contained" className={classes.link}>
               Sign Out
             </Button>
           </>
@@ -222,8 +212,9 @@ function NavButtonsAuth(props) {
     </IfFirebaseAuthedAnd>
   );
 }
-function HeroButtonsAuth() {
+function HeroButtonsAuth({handleAppClick}) {
   const classes = useStyles();
+
   return (
     <IfFirebaseAuthedAnd
       filter={({ providerId, user }) => {
@@ -239,7 +230,7 @@ function HeroButtonsAuth() {
             <Grid container spacing={2} justify="center">
               <Grid item>
                 <Button
-                  href="/editor"
+                  onClick={handleAppClick}
                   variant="contained"
                   className={classes.heroButtonXXL}
                   size="large"
@@ -255,19 +246,9 @@ function HeroButtonsAuth() {
     </IfFirebaseAuthedAnd>
   );
 }
-function HeroButtonsNoAuth() {
-  const classes = useStyles();
-  const history = useHistory()
 
-  const googleSignin = () => {
-    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(googleAuthProvider)
-      .then(() => {
-        history.push('/');
-      });
-  }
+function HeroButtonsNoAuth({googleSignin}) {
+  const classes = useStyles();
 
   return (
     <IfFirebaseUnAuthed>
@@ -307,7 +288,6 @@ export default function Landing() {
 
   async function handleLogout() {
     setError('');
-
     try {
       await logout();
       history.push('/');
@@ -315,6 +295,19 @@ export default function Landing() {
       setError('Failed to log out');
     }
   }
+
+  const googleSignin = () => {
+    console.log('Google Signin Activated');
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider)
+      .then(() => {
+        history.push('/');
+      });
+  }
+
+  const handleAppClick = useCallback(() => history.push('/app'), [history]);
 
   return (
     <React.Fragment>
@@ -326,7 +319,7 @@ export default function Landing() {
             Entropy
           </Typography>
           <NavButtonsAuth handleLogout={handleLogout} />
-          <NavButtonsNoAuth />
+          <NavButtonsNoAuth googleSignin={googleSignin} />
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
@@ -350,8 +343,8 @@ export default function Landing() {
           <Typography className={classes.heroText} variant="h5" align="center" color="textSecondary" paragraph>
           Entropy enables users to create flow diagrams &amp; communicate visually in real-time. Powered by React and Websockets.
           </Typography>
-          <HeroButtonsAuth />
-          <HeroButtonsNoAuth />
+          <HeroButtonsAuth handleAppClick={handleAppClick} />
+          <HeroButtonsNoAuth googleSignin={googleSignin} />
         </Container>
       </div>
       {/* End hero unit */}
