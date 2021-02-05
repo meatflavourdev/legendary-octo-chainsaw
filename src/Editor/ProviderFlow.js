@@ -23,10 +23,6 @@ import { useParams } from "react-router-dom";
 
 const uuid62 = require("uuid62");
 
-//Environment variables
-//const host = process.env.REACT_APP_YYHOST || "localhost";
-//const port = process.env.REACT_APP_YYPORT || 5001;
-
 //Custom node types go here
 const nodeTypes = {
   ShapeNode,
@@ -63,13 +59,21 @@ const ProviderFlow = () => {
   //Generates an ID for each new node
   const newNodeId = () => `node_${uuid62.v4()}`;
 
-  React.useEffect(() => {
-    ydoc.current = new Y.Doc({ guid: doc_id });
-    console.log(`Loaded Y.Doc ID: ${doc_id}`, ydoc.current);
+  //Environment variables
+  const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";
+  const wsHost = process.env.REACT_APP_WSHOST || "localhost";
+  const wsPort = process.env.REACT_APP_WSPORT || 5001;
+  const wsServerUrl = `${wsProtocol}://${wsHost}${wsPort === 80 ? '' : ':' + wsPort}`;
+  const wsRoomname = doc_id;
 
+  React.useEffect(() => {
+    console.log(`Loading Y.Doc: ${doc_id}`);
+    ydoc.current = new Y.Doc({ guid: doc_id });
+
+    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
     const wsProvider = new WebsocketProvider(
-      `ws://143.110.233.19/example`,
-      doc_id,
+      wsServerUrl,
+      wsRoomname,
       ydoc.current
     );
 
