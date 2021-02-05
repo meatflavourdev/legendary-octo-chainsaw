@@ -123,7 +123,7 @@ const ProviderFlow = () => {
       if (elmMap?.get("id") === node.id) {
         elmMap.set(
           "position",
-          reactFlowRef.current.project({ x: event.clientX, y: event.clientY })
+          node.position
         );
       }
     }
