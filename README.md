@@ -1,7 +1,7 @@
 # Entropy
 A real-time collaborative diagram editor using WebSockets and React. Entropy enables users to communicate visually in real-time.
 
-## ![entropy-social01](./entropy-social01.png)
+## ![entropy-social01](./public/img/entropy-social-01.png)
 
 ## Getting started
 
