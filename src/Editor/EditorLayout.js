@@ -1,25 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import clsx from 'clsx';
 import { users } from './users.js';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChatIcon from '@material-ui/icons/Chat';
-import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
 import Avatar from '@material-ui/core/Avatar';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import ProfileMenu from '../components/ProfileMenu';
-import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
+import EditorAppBar from './components/EditorAppBar.js';
 
 const drawerWidth = 300;
 
@@ -55,28 +44,12 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
-  flowContainer: {
-    width: '100vw',
-    height: '100vh',
-    flexGrow: 1,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
   avatarGroup: {
     marginRight: '10px',
   },
   userAvatar: {
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-  }
+  },
 }));
 
 export default function EditorLayout() {
@@ -85,7 +58,6 @@ export default function EditorLayout() {
 
   const [auth, setAuth] = React.useState(true);
   const classes = useStyles();
-  const theme = useTheme();
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
@@ -104,51 +76,27 @@ export default function EditorLayout() {
   const userAvatars = [];
 
   for (const user of users) {
-  userAvatars.push(<Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
+    userAvatars.push(
+      <Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
+    );
   }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        elevation={3}
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: openDocs,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDocsDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, openDocs && classes.hide)}
-          >
-            <MenuIcon style={{ fontSize: 30 }}/>
-          </IconButton>
-          <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 35 }}/>
-          <Typography className={classes.docTitle} variant="h6">
-            { doc_id }
-          </Typography>
-          <AvatarGroup className={classes.avatarGroup} max={10} spacing="25">
-            {userAvatars}
-          </AvatarGroup>
-          <IconButton onClick={handleChatDrawerToggle} color="inherit" >
-            <Badge badgeContent={4} color="secondary">
-              <ChatIcon style={{ fontSize: 26 }}/>
-            </Badge>
-          </IconButton>
-          {auth && <ShareMenu />}
-          <ProfileMenu />
-        </Toolbar>
-      </AppBar>
+      <EditorAppBar
+        docName={doc_id}
+        auth={auth}
+        openDocs={openDocs}
+        handleDocsDrawerOpen={handleDocsDrawerOpen}
+        handleChatDrawerToggle={handleChatDrawerToggle}
+        userAvatars={userAvatars}
+        drawerWidth={drawerWidth}
+      />
       <DrawerDocs openDocs={openDocs} handleDocsDrawerClose={handleDocsDrawerClose} />
-        <div className="providerflow">
-          <ReactFlowProvider>
-            <ProviderFlow />
-          </ReactFlowProvider>
-        </div>
+        <ReactFlowProvider>
+          <ProviderFlow />
+        </ReactFlowProvider>
       <DrawerChat openChat={openChat} />
     </div>
   );
