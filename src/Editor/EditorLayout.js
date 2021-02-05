@@ -19,6 +19,7 @@ import ShareMenu from '../components/ShareMenu';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/DrawerDocs';
 import DrawerChat from './components/DrawerChat';
+import { ReactFlowProvider } from 'react-flow-renderer';
 
 const drawerWidth = 300;
 
@@ -103,7 +104,7 @@ export default function EditorLayout() {
   const userAvatars = [];
 
   for (const user of users) {
-  userAvatars.push(<Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
+  userAvatars.push(<Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>)
   }
 
   return (
@@ -143,7 +144,11 @@ export default function EditorLayout() {
         </Toolbar>
       </AppBar>
       <DrawerDocs openDocs={openDocs} handleDocsDrawerClose={handleDocsDrawerClose} />
-      <ProviderFlow />
+        <div className="providerflow">
+          <ReactFlowProvider>
+            <ProviderFlow />
+          </ReactFlowProvider>
+        </div>
       <DrawerChat openChat={openChat} />
     </div>
   );
