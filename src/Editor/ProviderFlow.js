@@ -63,7 +63,7 @@ const ProviderFlow = () => {
   const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";
   const wsHost = process.env.REACT_APP_WSHOST || "localhost";
   const wsPort = process.env.REACT_APP_WSPORT || 5001;
-  const wsServerUrl = `${wsProtocol}://${wsHost}${wsPort === 80 ? '' : ':' + wsPort}`;
+  const wsServerUrl = `${wsProtocol}://${wsHost}${wsPort == 80 ? '' : ':' + wsPort}`;
   const wsRoomname = doc_id;
 
   React.useEffect(() => {
