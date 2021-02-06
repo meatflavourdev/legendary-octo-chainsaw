@@ -162,10 +162,8 @@ const footers = [
   {
     title: 'Nik Sofianos',
     description: [
-      { text: 'Twitter', href: '' },
-      { text: 'Linkedin', href: 'mailto:sofianos.n@outlook.com' },
-      { text: 'Portfolio', href: '#' },
-      { text: 'Email', href: '#' }],
+      { text: 'Github', href: 'https://github.com/nsofianos' },
+      { text: 'Email', href: 'mailto:sofianos.n@outlook.com' },
   },
   {
     title: 'Open Source',
