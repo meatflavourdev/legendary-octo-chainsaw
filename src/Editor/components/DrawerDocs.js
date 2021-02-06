@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -24,7 +24,6 @@ import DeleteForeverRoundedIcon from "@material-ui/icons/DeleteForeverRounded";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import {
   FirestoreCollection,
-  FirestoreDocument,
   FirestoreMutation,
 } from "@react-firebase/firestore";
 import firebase from "firebase";
@@ -81,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
+export default function DrawerDocs({ openDocs, setOpenDocs }) {
   const classes = useStyles();
   const theme = useTheme();
   const [name, setName] = React.useState();
@@ -90,6 +89,9 @@ export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  // Close Doc Drawer
+  const handleDocsDrawerClose = () => setOpenDocs(false);
 
   // Ref to drawer so we can detect outside clicks
   const drawerRef = useRef();
