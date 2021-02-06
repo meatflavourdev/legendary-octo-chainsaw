@@ -17,7 +17,7 @@ import { Box, Divider, Icon, Paper } from '@material-ui/core';
 
 const googleIcon = (
   <Icon>
-    <img alt="google" src='google.svg' />
+    <img alt="google" src='img/google.svg' />
   </Icon>
 );
 
