@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
+    minHeight: '48px !important',
   },
   root: {
     "& .MuiTextField-root": {

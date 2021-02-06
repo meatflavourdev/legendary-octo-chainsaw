@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  appBarToolbar: {
+    minHeight: '48px',
+  },
   docTitle: {
     marginLeft: '0.75em',
     flexGrow: 1,
@@ -69,7 +72,7 @@ const EditorAppBar = function ({docName, auth, openDocs, handleDocsDrawerOpen, h
       [classes.appBarShift]: openDocs,
     })}
   >
-    <Toolbar>
+    <Toolbar className={classes.appBarToolbar}>
       <IconButton
         color="inherit"
         aria-label="open drawer"
