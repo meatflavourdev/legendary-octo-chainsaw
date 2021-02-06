@@ -31,7 +31,7 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = () => {
+const ProviderFlow = ({handleDocsDrawerClose}) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -202,6 +202,7 @@ const ProviderFlow = () => {
             onElementsRemove={onElementsRemove}
             onEdgeUpdate={onEdgeUpdate}
             onLoad={onLoad}
+            onPaneClick={handleDocsDrawerClose}
             onNodeDrag={onNodeDrag}
             nodeTypes={nodeTypes}
             snapToGrid={true}
