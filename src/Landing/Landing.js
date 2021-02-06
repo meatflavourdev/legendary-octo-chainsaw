@@ -150,26 +150,35 @@ const footers = [
       { text: 'Linkedin', href: 'https://www.linkedin.com/in/jeremydombrowski/' },
       { text: 'Github', href: 'https://github.com/meatflavourdev' },
       { text: 'Portfolio', href: 'https://www.meatflavour.dev/' },
-      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' }],
+      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' },
+    ],
   },
   {
     title: 'Nathan Mckenzie',
     description: [
       { text: 'Linkedin', href: 'https://www.linkedin.com/in/nathan-mckenzie-2020/' },
       { text: 'Github', href: 'https://github.com/nathantmckenzie' },
-      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' }],
+      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' },
+    ],
   },
   {
     title: 'Nik Sofianos',
     description: [
-      { text: 'Twitter', href: '' },
-      { text: 'Linkedin', href: 'mailto:sofianos.n@outlook.com' },
-      { text: 'Portfolio', href: '#' },
-      { text: 'Email', href: '#' }],
+      { text: 'Github', href: 'https://github.com/nsofianos' },
+      { text: 'Email', href: 'mailto:sofianos.n@outlook.com' },
+    ],
   },
   {
     title: 'Open Source',
-    description: [{text: 'Design Docs', href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b'}, {text: 'Github', href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/'}],
+    description: [
+      {
+        text: 'Design Docs',
+        href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b',
+      }, {
+        text: 'Github',
+        href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/',
+      },
+    ],
   },
 ];
 
@@ -256,7 +265,7 @@ function HeroButtonsNoAuth({googleSignin}) {
         <Grid container spacing={2} justify="center">
           <Grid item>
             <Button className={classes.heroButtonGoogle} onClick={googleSignin} variant="contained" size="large" color="primary">
-              <img className={classes.heroGoogleIcon} src="/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
+              <img className={classes.heroGoogleIcon} src="/img/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
               Sign In with Google
             </Button>
           </Grid>
@@ -351,7 +360,7 @@ export default function Landing() {
       {/* Screenshot */}
       <Container>
         <Box className={classes.appBox} boxShadow={15}>
-          <img className={classes.appShot} src="./landing/browserframe_01.png" alt="App Screenshot" />
+          <img className={classes.appShot} src="/img/landing/browserframe_01.png" alt="App Screenshot" />
         </Box>
       </Container>
       {/* End Screenshot */}
