@@ -150,24 +150,35 @@ const footers = [
       { text: 'Linkedin', href: 'https://www.linkedin.com/in/jeremydombrowski/' },
       { text: 'Github', href: 'https://github.com/meatflavourdev' },
       { text: 'Portfolio', href: 'https://www.meatflavour.dev/' },
-      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' }],
+      { text: 'Email', href: 'mailto:jeremy@meatflavour.dev' },
+    ],
   },
   {
     title: 'Nathan Mckenzie',
     description: [
       { text: 'Linkedin', href: 'https://www.linkedin.com/in/nathan-mckenzie-2020/' },
       { text: 'Github', href: 'https://github.com/nathantmckenzie' },
-      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' }],
+      { text: 'Email', href: 'mailto:nathantaylormckenzie@hotmail.com' },
+    ],
   },
   {
     title: 'Nik Sofianos',
     description: [
       { text: 'Github', href: 'https://github.com/nsofianos' },
       { text: 'Email', href: 'mailto:sofianos.n@outlook.com' },
+    ],
   },
   {
     title: 'Open Source',
-    description: [{text: 'Design Docs', href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b'}, {text: 'Github', href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/'}],
+    description: [
+      {
+        text: 'Design Docs',
+        href: 'https://www.notion.so/Entropy-Project-Wiki-05d389328d4f4e498f41adc741c4e31b',
+      }, {
+        text: 'Github',
+        href: 'https://github.com/meatflavourdev/legendary-octo-chainsaw/',
+      },
+    ],
   },
 ];
 
