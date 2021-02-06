@@ -4,7 +4,7 @@ import ReactFlow, {
   Controls,
   Background,
 } from "react-flow-renderer";
-import "./provider.css";
+import { useParams } from "react-router-dom";
 import EditorToolbar from "./EditorToolbar";
 import AttributeToolbar from "./AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
@@ -12,6 +12,7 @@ import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 import AnnotationNode from "./nodeTypes/AnnotationNode";
 import useWindowDimensions from "../hooks/getWindowDimensions";
+import "./provider.css";
 
 // Yjs Imports
 import * as Y from "yjs";
@@ -19,8 +20,8 @@ import { WebsocketProvider } from "y-websocket";
 
 //Elements loaded on new doc
 import initialElements from "./initialElements";
-import { useParams } from "react-router-dom";
 
+// UUID generator
 const uuid62 = require("uuid62");
 
 //Custom node types go here
