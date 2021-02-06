@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -91,7 +91,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
   };
 
   // Close Doc Drawer
-  const handleDocsDrawerClose = () => setOpenDocs(false);
+  const handleDocsDrawerClose = useCallback(() => setOpenDocs(false), [setOpenDocs]);
 
   // Ref to drawer so we can detect outside clicks
   const drawerRef = useRef();
