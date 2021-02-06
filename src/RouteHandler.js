@@ -14,7 +14,7 @@ import YjsFlowTest from "./yjsSubscriber/YjsFlowTest";
 import firebaseAuth from "./firebase/firebaseAuth";
 import cloudFirestore from "./firebase/cloudFirestore";
 import Error from "./Error";
-import Document from "./Editor/Document";
+import Editor from "./Editor/Editor";
 
 import { AuthProvider } from "./contexts/AuthContext"
 
@@ -36,9 +36,9 @@ function RouteHandler() {
           <Route exact path="/error" component={Error} />
 
           <Route exact path="/app">
-            <Document />
+            <Editor />
           </Route>
-          <Route path="/:doc_id" component={Document} />
+          <Route path="/:doc_id" component={Editor} />
 
         </Switch>
       </AuthProvider>

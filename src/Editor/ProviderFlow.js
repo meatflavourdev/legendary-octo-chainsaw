@@ -5,21 +5,21 @@ import ReactFlow, {
   Background,
 } from "react-flow-renderer";
 import { useParams } from "react-router-dom";
-import EditorToolbar from "./EditorToolbar";
-import AttributeToolbar from "./AttributeToolbar";
+import EditorToolbar from "./components/EditorToolbar";
+import AttributeToolbar from "./components/AttributeToolbar";
 import ShapeNode from "./nodeTypes/ShapeNode";
 import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 import AnnotationNode from "./nodeTypes/AnnotationNode";
 import useWindowDimensions from "../hooks/getWindowDimensions";
-import "./provider.css";
+import "./style/provider.css";
 
 // Yjs Imports
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 
 //Elements loaded on new doc
-import initialElements from "./initialElements";
+import initialElements from "./data/initialElements";
 
 // UUID generator
 const uuid62 = require("uuid62");
@@ -32,7 +32,7 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = ({handleDocsDrawerClose}) => {
+const ProviderFlow = ({setOpenDocs}) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -47,6 +47,12 @@ const ProviderFlow = ({handleDocsDrawerClose}) => {
   // We'll use this to update React Flow from Yjs
   const [elements, setElements] = React.useState([]);
 
+  // Close Doc Drawer
+  const handleDocsDrawerClose = () => setOpenDocs(false);
+
+  //Generates an ID for each new node
+  const newNodeId = () => `node_${uuid62.v4()}`;
+
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
   const onLoad = (reactFlowInstance) => {
@@ -56,9 +62,6 @@ const ProviderFlow = ({handleDocsDrawerClose}) => {
 
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
-
-  //Generates an ID for each new node
-  const newNodeId = () => `node_${uuid62.v4()}`;
 
   //Environment variables
   const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";

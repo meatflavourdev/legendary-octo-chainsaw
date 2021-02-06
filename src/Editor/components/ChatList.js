@@ -1,5 +1,5 @@
 import React from 'react';
-import { messages } from '../messages.js'
+import { messages } from '../data/messages.js'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

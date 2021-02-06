@@ -6,7 +6,7 @@ import ReactFlow, {
   Background,
   MiniMap,
 } from "react-flow-renderer";
-import initialElements from "../Editor/initialElements";
+import initialElements from "../Editor/data/initialElements";
 import "./provider.css";
 
 // Yjs Imports

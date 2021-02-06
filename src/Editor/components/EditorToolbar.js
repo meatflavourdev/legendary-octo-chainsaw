@@ -9,7 +9,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import "./editor.css";
+import "../style/editor.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,8 +135,8 @@ export default function EditorToolbar(props) {
         </Tooltip>
 
         {/* Annotation Buttons */}
-        <IconButton 
-          className={classes.annotation} 
+        <IconButton
+          className={classes.annotation}
           onClick={() => createElement("AnnotationNode", {annotation: 'check'})}
         >
           <img src="./annotations/check-circle.svg" />
@@ -162,7 +162,7 @@ export default function EditorToolbar(props) {
 
         {/* Create Handle Node Button */}
         <Tooltip title="Handle Node">
-          <IconButton 
+          <IconButton
             size="small"
             onClick={() => createElement("HandleNode", {fillColor: 'dark', fillStyle: 'filled'})}
           >
