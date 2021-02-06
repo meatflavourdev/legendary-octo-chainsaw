@@ -22,6 +22,7 @@ import "firebase/auth";
 import ProviderFlow from './Editor/ProviderFlow';
 
 import { useAuthState } from "react-firebase-hooks/auth";
+import Admin from "./Home";
 
 const auth = firebase.auth();
 
@@ -37,6 +38,9 @@ function RouteHandler() {
             {/*!user ? <Redirect to="/Login" /> : <Editor />*/}
             <EditorLayout />
           </Route>
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/admin" component={Admin} />
           <Route exact path="/error" component={Error} />
           <Route exact path="/yjstest" component={YjsTest} />
           <Route exact path="/yjsflowtest" component={YjsFlowTest} />

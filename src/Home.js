@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react"
 
-import logo from './logo.svg';
 import './App.css';
 
-function Home() {
+function Admin() {
   return (
     <div>
-      <h2>Home</h2>
-      <img src={logo} className="App-logo" alt="logo" />
-      <ul className="navbar">
+      <h2>Admin</h2>
+      <ul className="adminMenu">
           <li>
             <Link to="/">Landing Page</Link>
           </li>
@@ -17,7 +15,7 @@ function Home() {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/signup"><button>Signup</button></Link>
+            <Link to="/signup">Signup</Link>
           </li>
           <li>
             <Link to="/app">Editor</Link>
@@ -27,6 +25,9 @@ function Home() {
           </li>
           <li>
             <Link to="/yjstest">Yjs Integration Test</Link>
+          </li>
+          <li>
+            <Link to="/yjsflowtest">Yjs Integration Test</Link>
           </li>
           <li>
             <Link to="/firebaseauth">Firebase Auth Test</Link>
@@ -42,4 +43,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Admin;
