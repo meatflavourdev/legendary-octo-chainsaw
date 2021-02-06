@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { IconButton, ButtonGroup, Tooltip, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TitleIcon from '@material-ui/icons/Title';
@@ -11,7 +11,7 @@ import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useStoreState } from 'react-flow-renderer';
-import './editor.css';
+import '../style/editor.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

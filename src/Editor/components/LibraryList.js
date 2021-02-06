@@ -7,7 +7,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import List from "@material-ui/core/List";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import styled from "styled-components";
-import firebase from "../firebase";
+import firebase from "../../firebase";
 
 const HoverText = styled.p`
   color: #808080;
@@ -44,8 +44,8 @@ function LibraryList(props) {
                 )
                 .map((doc, i) => {
                   return (
-                    <ListItem 
-                    button 
+                    <ListItem
+                    button
                     key={doc.name}
                     //onClick={() => onUpdate(d.ids[i])}
                     >

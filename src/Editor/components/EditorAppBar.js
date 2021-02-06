@@ -10,19 +10,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import ProfileMenu from '../../components/ProfileMenu';
-import ShareMenu from '../../components/ShareMenu';
+import ProfileMenu from './ProfileMenu';
+import ShareMenu from './ShareMenu';
 import config from '../../config';
+import { Avatar } from '@material-ui/core';
 
 const drawerWidth = config.editor.drawerWidth;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    overflow: 'hidden',
-    width: '100vw',
-    height: '100vh',
-  },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -58,8 +53,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const EditorAppBar = function ({docName, auth, openDocs, handleDocsDrawerOpen, handleChatDrawerToggle, userAvatars}) {
+const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, users}) {
   const classes = useStyles();
+
+  const userAvatars = [];
+
+  for (const user of users) {
+    userAvatars.push(
+      <Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
+    );
+  }
 
   return (
     <AppBar
@@ -73,7 +76,7 @@ const EditorAppBar = function ({docName, auth, openDocs, handleDocsDrawerOpen, h
       <IconButton
         color="inherit"
         aria-label="open drawer"
-        onClick={handleDocsDrawerOpen}
+        onClick={() => setOpenDocs(!openDocs)}
         edge="start"
         className={clsx(classes.menuButton, openDocs && classes.hide)}
       >
@@ -86,12 +89,12 @@ const EditorAppBar = function ({docName, auth, openDocs, handleDocsDrawerOpen, h
       <AvatarGroup className={classes.avatarGroup} max={10} spacing="25">
         {userAvatars}
       </AvatarGroup>
-      <IconButton onClick={handleChatDrawerToggle} color="inherit" >
+      <IconButton onClick={() => setOpenChat(!openChat)} color="inherit" >
         <Badge badgeContent={4} color="secondary">
           <ChatIcon style={{ fontSize: 26 }}/>
         </Badge>
       </IconButton>
-      {auth && <ShareMenu />}
+      <ShareMenu />
       <ProfileMenu />
     </Toolbar>
   </AppBar>
