@@ -312,7 +312,7 @@ export default function Landing() {
       .auth()
       .signInWithPopup(googleAuthProvider)
       .then(() => {
-        history.push('/');
+        history.push('/app');
       });
   }
 
