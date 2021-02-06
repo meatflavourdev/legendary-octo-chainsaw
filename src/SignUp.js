@@ -19,7 +19,7 @@ import { RelativePosition } from 'yjs';
 
 const googleIcon = (
   <Icon>
-    <img alt="google" src='google.svg' />
+    <img alt="google" src='img/google.svg' />
   </Icon>
 );
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +61,7 @@ export default function Signup() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    
+
     try {
       setError("")
       setLoading(true)

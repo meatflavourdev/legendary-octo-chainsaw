@@ -254,7 +254,7 @@ function HeroButtonsNoAuth({googleSignin}) {
         <Grid container spacing={2} justify="center">
           <Grid item>
             <Button className={classes.heroButtonGoogle} onClick={googleSignin} variant="contained" size="large" color="primary">
-              <img className={classes.heroGoogleIcon} src="/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
+              <img className={classes.heroGoogleIcon} src="/img/btn_google_01.svg" alt="Google Logo" width="38" height="38" />
               Sign In with Google
             </Button>
           </Grid>
@@ -349,7 +349,7 @@ export default function Landing() {
       {/* Screenshot */}
       <Container>
         <Box className={classes.appBox} boxShadow={15}>
-          <img className={classes.appShot} src="./landing/browserframe_01.png" alt="App Screenshot" />
+          <img className={classes.appShot} src="/img/landing/browserframe_01.png" alt="App Screenshot" />
         </Box>
       </Container>
       {/* End Screenshot */}
