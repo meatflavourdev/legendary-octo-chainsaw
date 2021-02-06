@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { IconButton, ButtonGroup, Tooltip} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Crop75Icon from "@material-ui/icons/Crop75";
-import TimelineIcon from "@material-ui/icons/Timeline";
 import UndoIcon from "@material-ui/icons/Undo";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import DashboardIcon from "@material-ui/icons/Dashboard";
