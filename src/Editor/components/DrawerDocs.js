@@ -32,6 +32,7 @@ import "firebase/auth";
 import { Link } from "react-router-dom";
 
 import { randomConcept } from "../../helpers/nameGenerators";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 const uuid62 = require("uuid62");
 
 const drawerWidth = 300;
@@ -83,15 +84,21 @@ const useStyles = makeStyles((theme) => ({
 export default function DrawerDocs({ openDocs, handleDocsDrawerClose }) {
   const classes = useStyles();
   const theme = useTheme();
-  const inputRef = useRef([]);
   const [name, setName] = React.useState();
   const [open, setOpen] = React.useState(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
 
+  // Ref to drawer so we can detect outside clicks
+  const drawerRef = useRef();
+  // Call hook passing in the ref and a function to call on outside click
+  useOnClickOutside(drawerRef, handleDocsDrawerClose);
+
   return (
     <Drawer
+      ref={drawerRef}
       className={classes.drawerDocs}
       variant="persistent"
       anchor="left"

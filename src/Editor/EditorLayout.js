@@ -95,7 +95,7 @@ export default function EditorLayout() {
       />
       <DrawerDocs openDocs={openDocs} handleDocsDrawerClose={handleDocsDrawerClose} />
         <ReactFlowProvider>
-          <ProviderFlow />
+          <ProviderFlow handleDocsDrawerClose={handleDocsDrawerClose} />
         </ReactFlowProvider>
       <DrawerChat openChat={openChat} />
     </div>
