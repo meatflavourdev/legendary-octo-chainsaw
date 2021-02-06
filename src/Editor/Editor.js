@@ -41,6 +41,8 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
+  // TODO: Move Yjs connection into custom hook / reducer(?)
+
   React.useEffect(() => {
     console.log(`Loading Y.Doc: ${doc_id}`);
     ydoc.current = new Y.Doc({ guid: doc_id });
@@ -56,6 +58,8 @@ export default function Editor() {
 
     return () => wsProvider.destroy();
   });
+
+  // TODO: Move Document CRUD logic here
 
   return (
     <div className={classes.root}>
