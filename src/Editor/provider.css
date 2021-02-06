@@ -41,7 +41,7 @@
 }
 
 .react-flow__edge-path {
-  stroke-width: 2 !important;
+  stroke-width: 2.5 !important;
   stroke: #595A66 !important;
   z-index: 1000;
   pointer-events: visibleStroke;
