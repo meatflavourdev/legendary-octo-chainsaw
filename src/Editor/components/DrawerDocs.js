@@ -1,25 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import CreateIcon from "@material-ui/icons/Create";
-import TextField from "@material-ui/core/TextField";
-import AddCircle from "@material-ui/icons/AddCircle";
-import logo from "../../logo.png";
-
-import FolderIcon from "@material-ui/icons/Folder";
-import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
-import FolderSharedRoundedIcon from "@material-ui/icons/FolderSharedRounded";
-import AddBoxRoundedIcon from "@material-ui/icons/AddBoxRounded";
-import DeleteForeverRoundedIcon from "@material-ui/icons/DeleteForeverRounded";
+import { Link } from "react-router-dom";
 
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import {
@@ -28,13 +8,39 @@ import {
 } from "@react-firebase/firestore";
 import firebase from "firebase";
 import "firebase/auth";
-import { Link } from "react-router-dom";
 
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import TextField from "@material-ui/core/TextField";
+import logo from "../../logo.png";
+
+import CreateIcon from "@material-ui/icons/Create";
+import AddCircle from "@material-ui/icons/AddCircle";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import FolderIcon from "@material-ui/icons/Folder";
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import FolderSharedRoundedIcon from "@material-ui/icons/FolderSharedRounded";
+import AddBoxRoundedIcon from "@material-ui/icons/AddBoxRounded";
+import DeleteForeverRoundedIcon from "@material-ui/icons/DeleteForeverRounded";
+
+import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
+
+import useOnClickOutside from "../hooks/useOnClickOutside";
 import { randomConcept } from "../../helpers/nameGenerators";
-import useOnClickOutside from "../../hooks/useOnClickOutside";
+import config from '../../config';
+import { Box, Container } from "@material-ui/core";
+
 const uuid62 = require("uuid62");
 
-const drawerWidth = 300;
+const drawerWidth = config.editor.drawerWidth;
 
 const useStyles = makeStyles((theme) => ({
   entropyLogo: {
@@ -146,7 +152,16 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                 {(docsData) => {
                   console.log("docsData", docsData);
                   if (docsData.isLoading) {
-                    return "Loading";
+                    return (
+                      <Box display="flex" justifyContent="center" m={6} >
+                        <ScaleLoader
+                        height='40'
+                        width='10'
+                        color='#b4b3fb'
+                        />
+                      </Box>
+
+                    );
                   }
 
                   let onUpdate = (id) => () => {

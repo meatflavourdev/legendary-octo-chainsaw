@@ -11,7 +11,7 @@ import ShapeNode from "./nodeTypes/ShapeNode";
 import HandleNode from "./nodeTypes/HandleNode";
 import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
 import AnnotationNode from "./nodeTypes/AnnotationNode";
-import useWindowDimensions from "../hooks/getWindowDimensions";
+import useWindowDimensions from "./hooks/getWindowDimensions";
 import "./style/provider.css";
 
 // Yjs Imports
