@@ -31,6 +31,9 @@ const useYDoc = function (doc_id) {
       yDoc.current
     );
 
+    // Log connected status
+    wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
+
     // Update synced state on websocket sync
     wsProvider.on('sync', (isSynced) => setWsSync(isSynced));
 
