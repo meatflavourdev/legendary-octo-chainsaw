@@ -31,7 +31,7 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = ({yDoc, wsProvider, setOpenDocs}) => {
+const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -58,12 +58,14 @@ const ProviderFlow = ({yDoc, wsProvider, setOpenDocs}) => {
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
-  React.useEffect(() => {
-    let elementsYjs;
 
-    wsProvider.current && wsProvider.current.on("sync", (isSynced) => {
-      console.log(`wsProvider isSynced: ${isSynced}`);
-      elementsYjs = yDoc.current.getArray("elements");
+  React.useEffect(() => {
+    console.log('---------------- Provider Flow useEffect called  ----------------');
+
+
+    if (wsSync) {
+      console.log(`wsProvider isSynced: ${wsSync}`);
+      const elementsYjs = yDoc.current.getArray("elements");
 
       if (elementsYjs.toArray().length === 0) {
         console.log(`empty array-- loading initial elements`);
@@ -84,12 +86,13 @@ const ProviderFlow = ({yDoc, wsProvider, setOpenDocs}) => {
       elementsYjs.observeDeep(() => {
         setElements(elementsYjs.toJSON());
       });
-    });
-    if (!wsProvider.current || (wsProvider.current && !wsProvider.current.synced)) {
+    };
+    if (!wsSync) {
       // Set the elements array to empty while loading elements from server
+      console.log(`wsProvider isSynced: ${wsSync}`);
       setElements([]);
     }
-  }, [doc_id, yDoc, wsProvider]);
+  }, [doc_id, yDoc, wsSync]);
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
