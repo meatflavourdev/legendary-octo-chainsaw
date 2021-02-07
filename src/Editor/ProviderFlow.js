@@ -60,9 +60,6 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
 
 
   React.useEffect(() => {
-    console.log('---------------- Provider Flow useEffect called  ----------------');
-
-
     if (wsSync) {
       console.log(`wsProvider isSynced: ${wsSync}`);
       const elementsYjs = yDoc.current.getArray("elements");
