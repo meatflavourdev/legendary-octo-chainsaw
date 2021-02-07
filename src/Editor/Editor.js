@@ -4,8 +4,8 @@ import { users } from './data/users.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
-import DrawerDocs from './components/DrawerDocs';
-import DrawerChat from './components/DrawerChat';
+import DrawerDocs from './components/Drawers/DrawerDocs';
+import DrawerChat from './components/Drawers/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/EditorAppBar.js';
 

@@ -19,7 +19,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
-import logo from "../../logo.png";
+import logo from "../../../logo.png";
 
 import CreateIcon from "@material-ui/icons/Create";
 import AddCircle from "@material-ui/icons/AddCircle";
@@ -33,10 +33,10 @@ import DeleteForeverRoundedIcon from "@material-ui/icons/DeleteForeverRounded";
 
 import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
 
-import useOnClickOutside from "../hooks/useOnClickOutside";
-import { randomConcept } from "../../helpers/nameGenerators";
-import config from '../../config';
-import { Box, Container } from "@material-ui/core";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { randomConcept } from "../../../helpers/nameGenerators";
+import config from '../../../config';
+import { Box } from "@material-ui/core";
 
 const uuid62 = require("uuid62");
 

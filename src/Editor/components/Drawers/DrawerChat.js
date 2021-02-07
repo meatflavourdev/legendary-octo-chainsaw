@@ -6,7 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import ChatList from './ChatList';
 import ChatInput from './ChatInput';
 
-import config from '../../config';
+import config from '../../../config';
 
 const drawerWidth = config.editor.drawerWidth;
 
