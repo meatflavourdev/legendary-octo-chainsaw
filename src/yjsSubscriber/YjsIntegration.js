@@ -6,7 +6,7 @@ import { IfFirebaseAuthed } from '@react-firebase/auth';
 const doc = new Y.Doc();
 const USER_ID = Math.random();
 
-const useCollaborativeArray = (name) => {
+const useCollaborativeArray = (doc, name) => {
   const valueRef = React.useRef(doc.getArray(name));
   const [state, setState] = React.useState(null);
   React.useEffect(() => {
@@ -33,7 +33,7 @@ function useInput({ type }) {
 
 function TestApp() {
   const [text, textInput] = useInput({ type: 'text' });
-  const { value, insertValue, pushValue } = useCollaborativeArray('test');
+  const { value, insertValue, pushValue } = useCollaborativeArray(doc, 'test');
   React.useEffect(() => {
     const wsProvider = new WebsocketProvider('ws://localhost:5001', 'my-roomname', doc);
     wsProvider.on('status', (event) => {
