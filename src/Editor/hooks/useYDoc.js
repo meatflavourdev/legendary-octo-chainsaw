@@ -34,6 +34,7 @@ const useYDoc = function (doc_id) {
     // Update synced state on websocket sync
     wsProvider.on('sync', (isSynced) => setWsSync(isSynced));
 
+    // Set default sync state to false to invalidate previous states.
     setWsSync(false);
 
     return () => wsProvider.destroy();
