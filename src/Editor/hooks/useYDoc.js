@@ -1,35 +1,38 @@
-// useYDoc Hook
+import React, { useEffect } from 'react';
+import * as Y from "yjs";
+import { WebsocketProvider } from "y-websocket";
+import config from "../../config"
 
-import { useEffect } from "react";
+/**
+ *
+ * @param  {string} doc_id
+ * @return []
+ */
+const useYDoc = function (doc_id) {
+  // Get yjs lib and create a reference to it
+  //const awareness = React.useRef(null);
+  const yDoc = React.useRef(null);
+  const wsProvider = React.useRef(null);
 
-const useYDoc = function(ref, handler) {
-  useEffect(
-    () => {
-      const listener = event => {
-        // Do nothing if clicking ref's element or descendent elements
-        if (!ref.current || ref.current.contains(event.target)) {
-          return;
-        }
+  //Environment variables
+  const wsServerUrl = config.yjsws.wsServerUrl;
+  const wsRoomname = doc_id;
 
-        handler(event);
-      };
+  useEffect(() => {
+    console.log(`Loading Y.Doc: ${doc_id}`);
+    yDoc.current = new Y.Doc({ guid: doc_id });
 
-      document.addEventListener('mousedown', listener);
-      document.addEventListener('touchstart', listener);
+    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
+    wsProvider.current = new WebsocketProvider(
+      wsServerUrl,
+      wsRoomname,
+      yDoc.current
+    );
 
-      return () => {
-        document.removeEventListener('mousedown', listener);
-        document.removeEventListener('touchstart', listener);
-      };
-    },
-    // Add ref and handler to effect dependencies
-    // It's worth noting that because passed in handler is a new ...
-    // ... function on every render that will cause this effect ...
-    // ... callback/cleanup to run every render. It's not a big deal ...
-    // ... but to optimize you can wrap handler in useCallback before ...
-    // ... passing it into this hook.
-    [ref, handler]
-  );
+    return () => wsProvider.current.destroy();
+  }, [doc_id, wsServerUrl, wsRoomname]);
+
+  return [yDoc, wsProvider];
 }
 
 export default useYDoc;
