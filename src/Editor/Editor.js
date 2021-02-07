@@ -9,9 +9,7 @@ import DrawerChat from './components/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/EditorAppBar.js';
 
-// Yjs Imports
-import * as Y from "yjs";
-import { WebsocketProvider } from "y-websocket";
+import useYDoc from './hooks/useYDoc'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,40 +24,13 @@ export default function Editor() {
   // Get doc_id from router
   let { doc_id } = useParams();
 
-  // Get yjs lib and create a reference to it
-  //const awareness = React.useRef(null);
-  const ydoc = React.useRef(null);
-
-  //Environment variables
-  const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";
-  const wsHost = process.env.REACT_APP_WSHOST || "localhost";
-  const wsPort = process.env.REACT_APP_WSPORT || 5001;
-  const wsServerUrl = `${wsProtocol}://${wsHost}${wsPort == 80 ? '' : ':' + wsPort}`;
-  const wsRoomname = doc_id;
-
   const classes = useStyles();
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
-  // TODO: Move Yjs connection into custom hook / reducer(?)
-
-  React.useEffect(() => {
-    console.log(`Loading Y.Doc: ${doc_id}`);
-    ydoc.current = new Y.Doc({ guid: doc_id });
-
-    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
-    const wsProvider = new WebsocketProvider(
-      wsServerUrl,
-      wsRoomname,
-      ydoc.current
-    );
-
-    const chatData = ydoc.current.getArray("messages");
-
-    return () => wsProvider.destroy();
-  });
-
   // TODO: Move Document CRUD logic here
+
+  const [yDoc, wsProvider] = useYDoc(doc_id);
 
   return (
     <div className={classes.root}>
@@ -74,7 +45,7 @@ export default function Editor() {
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>
-          <ProviderFlow setOpenDocs={setOpenDocs} />
+          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsProvider={wsProvider} />
         </ReactFlowProvider>
       <DrawerChat openChat={openChat} />
     </div>
