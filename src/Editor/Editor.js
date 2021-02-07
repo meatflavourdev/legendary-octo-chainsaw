@@ -30,7 +30,7 @@ export default function Editor() {
 
   // TODO: Move Document CRUD logic here
 
-  const [yDoc, wsProvider] = useYDoc(doc_id);
+  const [yDoc, wsSync] = useYDoc(doc_id);
 
   return (
     <div className={classes.root}>
@@ -45,7 +45,7 @@ export default function Editor() {
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>
-          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsProvider={wsProvider} />
+          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
         </ReactFlowProvider>
       <DrawerChat openChat={openChat} />
     </div>
