@@ -49,6 +49,7 @@ margin-left: 15px;
   background-color: #94999b;
   border-radius: 20px;
   border: 6px solid transparent;
+  -webkit-background-clip: content-box;
   background-clip: content-box;
 }
 .makeStyles-drawerPaperDocs-20::-webkit-scrollbar-thumb:hover {
