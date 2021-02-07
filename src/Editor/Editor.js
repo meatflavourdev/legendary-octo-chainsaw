@@ -4,10 +4,12 @@ import { users } from './data/users.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
-import DrawerDocs from './components/DrawerDocs';
-import DrawerChat from './components/DrawerChat';
+import DrawerDocs from './components/Drawers/DrawerDocs';
+import DrawerChat from './components/Drawers/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/EditorAppBar.js';
+
+import useYDoc from './hooks/useYDoc'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,6 +28,10 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
+  // TODO: Move Document CRUD logic here
+
+  const [yDoc, wsSync] = useYDoc(doc_id);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -39,7 +45,7 @@ export default function Editor() {
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>
-          <ProviderFlow setOpenDocs={setOpenDocs} />
+          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
         </ReactFlowProvider>
       <DrawerChat openChat={openChat} />
     </div>

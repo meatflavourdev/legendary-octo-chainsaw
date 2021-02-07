@@ -16,7 +16,6 @@ import "./style/provider.css";
 
 // Yjs Imports
 import * as Y from "yjs";
-import { WebsocketProvider } from "y-websocket";
 
 //Elements loaded on new doc
 import initialElements from "./data/initialElements";
@@ -32,16 +31,12 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = ({setOpenDocs}) => {
+const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
   //Window Dimensions hook
   const { height, width } = useWindowDimensions();
-
-  // Get yjs lib and create a reference to it
-  const ydoc = React.useRef(null);
-  //const awareness = React.useRef(null);
 
   // Get a state array for React Flow's elements array.
   // We'll use this to update React Flow from Yjs
@@ -63,28 +58,11 @@ const ProviderFlow = ({setOpenDocs}) => {
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
-  //Environment variables
-  const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";
-  const wsHost = process.env.REACT_APP_WSHOST || "localhost";
-  const wsPort = process.env.REACT_APP_WSPORT || 5001;
-  const wsServerUrl = `${wsProtocol}://${wsHost}${wsPort == 80 ? '' : ':' + wsPort}`;
-  const wsRoomname = doc_id;
 
   React.useEffect(() => {
-    console.log(`Loading Y.Doc: ${doc_id}`);
-    ydoc.current = new Y.Doc({ guid: doc_id });
-
-    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
-    const wsProvider = new WebsocketProvider(
-      wsServerUrl,
-      wsRoomname,
-      ydoc.current
-    );
-
-    const elementsYjs = ydoc.current.getArray("elements");
-
-    wsProvider.on("sync", (isSynced) => {
-      console.log(`wsProvider isSynced: ${isSynced}`);
+    if (wsSync) {
+      console.log(`wsProvider isSynced: ${wsSync}`);
+      const elementsYjs = yDoc.current.getArray("elements");
 
       if (elementsYjs.toArray().length === 0) {
         console.log(`empty array-- loading initial elements`);
@@ -101,19 +79,17 @@ const ProviderFlow = ({setOpenDocs}) => {
       } else {
         setElements(elementsYjs.toJSON());
       }
-    });
-    // Update state on changes to Yjs elements Array
-    elementsYjs.observeDeep(() => {
-      setElements(elementsYjs.toJSON());
-    });
-    // Set the elements array to empty while loading elements from server
-    setElements([]);
-
-    //Cleanup the websocket connection
-    return () => {
-      wsProvider.destroy();
+      // Update state on changes to Yjs elements Array
+      elementsYjs.observeDeep(() => {
+        setElements(elementsYjs.toJSON());
+      });
+    };
+    if (!wsSync) {
+      // Set the elements array to empty while loading elements from server
+      console.log(`wsProvider isSynced: ${wsSync}`);
+      setElements([]);
     }
-  }, [doc_id]);
+  }, [doc_id, yDoc, wsSync]);
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
@@ -121,7 +97,7 @@ const ProviderFlow = ({setOpenDocs}) => {
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     } */
-    for (const elmMap of ydoc.current.getArray("elements")) {
+    for (const elmMap of yDoc.current.getArray("elements")) {
       //if (selectedIds.includes(elmMap.get('id'))) {
       //console.log(`Element type: ${typeof elmMap}`);
       if (elmMap?.get("id") === node.id) {
@@ -135,9 +111,9 @@ const ProviderFlow = ({setOpenDocs}) => {
 
   // Called when element deleted
   const onElementsRemove = (elementsToRemove) => {
-    const elementsYjs = ydoc.current.getArray("elements");
+    const elementsYjs = yDoc.current.getArray("elements");
     for (const elm of elementsToRemove) {
-      for (const [i, elmMap] of ydoc.current
+      for (const [i, elmMap] of yDoc.current
         .getArray("elements")
         .toArray()
         .entries()) {
@@ -164,7 +140,7 @@ const ProviderFlow = ({setOpenDocs}) => {
     }
     console.log(`Attempting to add edge: `, newEdges[0]);
     //yEdge.set('id', newEdgeId);
-    ydoc.current.getArray("elements").push([yEdge]);
+    yDoc.current.getArray("elements").push([yEdge]);
   };
 
   const onEdgeUpdate = (oldEdge, newConnection) => {
@@ -189,7 +165,7 @@ const ProviderFlow = ({setOpenDocs}) => {
     for (let [k, v] of Object.entries(newNode)) {
       yNode.set(k, v);
     }
-    ydoc.current.getArray("elements").push([yNode]);
+    yDoc.current.getArray("elements").push([yNode]);
   };
 
   //Fires when an element is clicked
@@ -216,7 +192,7 @@ const ProviderFlow = ({setOpenDocs}) => {
             multiSelectionKeyCode="Control"
           >
             <Controls />
-            <AttributeToolbar ydoc={ydoc} reactFlowRef={reactFlowRef} />
+            <AttributeToolbar ydoc={yDoc} reactFlowRef={reactFlowRef} />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
           </ReactFlow>
