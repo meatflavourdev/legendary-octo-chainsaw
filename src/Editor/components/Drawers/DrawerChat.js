@@ -6,6 +6,8 @@ import Divider from '@material-ui/core/Divider';
 import ChatList from './ChatList';
 import ChatInput from './ChatInput';
 
+import { useAuth } from '../../../contexts/AuthContext';
+
 import config from '../../../config';
 
 const drawerWidth = config.editor.drawerWidth;
@@ -32,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   const classes = useStyles();
 
+  const { currentUser } = useAuth();
+
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(() => {
@@ -39,18 +43,15 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
       console.log(`Getting messages YArray`);
       const messagesYArray = yDoc.current.getArray("messages");
       setMessages(messagesYArray.toJSON());
-      console.log('Messages: ', messages);
       // Update state on changes to Yjs elements Array
       messagesYArray.observe(() => {
         setMessages(messagesYArray.toJSON());
-        console.log('Messages: ', messages);
       });
     };
     if (!wsSync) {
       // Set the elements array to empty while loading elements from server
       console.log(`Resetting messages yArray`);
       setMessages([]);
-      console.log('Messages: ', messages);
     }
   }, [yDoc, wsSync]);
 
@@ -58,16 +59,14 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
       user: {
-        displayName: "Jeremy Felix D.",
-        photoURL: "https://lh3.googleusercontent.com/a-/AOh14GgbynPUuv0Ejt3hiHulz0rxtn5DtY8BiWQKXqdhhLM=s96-c",
-        uid: "fqBjpB7hBGN1cME5G95garsEfqM2"
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+        uid: currentUser.uid,
       },
       message: inputValue,
-      creationTime: 1611741946,
-      isUnread: true
+      creationTime: new Date().getTime(),
     };
-    messagesYArray.push([newMessage]);
-    console.log('Send Message: ', newMessage);
+    wsSync && messagesYArray.push([newMessage]);
   };
 
   return (
