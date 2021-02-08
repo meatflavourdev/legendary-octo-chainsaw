@@ -56,6 +56,7 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   }, [yDoc, wsSync]);
 
   const submitMessage = function (inputValue) {
+    if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
       user: {
