@@ -8,6 +8,8 @@ import ChatInput from './ChatInput';
 
 import config from '../../../config';
 
+import { messages } from '../../data/messages.js'
+
 const drawerWidth = config.editor.drawerWidth;
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +30,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat }) {
+export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   const classes = useStyles();
+
+  const [messages, setMessages] = React.useState([]);
+
+  React.useEffect(() => {
+    if (wsSync) {
+      console.log(`Getting messages YArray`);
+      const messagesYArray = yDoc.current.getArray("messages");
+      setMessages(messagesYArray.toJSON());
+      console.log('Messages: ', messages);
+      // Update state on changes to Yjs elements Array
+      messagesYArray.observe(() => {
+        setMessages(messagesYArray.toJSON());
+        console.log('Messages: ', messages);
+      });
+    };
+    if (!wsSync) {
+      // Set the elements array to empty while loading elements from server
+      console.log(`Resetting messages yArray`);
+      setMessages([]);
+      console.log('Messages: ', messages);
+    }
+  }, [yDoc, wsSync]);
+
+  const submitMessage = function (inputValue) {
+    console.log('Send Message: ', inputValue);
+  };
 
   return (
     <Drawer
@@ -43,8 +71,8 @@ export default function DrawerDocs({ openChat }) {
   >
     <div className={classes.drawerHeaderChat}></div>
     <Divider />
-      <ChatList />
-      <ChatInput />
+      <ChatList messages={messages} />
+      <ChatInput submitMessage={submitMessage} />
   </Drawer>
   );
 };

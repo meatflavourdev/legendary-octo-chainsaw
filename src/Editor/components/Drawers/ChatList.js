@@ -1,5 +1,4 @@
 import React from 'react';
-import { messages } from '../../data/messages.js'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,21 +12,30 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-    maxHeight: '75%',
     overflow: 'auto',
+    padding: 0,
+    flexGrow: 1,
   },
   inline: {
     display: 'inline',
   },
+  listDivider: {
+    '&:first-child': {
+      display: 'none',
+    }
+  }
 }));
 
 
-export default function ChatList() {
+export default function ChatList({ messages }) {
   const classes = useStyles();
 
   const chatMessages = [];
 
   for (const message of messages) {
+    chatMessages.push(
+      <Divider className={classes.listDivider} variant="inset" component="li" />
+    )
     chatMessages.push(
       <ListItem alignItems="flex-start">
           <ListItemAvatar>
@@ -43,81 +51,17 @@ export default function ChatList() {
                   className={classes.inline}
                   color="textPrimary"
                 >
+                  {/* Person or Linked Comment can go here */}
                 </Typography>
                 {message.message}
               </React.Fragment>
             }
-          />
+        />
         </ListItem>
     )
   }
   return (
     <List className={classes.root}>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Summer BBQ"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                to Scott, Alex, Jennifer
-              </Typography>
-              {" — Wish I could come, but I'm out of town this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Oui Oui"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Sandra Adams
-              </Typography>
-              {' — Do you have Paris recommendations? Have you ever…'}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
       {chatMessages}
     </List>
   );
