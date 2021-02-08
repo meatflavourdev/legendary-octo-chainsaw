@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
   listDivider: {
     '&:first-child': {
       display: 'none',
-    }
+    },
+    margin: 0,
   }
 }));
 

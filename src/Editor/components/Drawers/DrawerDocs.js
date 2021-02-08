@@ -88,9 +88,17 @@ const useStyles = makeStyles((theme) => ({
       width: "25ch",
     },
   },
+  docListHeaderList: {
+    paddingBottom: '0.15em',
+    paddingTop: '0.5em',
+  },
   docList: {
-    padding: 0,
-  }
+    paddingTop: 0,
+  },
+  docListItem: {
+    paddingTop: '0.45em',
+    paddingBottom: '0.45em',
+  },
 }));
 
 export default function DrawerDocs({ openDocs, setOpenDocs }) {
@@ -195,7 +203,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
 
                   return (
                     <>
-                      <List className={classes.docList}>
+                      <List className={classes.docListHeaderList}>
                         <ListItem>
                           <ListItemIcon>
                             <FolderIcon />
@@ -235,7 +243,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                         </ListItem>
                       </List>
 
-                      <List>
+                      <List className={classes.docList}>
                         {docsData.value
                           .filter((doc) => !doc.is_public)
                           .map((doc, index) => (
@@ -244,7 +252,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                               to={`/${doc.url}`}
                               key={docsData.ids[index]}
                             >
-                              <ListItem button>
+                              <ListItem button className={classes.docListItem}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
@@ -256,7 +264,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                           ))}
                       </List>
                       <Divider />
-                      <List className={classes.docList}>
+                      <List className={classes.docListHeaderList}>
                         <ListItem>
                           <ListItemIcon>
                             <FolderSharedRoundedIcon />
@@ -296,7 +304,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                         </ListItem>
                       </List>
 
-                      <List>
+                      <List className={classes.docList}>
                         {docsData.value
                           .filter((doc) => doc.is_public)
                           .map((doc, index) => (
@@ -305,7 +313,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                               to={`/${doc.url}`}
                               key={docsData.ids[index]}
                             >
-                              <ListItem button>
+                              <ListItem button className={classes.docListItem}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
