@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AttributeToolbar({ydoc, reactFlowRef}) {
+export default function AttributeToolbar({yDoc}) {
   const classes = useStyles();
   const [menu, setMenu] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -64,7 +64,7 @@ export default function AttributeToolbar({ydoc, reactFlowRef}) {
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     }
-    for (const elmMap of ydoc.current.getArray('elements')) {
+    for (const elmMap of yDoc.current.getArray('elements')) {
       if (selectedIds.includes(elmMap.get('id')) && ['ShapeNode', 'HandleNode'].includes(elmMap.get('type'))) {
         elmMap.set('data', {...elmMap.get('data'), ...data});
       }

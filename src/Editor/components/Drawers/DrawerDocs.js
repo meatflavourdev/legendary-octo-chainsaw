@@ -18,11 +18,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import TextField from "@material-ui/core/TextField";
 import logo from "../../../logo.png";
 
 import CreateIcon from "@material-ui/icons/Create";
-import AddCircle from "@material-ui/icons/AddCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -74,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperDocs: {
     width: drawerWidth,
-    boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+    boxShadow: "0 6px 7px rgb(0 0 0 / 9%), 0 4px 4px rgb(0 0 0 / 15%);",
   },
   drawerHeaderDocs: {
     display: "flex",
@@ -90,17 +88,23 @@ const useStyles = makeStyles((theme) => ({
       width: "25ch",
     },
   },
+  docListHeaderList: {
+    paddingBottom: '0.15em',
+    paddingTop: '0.5em',
+  },
+  docList: {
+    paddingTop: 0,
+  },
+  docListItem: {
+    paddingTop: '0.45em',
+    paddingBottom: '0.45em',
+  },
 }));
 
 export default function DrawerDocs({ openDocs, setOpenDocs }) {
   const classes = useStyles();
   const theme = useTheme();
   const [name, setName] = React.useState();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   // Close Doc Drawer
   const handleDocsDrawerClose = useCallback(() => setOpenDocs(false), [setOpenDocs]);
@@ -199,45 +203,47 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
 
                   return (
                     <>
-                      <ListItem>
-                        <ListItemIcon>
-                          <FolderIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          className={classes.docFolder}
-                          primary="Private"
-                        />
-                        <FirestoreMutation
-                          type="add"
-                          path={`/users/${uid}/docs/`}
-                        >
-                          {({ runMutation }) => {
-                            return (
-                              <div>
-                                <button
-                                  className="docsAddIconButton"
-                                  onClick={() => {
-                                    runMutation({
-                                      name: randomConcept(),
-                                      url: uuid62.v4(),
-                                      is_public: false,
-                                      is_public_editable: false,
-                                      created_date: firebase.firestore.FieldValue.serverTimestamp(),
-                                      uid: uid,
-                                    }).then((res) => {
-                                      console.log("Ran mutation ", res);
-                                    });
-                                  }}
-                                >
-                                  <AddBoxRoundedIcon className="docsAddIcon" />
-                                </button>
-                              </div>
-                            );
-                          }}
-                        </FirestoreMutation>
-                      </ListItem>
+                      <List className={classes.docListHeaderList}>
+                        <ListItem>
+                          <ListItemIcon>
+                            <FolderIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            className={classes.docFolder}
+                            primary="Private"
+                          />
+                          <FirestoreMutation
+                            type="add"
+                            path={`/users/${uid}/docs/`}
+                          >
+                            {({ runMutation }) => {
+                              return (
+                                <div>
+                                  <button
+                                    className="docsAddIconButton"
+                                    onClick={() => {
+                                      runMutation({
+                                        name: randomConcept(),
+                                        url: uuid62.v4(),
+                                        is_public: false,
+                                        is_public_editable: false,
+                                        created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                                        uid: uid,
+                                      }).then((res) => {
+                                        console.log("Ran mutation ", res);
+                                      });
+                                    }}
+                                  >
+                                    <AddBoxRoundedIcon className="docsAddIcon" />
+                                  </button>
+                                </div>
+                              );
+                            }}
+                          </FirestoreMutation>
+                        </ListItem>
+                      </List>
 
-                      <List>
+                      <List className={classes.docList}>
                         {docsData.value
                           .filter((doc) => !doc.is_public)
                           .map((doc, index) => (
@@ -246,7 +252,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                               to={`/${doc.url}`}
                               key={docsData.ids[index]}
                             >
-                              <ListItem button>
+                              <ListItem button className={classes.docListItem}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
@@ -258,45 +264,47 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                           ))}
                       </List>
                       <Divider />
-                      <ListItem>
-                        <ListItemIcon>
-                          <FolderSharedRoundedIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          className={classes.docFolder}
-                          primary="Public"
-                        />
-                        <FirestoreMutation
-                          type="add"
-                          path={`/users/${uid}/docs/`}
-                        >
-                          {({ runMutation }) => {
-                            return (
-                              <div>
-                                <button
-                                  className="docsAddIconButton"
-                                  onClick={() => {
-                                    runMutation({
-                                      name: randomConcept(),
-                                      url: uuid62.v4(),
-                                      is_public: true,
-                                      is_public_editable: false,
-                                      created_date: firebase.firestore.FieldValue.serverTimestamp(),
-                                      uid: uid,
-                                    }).then((res) => {
-                                      console.log("Ran mutation ", res);
-                                    });
-                                  }}
-                                >
-                                  <AddBoxRoundedIcon className="docsAddIcon" />
-                                </button>
-                              </div>
-                            );
-                          }}
-                        </FirestoreMutation>
-                      </ListItem>
+                      <List className={classes.docListHeaderList}>
+                        <ListItem>
+                          <ListItemIcon>
+                            <FolderSharedRoundedIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            className={classes.docFolder}
+                            primary="Public"
+                          />
+                          <FirestoreMutation
+                            type="add"
+                            path={`/users/${uid}/docs/`}
+                          >
+                            {({ runMutation }) => {
+                              return (
+                                <div>
+                                  <button
+                                    className="docsAddIconButton"
+                                    onClick={() => {
+                                      runMutation({
+                                        name: randomConcept(),
+                                        url: uuid62.v4(),
+                                        is_public: true,
+                                        is_public_editable: false,
+                                        created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                                        uid: uid,
+                                      }).then((res) => {
+                                        console.log("Ran mutation ", res);
+                                      });
+                                    }}
+                                  >
+                                    <AddBoxRoundedIcon className="docsAddIcon" />
+                                  </button>
+                                </div>
+                              );
+                            }}
+                          </FirestoreMutation>
+                        </ListItem>
+                      </List>
 
-                      <List>
+                      <List className={classes.docList}>
                         {docsData.value
                           .filter((doc) => doc.is_public)
                           .map((doc, index) => (
@@ -305,7 +313,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                               to={`/${doc.url}`}
                               key={docsData.ids[index]}
                             >
-                              <ListItem button>
+                              <ListItem button className={classes.docListItem}>
                                 <ListItemIcon>
                                   <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>

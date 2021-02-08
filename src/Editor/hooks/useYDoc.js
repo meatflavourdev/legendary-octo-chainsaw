@@ -9,9 +9,10 @@ import config from "../../config"
  * @return []
  */
 const useYDoc = function (doc_id) {
-  // Get yjs lib and create a reference to it
-  //const awareness = React.useRef(null);
+  // Create ref for yjs Y.Doc
   const yDoc = React.useRef(null);
+  // Create ref for awareness protocol
+  const awareness = React.useRef(null);
 
   // Allow other components to react to websocket sync state
   const [wsSync, setWsSync] = useState(false);
@@ -28,8 +29,11 @@ const useYDoc = function (doc_id) {
     const wsProvider = new WebsocketProvider(
       wsServerUrl,
       wsRoomname,
-      yDoc.current
+      yDoc.current,
     );
+
+    //Get the awareness object from the websocket provider
+    awareness.current = wsProvider.awareness;
 
     // Log connected status
     wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
@@ -43,7 +47,7 @@ const useYDoc = function (doc_id) {
     return () => wsProvider.destroy();
   }, [doc_id, wsServerUrl, wsRoomname]);
 
-  return [yDoc, wsSync];
+  return [yDoc, wsSync, awareness];
 }
 
 export default useYDoc;

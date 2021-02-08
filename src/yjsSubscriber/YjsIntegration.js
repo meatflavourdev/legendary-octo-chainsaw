@@ -53,8 +53,8 @@ function TestApp() {
                 {textInput}
               </label>
               <ul>
-              {value.map((v) => (
-                <div><strong>{v[0]} : </strong>{v[1]}</div>
+              {value.map((v, i) => (
+                <div key={i}><strong>{v[0]} : </strong>{v[1]}</div>
               ))}
               </ul>
             </div>

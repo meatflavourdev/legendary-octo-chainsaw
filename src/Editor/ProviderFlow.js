@@ -38,9 +38,6 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   //Window Dimensions hook
   const { height, width } = useWindowDimensions();
 
-  // Get a state array for React Flow's elements array.
-  // We'll use this to update React Flow from Yjs
-  const [elements, setElements] = React.useState([]);
 
   // Close Doc Drawer
   const handleDocsDrawerClose = () => setOpenDocs(false);
@@ -58,6 +55,9 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
+  // Get a state array for React Flow's elements array.
+  // We'll use this to update React Flow from Yjs
+  const [elements, setElements] = React.useState([]);
 
   React.useEffect(() => {
     if (wsSync) {
