@@ -42,12 +42,13 @@ export default function BasicTextFields({ submitMessage }) {
   };
 
   return (
-    <form className={classes.chatForm} noValidate autoComplete="off">
+    <form className={classes.chatForm} onSubmit={(e) => e.preventDefault()} noValidate>
       <TextField
         className={classes.textfield}
         id="outlined-basic"
         label="Got something to say?"
         variant="outlined"
+        multiline
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
