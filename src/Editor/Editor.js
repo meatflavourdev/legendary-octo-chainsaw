@@ -28,6 +28,8 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
+  // TODO: Get Chat Array and pass into
+
   // TODO: Move Document CRUD logic here
 
   const [yDoc, wsSync] = useYDoc(doc_id);

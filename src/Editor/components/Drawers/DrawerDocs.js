@@ -56,7 +56,13 @@ const useStyles = makeStyles((theme) => ({
   },
   entropyLogoText: {},
   docFolder: {},
-  docFileName: {},
+  docFileName: {
+    lineClamp: 1,
+    overflow: 'hidden',
+    display: '-webkit-box',
+    boxOrient: 'vertical',
+    wordBreak: 'break-all',
+  },
   docFileIcon: {},
   docTitle: {
     flexGrow: 1,
@@ -242,38 +248,11 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                             >
                               <ListItem button>
                                 <ListItemIcon>
-                                  <DescriptionRoundedIcon
-                                    className={classes.docFileIcon}
-                                  />
+                                  <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
-                                {!open ? (
-                                  <div>
-                                    <ListItemText
-                                      className={classes.docFileName}
-                                      secondary={doc.name}
-                                    />
-                                    <CreateIcon
-                                      className="docListLinkDelete"
-                                      onClick={handleOpen}
-                                    />
-                                    <DeleteForeverRoundedIcon
-                                      className="docListLinkDelete"
-                                      onClick={onDelete(docsData.ids[index])}
-                                    />
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <TextField
-                                      onChange={(e) => {
-                                        setName(e.target.value);
-                                      }}
-                                    />
-                                    <AddCircle
-                                      className="docListLinkDelete"
-                                      onClick={onUpdate(docsData.ids[index])}
-                                    />
-                                  </div>
-                                )}
+                                <ListItemText className={classes.docFileName}secondary={doc.name} />
+                                <CreateIcon className="docListLinkDelete" />
+                                <DeleteForeverRoundedIcon className="docListLinkDelete" />
                               </ListItem>
                             </Link>
                           ))}
@@ -326,40 +305,13 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                               to={`/${doc.url}`}
                               key={docsData.ids[index]}
                             >
-                              <ListItem button key={docsData.ids[index]}>
+                              <ListItem button>
                                 <ListItemIcon>
-                                  <DescriptionRoundedIcon
-                                    className={classes.docFileIcon}
-                                  />
+                                  <DescriptionRoundedIcon className={classes.docFileIcon} />
                                 </ListItemIcon>
-                                {!open ? (
-                                  <div>
-                                    <ListItemText
-                                      className={classes.docFileName}
-                                      secondary={doc.name}
-                                    />
-                                    <CreateIcon
-                                      className="docListLinkDelete"
-                                      onClick={onUpdate(docsData.ids[index])}
-                                    />
-                                    <DeleteForeverRoundedIcon
-                                      className="docListLinkDelete"
-                                      onClick={onDelete(docsData.ids[index])}
-                                    />
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <TextField
-                                      onChange={(e) => {
-                                        setName(e.target.value);
-                                      }}
-                                    />
-                                    <AddCircle
-                                      className="docListLinkDelete"
-                                      onClick={onUpdate(docsData.ids[index])}
-                                    />
-                                  </div>
-                                )}
+                                <ListItemText className={classes.docFileName}secondary={doc.name} />
+                                <CreateIcon className="docListLinkDelete" />
+                                <DeleteForeverRoundedIcon className="docListLinkDelete" />
                               </ListItem>
                             </Link>
                           ))}
