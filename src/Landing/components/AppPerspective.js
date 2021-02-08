@@ -9,7 +9,7 @@ const MouseOverContainer = React.forwardRef((props, ref) => {
 });
 
 const Ex1Layer = React.forwardRef((props, ref) => {
-  return <div ref={ref} id={`${props.id}-layer`} class="AppPerspectiveBox"></div>
+  return <div ref={ref} id={`${props.id}-layer`} className="AppPerspectiveBox"></div>
 });
 
 export default function AppPerspective(props) {
