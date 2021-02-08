@@ -8,8 +8,6 @@ import ChatInput from './ChatInput';
 
 import config from '../../../config';
 
-import { messages } from '../../data/messages.js'
-
 const drawerWidth = config.editor.drawerWidth;
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +54,19 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   }, [yDoc, wsSync]);
 
   const submitMessage = function (inputValue) {
-    console.log('Send Message: ', inputValue);
+    const messagesYArray = yDoc.current.getArray("messages");
+    const newMessage = {
+      user: {
+        displayName: "Jeremy Felix D.",
+        photoURL: "https://lh3.googleusercontent.com/a-/AOh14GgbynPUuv0Ejt3hiHulz0rxtn5DtY8BiWQKXqdhhLM=s96-c",
+        uid: "fqBjpB7hBGN1cME5G95garsEfqM2"
+      },
+      message: inputValue,
+      creationTime: 1611741946,
+      isUnread: true
+    };
+    messagesYArray.push([newMessage]);
+    console.log('Send Message: ', newMessage);
   };
 
   return (
