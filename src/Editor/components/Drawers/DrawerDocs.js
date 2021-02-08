@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperDocs: {
     width: drawerWidth,
-    boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+    boxShadow: "0 6px 7px rgb(0 0 0 / 9%), 0 4px 4px rgb(0 0 0 / 15%);",
   },
   drawerHeaderDocs: {
     display: "flex",
