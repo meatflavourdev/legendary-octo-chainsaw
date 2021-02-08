@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  chatMessageList: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',
@@ -40,10 +40,10 @@ export default function ChatList({ messages, chatListBottomRef }) {
 
   for (const message of messages) {
     chatMessages.push(
-      <Divider className={classes.listDivider} variant="inset" component="li" />
+      <Divider key={message.creationTime + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
     chatMessages.push(
-      <ListItem alignItems="flex-start">
+      <ListItem key={message.creationTime + '-message'} alignItems="flex-start">
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={message.user.photoURL} />
           </ListItemAvatar>
@@ -67,7 +67,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
     )
   }
   return (
-    <List className={classes.root}>
+    <List id="chatMessageListScroller" className={classes.chatMessageList}>
       {chatMessages}
       <li key="bottom" ref={chatListBottomRef} />
     </List>
