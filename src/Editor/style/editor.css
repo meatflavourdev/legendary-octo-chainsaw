@@ -58,7 +58,6 @@ margin-left: 15px;
 
 #chatMessageListScroller::-webkit-scrollbar {
   width: 20px;
-  background-color: transparent;
 }
 #chatMessageListScroller::-webkit-scrollbar-track {
   background-color: transparent;
