@@ -18,11 +18,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import TextField from "@material-ui/core/TextField";
 import logo from "../../../logo.png";
 
 import CreateIcon from "@material-ui/icons/Create";
-import AddCircle from "@material-ui/icons/AddCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -96,11 +94,6 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
   const classes = useStyles();
   const theme = useTheme();
   const [name, setName] = React.useState();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   // Close Doc Drawer
   const handleDocsDrawerClose = useCallback(() => setOpenDocs(false), [setOpenDocs]);
