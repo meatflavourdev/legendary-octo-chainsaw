@@ -44,12 +44,14 @@ export default function Editor() {
         setOpenDocs={setOpenDocs}
         setOpenChat={setOpenChat}
         users={users}
+        yDoc={yDoc}
+        wsSync={wsSync}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>
           <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
         </ReactFlowProvider>
-      <DrawerChat openChat={openChat} />
+      <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );
 }

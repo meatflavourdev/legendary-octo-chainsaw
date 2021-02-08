@@ -6,6 +6,8 @@ import Divider from '@material-ui/core/Divider';
 import ChatList from './ChatList';
 import ChatInput from './ChatInput';
 
+import { useAuth } from '../../../contexts/AuthContext';
+
 import config from '../../../config';
 
 const drawerWidth = config.editor.drawerWidth;
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperChat: {
     width: drawerWidth,
+    boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
   },
   drawerHeaderChat: {
     display: 'flex',
@@ -28,8 +31,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat }) {
+export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   const classes = useStyles();
+
+  const { currentUser } = useAuth();
+
+  const [messages, setMessages] = React.useState([]);
+
+  React.useEffect(() => {
+    if (wsSync) {
+      console.log(`Getting messages YArray`);
+      const messagesYArray = yDoc.current.getArray("messages");
+      setMessages(messagesYArray.toJSON());
+      // Update state on changes to Yjs elements Array
+      messagesYArray.observe(() => {
+        setMessages(messagesYArray.toJSON());
+      });
+    };
+    if (!wsSync) {
+      // Set the elements array to empty while loading elements from server
+      console.log(`Resetting messages yArray`);
+      setMessages([]);
+    }
+  }, [yDoc, wsSync]);
+
+  const submitMessage = function (inputValue) {
+    const messagesYArray = yDoc.current.getArray("messages");
+    const newMessage = {
+      user: {
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+        uid: currentUser.uid,
+      },
+      message: inputValue,
+      creationTime: new Date().getTime(),
+    };
+    wsSync && messagesYArray.push([newMessage]);
+  };
 
   return (
     <Drawer
@@ -43,8 +81,8 @@ export default function DrawerDocs({ openChat }) {
   >
     <div className={classes.drawerHeaderChat}></div>
     <Divider />
-      <ChatList />
-      <ChatInput />
+      <ChatList messages={messages} />
+      <ChatInput submitMessage={submitMessage} />
   </Drawer>
   );
 };
