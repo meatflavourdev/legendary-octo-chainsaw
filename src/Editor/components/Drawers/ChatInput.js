@@ -48,6 +48,7 @@ export default function BasicTextFields({ submitMessage }) {
         id="outlined-basic"
         label="Got something to say?"
         variant="outlined"
+        multiline
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
