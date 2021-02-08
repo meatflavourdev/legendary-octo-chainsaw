@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,8 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ChatList({ messages }) {
+export default function ChatList({ messages, chatListBottomRef }) {
   const classes = useStyles();
+
+  // Scroll to bottom of chat list on change
+  useEffect(() => {
+    chatListBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, chatListBottomRef]);
 
   const chatMessages = [];
 
@@ -64,6 +69,7 @@ export default function ChatList({ messages }) {
   return (
     <List className={classes.root}>
       {chatMessages}
+      <li key="bottom" ref={chatListBottomRef} />
     </List>
   );
 }

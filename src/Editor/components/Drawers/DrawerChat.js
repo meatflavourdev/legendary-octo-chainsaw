@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
@@ -36,7 +36,9 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
 
   const { currentUser } = useAuth();
 
-  const [messages, setMessages] = React.useState([]);
+  const [messages, setMessages] = useState([]);
+
+  const chatListBottomRef = useRef(null);
 
   React.useEffect(() => {
     if (wsSync) {
@@ -82,7 +84,7 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
   >
     <div className={classes.drawerHeaderChat}></div>
     <Divider />
-      <ChatList messages={messages} />
+      <ChatList messages={messages} chatListBottomRef={chatListBottomRef} />
       <ChatInput submitMessage={submitMessage} />
   </Drawer>
   );
