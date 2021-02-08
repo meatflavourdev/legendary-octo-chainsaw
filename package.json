@@ -2,6 +2,7 @@
   "name": "legendary-octo-chainsaw",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://legendary-octo-chainsaw.onrender.com/",
   "dependencies": {
     "@bit/davidhu2000.react-spinners.scale-loader": "^0.5.1",
     "@emotion/react": "latest",
