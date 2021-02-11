@@ -61,6 +61,7 @@ export default function AttributeToolbar({yDoc}) {
   const handleUpdateNodeData = (data) => {
     setOpen(false);
     const selectedIds = [];
+    if (!selectedElements) return; // Stop if selected elements is empty
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     }
