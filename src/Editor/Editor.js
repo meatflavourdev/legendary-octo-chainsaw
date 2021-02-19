@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { users } from './data/users.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
@@ -29,7 +28,7 @@ export default function Editor() {
   const [openChat, setOpenChat] = React.useState(false);
 
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
-  const [wsSync, yDoc, awareness] = useYDoc(doc_id);
+  const [wsSync, yDoc, awarenessState] = useYDoc(doc_id);
 
   // TODO: Move Document CRUD logic here
 
@@ -42,10 +41,9 @@ export default function Editor() {
         openChat={openChat}
         setOpenDocs={setOpenDocs}
         setOpenChat={setOpenChat}
-        users={users}
         wsSync={wsSync}
         yDoc={yDoc}
-        awareness={awareness}
+        awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>

@@ -53,12 +53,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, users}) {
+const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState}) {
   const classes = useStyles();
 
   const userAvatars = [];
 
-  for (const user of users) {
+  for (const user of awarenessState) {
     userAvatars.push(
       <Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
     );
