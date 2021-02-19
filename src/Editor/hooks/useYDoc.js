@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useCallbackRef, createCallbackRef } from 'use-callback-ref';
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import config from "../../config"
@@ -23,8 +24,10 @@ const useYDoc = function (doc_id) {
   const wsRoomname = doc_id;
 
   useEffect(() => {
+    console.log(`------------------------------`);
     console.log(`Loading Y.Doc: ${doc_id}`);
-    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
+    console.log(`serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
+    console.log(`------------------------------`);
 
     yDoc.current = new Y.Doc({ guid: doc_id });
 
@@ -44,7 +47,7 @@ const useYDoc = function (doc_id) {
       const newState = Array.from(awareness.getStates());
       setAwarenessState(newState);
       console.log('Awareness State:', newState)
-    })
+    });
 
     // Log connected status
     wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
@@ -57,6 +60,13 @@ const useYDoc = function (doc_id) {
 
     return () => wsProvider.destroy();
   }, [doc_id, wsServerUrl, wsRoomname]);
+
+/*   const memoizedCallback = useCallback(
+    () => {
+      //callback
+    },
+    [],
+  ); */
 
   return [wsSync, yDoc, awarenessState];
 }
