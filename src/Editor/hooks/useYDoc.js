@@ -31,16 +31,17 @@ const useYDoc = function (doc_id) {
   // Awareness reference
   const onAwarenessRefUpdate = (newValue) => {
     if (newValue) {
-      newValue.setLocalStateField('user', currentUserArr)
-      const newState = Array.from(newValue.getStates());
+      //console.log(`awareness: `, newValue);
+      newValue.setLocalState({ clientID: newValue.clientID, ...currentUserArr })
+      const newState = Array.from(newValue.getStates().values());
       setAwarenessState(newState);
     }
   };
-  const awarenessRef = useCallbackRef(null, onAwarenessRefUpdate);
+  const awarenessRef = useCallbackRef([], onAwarenessRefUpdate);
 
   // Console log on state change
   useEffect(() => {
-    console.log('awarenessState:', awarenessState);
+    //console.log('awarenessState:', awarenessState);
   }, [awarenessState]);
 
   //Environment variables
@@ -69,7 +70,7 @@ const useYDoc = function (doc_id) {
     awareness.on('change', () => {
       // Whenever somebody updates their awareness information,
       // we log all awareness information from all users.
-      const newState = Array.from(awareness.getStates());
+      const newState = Array.from(awareness.getStates().values());
       setAwarenessState(newState);
     });
 
