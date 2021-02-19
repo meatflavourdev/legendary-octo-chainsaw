@@ -48,7 +48,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
   const onLoad = (reactFlowInstance) => {
-    console.log("flow loaded:", reactFlowInstance);
+    //console.log("React Flow Loaded:", reactFlowInstance);
     reactFlowRef.current = reactFlowInstance;
   };
 

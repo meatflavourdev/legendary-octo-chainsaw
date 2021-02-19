@@ -31,18 +31,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat, yDoc, wsSync }) {
+export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
   const classes = useStyles();
 
   const { currentUser } = useAuth();
-
-  const [messages, setMessages] = useState([]);
+  const currentUserArr = {
+    displayName: currentUser.displayName,
+    photoURL: currentUser.photoURL,
+    uid: currentUser.uid,
+  };
 
   const chatListBottomRef = useRef(null);
 
+  const [messages, setMessages] = useState([]);
   React.useEffect(() => {
     if (wsSync) {
-      console.log(`Getting messages YArray`);
+      //console.log(`Getting messages YArray`);
       const messagesYArray = yDoc.current.getArray("messages");
       setMessages(messagesYArray.toJSON());
       // Update state on changes to Yjs elements Array
@@ -52,7 +56,7 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
     };
     if (!wsSync) {
       // Set the elements array to empty while loading elements from server
-      console.log(`Resetting messages yArray`);
+      //console.log(`Resetting messages yArray`);
       setMessages([]);
     }
   }, [yDoc, wsSync]);
@@ -61,11 +65,7 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
-      user: {
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        uid: currentUser.uid,
-      },
+      user: currentUserArr,
       message: inputValue,
       creationTime: new Date().getTime(),
     };
