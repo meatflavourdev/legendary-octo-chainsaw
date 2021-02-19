@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useCallbackRef, createCallbackRef } from 'use-callback-ref';
+import React, { useState, useEffect } from 'react';
+import { useCallbackRef } from 'use-callback-ref';
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import config from "../../config"
+
+import { useAuth } from '../../contexts/AuthContext';
 
 /**
  *
@@ -10,6 +12,13 @@ import config from "../../config"
  * @return []
  */
 const useYDoc = function (doc_id) {
+  const { currentUser } = useAuth();
+  const currentUserArr = {
+    displayName: currentUser.displayName,
+    photoURL: currentUser.photoURL,
+    uid: currentUser.uid,
+  };
+
   // Create ref for yjs Y.Doc
   const yDoc = React.useRef(null);
 
@@ -18,6 +27,21 @@ const useYDoc = function (doc_id) {
 
   // Awareness protocol state
   const [awarenessState, setAwarenessState] = useState([]);
+
+  // Awareness reference
+  const onAwarenessRefUpdate = (newValue) => {
+    if (newValue) {
+      newValue.setLocalStateField('user', currentUserArr)
+      const newState = Array.from(newValue.getStates());
+      setAwarenessState(newState);
+    }
+  };
+  const awarenessRef = useCallbackRef(null, onAwarenessRefUpdate);
+
+  // Console log on state change
+  useEffect(() => {
+    console.log('awarenessState:', awarenessState);
+  }, [awarenessState]);
 
   //Environment variables
   const wsServerUrl = config.yjsws.wsServerUrl;
@@ -39,6 +63,7 @@ const useYDoc = function (doc_id) {
 
     //Get the awareness object from the websocket provider
     const awareness = wsProvider.awareness;
+    awarenessRef.current = awareness;
 
     // You can observe when a any user updated their awareness information
     awareness.on('change', () => {
@@ -46,7 +71,6 @@ const useYDoc = function (doc_id) {
       // we log all awareness information from all users.
       const newState = Array.from(awareness.getStates());
       setAwarenessState(newState);
-      console.log('Awareness State:', newState)
     });
 
     // Log connected status
@@ -59,14 +83,7 @@ const useYDoc = function (doc_id) {
     setWsSync(false);
 
     return () => wsProvider.destroy();
-  }, [doc_id, wsServerUrl, wsRoomname]);
-
-/*   const memoizedCallback = useCallback(
-    () => {
-      //callback
-    },
-    [],
-  ); */
+  }, [doc_id, wsServerUrl, wsRoomname, awarenessRef]);
 
   return [wsSync, yDoc, awarenessState];
 }
