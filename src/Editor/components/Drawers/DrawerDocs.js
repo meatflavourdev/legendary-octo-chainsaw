@@ -154,13 +154,12 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
 
       <FirebaseAuthConsumer>
         {(authData) => {
-          console.log("authData: ", authData);
           const uid = authData.isSignedIn ? authData.user.uid.toString() : 0;
           return (
             <>
               <FirestoreCollection path={`/users/${uid}/docs/`}>
                 {(docsData) => {
-                  console.log("docsData", docsData);
+                  //console.log("docsData", docsData);
                   if (docsData.isLoading) {
                     return (
                       <Box display="flex" justifyContent="center" m={6} >
@@ -175,7 +174,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                   }
 
                   let onUpdate = (id) => () => {
-                    console.log("ONUPDATE ID", id);
+                    //console.log("ONUPDATE ID", id);
                     var db = firebase.firestore();
                     db.collection("users")
                       .doc(uid)
@@ -230,7 +229,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                                         created_date: firebase.firestore.FieldValue.serverTimestamp(),
                                         uid: uid,
                                       }).then((res) => {
-                                        console.log("Ran mutation ", res);
+                                        //console.log("Ran mutation ", res);
                                       });
                                     }}
                                   >
@@ -291,7 +290,7 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                                         created_date: firebase.firestore.FieldValue.serverTimestamp(),
                                         uid: uid,
                                       }).then((res) => {
-                                        console.log("Ran mutation ", res);
+                                        //console.log("Ran mutation ", res);
                                       });
                                     }}
                                   >

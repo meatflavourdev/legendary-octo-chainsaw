@@ -46,7 +46,7 @@ export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
   const [messages, setMessages] = useState([]);
   React.useEffect(() => {
     if (wsSync) {
-      console.log(`Getting messages YArray`);
+      //console.log(`Getting messages YArray`);
       const messagesYArray = yDoc.current.getArray("messages");
       setMessages(messagesYArray.toJSON());
       // Update state on changes to Yjs elements Array
@@ -56,7 +56,7 @@ export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
     };
     if (!wsSync) {
       // Set the elements array to empty while loading elements from server
-      console.log(`Resetting messages yArray`);
+      //console.log(`Resetting messages yArray`);
       setMessages([]);
     }
   }, [yDoc, wsSync]);
