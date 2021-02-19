@@ -28,11 +28,10 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
-  // TODO: Get Chat Array and pass into
+  // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
+  const [wsSync, yDoc, awareness] = useYDoc(doc_id);
 
   // TODO: Move Document CRUD logic here
-
-  const [yDoc, wsSync] = useYDoc(doc_id);
 
   return (
     <div className={classes.root}>
@@ -44,8 +43,9 @@ export default function Editor() {
         setOpenDocs={setOpenDocs}
         setOpenChat={setOpenChat}
         users={users}
-        yDoc={yDoc}
         wsSync={wsSync}
+        yDoc={yDoc}
+        awareness={awareness}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
         <ReactFlowProvider>

@@ -31,15 +31,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat, yDoc, wsSync }) {
+export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
   const classes = useStyles();
 
   const { currentUser } = useAuth();
-
-  const [messages, setMessages] = useState([]);
+  const currentUserArr = {
+    displayName: currentUser.displayName,
+    photoURL: currentUser.photoURL,
+    uid: currentUser.uid,
+  };
 
   const chatListBottomRef = useRef(null);
 
+  const [messages, setMessages] = useState([]);
   React.useEffect(() => {
     if (wsSync) {
       console.log(`Getting messages YArray`);
@@ -57,15 +61,36 @@ export default function DrawerDocs({ openChat, yDoc, wsSync }) {
     }
   }, [yDoc, wsSync]);
 
+    // Add current user data to awareness and get awareness state
+/*     const [awarenessState, setAwarenessState] = useState([]);
+    React.useEffect(() => {
+      if (wsSync) {
+        console.log('Setting awareness local state', currentUserArr);
+        awareness.current.setLocalState({
+          user: currentUserArr
+        });
+        const awarenessMap = awareness.current.getStates();
+        console.log('Getting local and remote awareness state', awarenessMap)
+        setAwarenessState(awarenessMap.entries());
+        // Handle awareness changes and update awarenessState
+        awareness.current.on('change', () => {
+          const awarenessMap = awareness.current.getStates();
+          setAwarenessState(awarenessMap.entries());
+          console.log('Awareness state changed:', awarenessState)
+        });
+      };
+      if (!wsSync) {
+        // Set the elements array to empty while loading elements from server
+        console.log('Resetting awarenessState');
+        setAwarenessState([]);
+      }
+    }, [yDoc, wsSync]); */
+
   const submitMessage = function (inputValue) {
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
-      user: {
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        uid: currentUser.uid,
-      },
+      user: currentUserArr,
       message: inputValue,
       creationTime: new Date().getTime(),
     };
