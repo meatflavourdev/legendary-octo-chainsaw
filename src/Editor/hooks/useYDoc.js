@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useCallbackRef } from 'use-callback-ref';
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import config from "../../config"
+
+import { useAuth } from '../../contexts/AuthContext';
 
 /**
  *
@@ -9,23 +12,57 @@ import config from "../../config"
  * @return []
  */
 const useYDoc = function (doc_id) {
+  const { currentUser } = useAuth();
+  const currentUserArr = {
+    displayName: currentUser.displayName,
+    //email: currentUser.email,
+    photoURL: currentUser.photoURL,
+    uid: currentUser.uid,
+    isAnonymous: currentUser.isAnonymous,
+  };
+
   // Create ref for yjs Y.Doc
   const yDoc = React.useRef(null);
-  // Create ref for awareness protocol
-  const awareness = React.useRef(null);
 
   // Allow other components to react to websocket sync state
   const [wsSync, setWsSync] = useState(false);
+
+  // Awareness protocol state
+  const [awarenessState, setAwarenessState] = useState([]);
+
+  // Awareness reference
+  const onAwarenessRefUpdate = (newValue) => {
+    if (newValue) {
+      //console.log(`awareness: `, newValue);
+      newValue.setLocalState({
+        clientID: newValue.clientID,
+        lastUpdated: newValue.meta.has(newValue.clientID) ? newValue.meta.get(newValue.clientID).lastUpdated : {},
+        ...currentUserArr
+      })
+      const newState = Array.from(newValue.getStates().values());
+      setAwarenessState(newState);
+    }
+  };
+  const awarenessRef = useCallbackRef([], onAwarenessRefUpdate);
+
+  // Console log on state change
+  useEffect(() => {
+    console.log('awarenessState:', awarenessState);
+    //console.log('awareness:', awarenessRef.current);
+  }, [awarenessState]);
 
   //Environment variables
   const wsServerUrl = config.yjsws.wsServerUrl;
   const wsRoomname = doc_id;
 
   useEffect(() => {
+    console.log(`------------------------------`);
     console.log(`Loading Y.Doc: ${doc_id}`);
+    console.log(`serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
+    console.log(`------------------------------`);
+
     yDoc.current = new Y.Doc({ guid: doc_id });
 
-    console.log(`yjs-server serverUrl: ${wsServerUrl} roomname: ${wsRoomname}`);
     const wsProvider = new WebsocketProvider(
       wsServerUrl,
       wsRoomname,
@@ -33,7 +70,14 @@ const useYDoc = function (doc_id) {
     );
 
     //Get the awareness object from the websocket provider
-    awareness.current = wsProvider.awareness;
+    const awareness = wsProvider.awareness;
+    awarenessRef.current = awareness;
+
+    // Observe when any user updates their awareness information
+    awareness.on('change', () => {
+      const newState = Array.from(awareness.getStates().values());
+      setAwarenessState(newState);
+    });
 
     // Log connected status
     wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
@@ -45,9 +89,9 @@ const useYDoc = function (doc_id) {
     setWsSync(false);
 
     return () => wsProvider.destroy();
-  }, [doc_id, wsServerUrl, wsRoomname]);
+  }, [doc_id, wsServerUrl, wsRoomname, awarenessRef]);
 
-  return [yDoc, wsSync, awareness];
+  return [wsSync, yDoc, awarenessState];
 }
 
 export default useYDoc;

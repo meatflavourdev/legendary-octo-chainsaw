@@ -48,7 +48,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
   const onLoad = (reactFlowInstance) => {
-    console.log("flow loaded:", reactFlowInstance);
+    //console.log("React Flow Loaded:", reactFlowInstance);
     reactFlowRef.current = reactFlowInstance;
   };
 
@@ -61,11 +61,11 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
 
   React.useEffect(() => {
     if (wsSync) {
-      console.log(`wsProvider isSynced: ${wsSync}`);
+      //console.log(`wsProvider isSynced: ${wsSync}`);
       const elementsYjs = yDoc.current.getArray("elements");
 
       if (elementsYjs.toArray().length === 0) {
-        console.log(`empty array-- loading initial elements`);
+        //console.log(`empty array-- loading initial elements`);
         initialElements.forEach((element, index) => {
           const node = new Y.Map();
           for (let [k, v] of Object.entries(element)) {
@@ -74,7 +74,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
           node.set("key", element.id);
           elementsYjs.insert(index, [node]);
         });
-        console.log("Filled Array: ", elementsYjs.toJSON());
+        //console.log("Filled Array: ", elementsYjs.toJSON());
         setElements(elementsYjs.toJSON());
       } else {
         setElements(elementsYjs.toJSON());
@@ -86,7 +86,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
     };
     if (!wsSync) {
       // Set the elements array to empty while loading elements from server
-      console.log(`wsProvider isSynced: ${wsSync}`);
+      //console.log(`wsProvider isSynced: ${wsSync}`);
       setElements([]);
     }
   }, [doc_id, yDoc, wsSync]);

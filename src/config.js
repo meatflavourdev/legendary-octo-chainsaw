@@ -1,6 +1,6 @@
 // config.js is
 
-const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "wss";
+const wsProtocol = process.env.REACT_APP_WSPROTOCOL || "ws";
 const wsHost = process.env.REACT_APP_WSHOST || "localhost";
 const wsPort = process.env.REACT_APP_WSPORT || 5001;
 

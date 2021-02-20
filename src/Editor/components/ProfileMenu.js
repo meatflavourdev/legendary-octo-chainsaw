@@ -109,7 +109,7 @@ export default function ProfileMenu() {
           </MenuItem>
         <StyledMenuItem>
           <ListItemIcon>
-            <ExitToAppIcon fontSize="medium" />
+            <ExitToAppIcon fontSize="default" />
           </ListItemIcon>
           <ListItemText onClick={handleLogout} primary="Sign Out" />
         </StyledMenuItem>
