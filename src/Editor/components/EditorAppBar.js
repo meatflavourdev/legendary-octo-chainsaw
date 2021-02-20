@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '10px',
   },
   userAvatar: {
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.12)',
     backgroundColor: '#03a9f4',
   }
 }));
