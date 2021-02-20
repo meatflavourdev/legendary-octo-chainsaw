@@ -164,8 +164,8 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
                     return (
                       <Box display="flex" justifyContent="center" m={6} >
                         <ScaleLoader
-                        height='40'
-                        width='10'
+                        height={40}
+                        width={10}
                         color='#b4b3fb'
                         />
                       </Box>
