@@ -66,10 +66,8 @@ const useYDoc = function (doc_id) {
     const awareness = wsProvider.awareness;
     awarenessRef.current = awareness;
 
-    // You can observe when a any user updated their awareness information
+    // Observe when any user updates their awareness information
     awareness.on('change', () => {
-      // Whenever somebody updates their awareness information,
-      // we log all awareness information from all users.
       const newState = Array.from(awareness.getStates().values());
       setAwarenessState(newState);
     });
