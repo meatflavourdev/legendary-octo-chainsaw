@@ -15,8 +15,10 @@ const useYDoc = function (doc_id) {
   const { currentUser } = useAuth();
   const currentUserArr = {
     displayName: currentUser.displayName,
+    //email: currentUser.email,
     photoURL: currentUser.photoURL,
     uid: currentUser.uid,
+    isAnonymous: currentUser.isAnonymous,
   };
 
   // Create ref for yjs Y.Doc
@@ -32,7 +34,11 @@ const useYDoc = function (doc_id) {
   const onAwarenessRefUpdate = (newValue) => {
     if (newValue) {
       //console.log(`awareness: `, newValue);
-      newValue.setLocalState({ clientID: newValue.clientID, ...currentUserArr })
+      newValue.setLocalState({
+        clientID: newValue.clientID,
+        lastUpdated: newValue.meta.has(newValue.clientID) ? newValue.meta.get(newValue.clientID).lastUpdated : {},
+        ...currentUserArr
+      })
       const newState = Array.from(newValue.getStates().values());
       setAwarenessState(newState);
     }
