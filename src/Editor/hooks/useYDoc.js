@@ -41,7 +41,8 @@ const useYDoc = function (doc_id) {
 
   // Console log on state change
   useEffect(() => {
-    //console.log('awarenessState:', awarenessState);
+    console.log('awarenessState:', awarenessState);
+    //console.log('awareness:', awarenessRef.current);
   }, [awarenessState]);
 
   //Environment variables
