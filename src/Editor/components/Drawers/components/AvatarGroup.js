@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { chainPropTypes } from '@material-ui/utils';
+import { Tooltip } from '@material-ui/core';
 
 const SPACINGS = {
   small: -16,
@@ -34,6 +35,7 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(props, ref) {
     max = 5,
     spacing = 'medium',
     minZIndex = 0,
+    usernames = [],
     ...other
   } = props;
   const clampedMax = max < 2 ? 2 : max;
@@ -57,6 +59,10 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(props, ref) {
 
   const marginLeft = spacing && SPACINGS[spacing] !== undefined ? SPACINGS[spacing] : -spacing;
 
+  const extraUsernames = extraAvatars ? usernames.slice(clampedMax - 1).map((username, index) => {
+    return (<React.Fragment key={`${index} - ${username}`}>{username}<br /></React.Fragment>);
+  }) : null;
+
   return (
     <div className={clsx(classes.root, className)} ref={ref} {...other}>
       {children.slice(0, children.length - extraAvatars).map((child, index) => {
@@ -70,15 +76,26 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(props, ref) {
         });
       })}
       {extraAvatars ? (
-        <Avatar
-          className={classes.avatar}
-          style={{
-            zIndex: minZIndex,
-            marginLeft,
-          }}
+        <Tooltip
+          key="extra"
+          title={
+            <React.Fragment>
+              {extraUsernames}
+            </React.Fragment>
+          }
+          placement="bottom"
+          arrow={true}
         >
-          +{extraAvatars}
-        </Avatar>
+          <Avatar
+            className={classes.avatar}
+            style={{
+              zIndex: minZIndex,
+              marginLeft,
+            }}
+          >
+            +{extraAvatars}
+          </Avatar>
+        </Tooltip>
       ) : null}
     </div>
   );

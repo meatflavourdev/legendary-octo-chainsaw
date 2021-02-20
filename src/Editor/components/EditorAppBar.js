@@ -9,11 +9,11 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import AvatarGroup from './Drawers/components/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import config from '../../config';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Tooltip } from '@material-ui/core';
 
 const drawerWidth = config.editor.drawerWidth;
 
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   userAvatar: {
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    backgroundColor: '#03a9f4',
   }
 }));
 
@@ -57,11 +58,16 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
   const classes = useStyles();
 
   const userAvatars = [];
+  const userNames = [];
 
   for (const user of awarenessState) {
+    // console.log('user: ', user)
     userAvatars.push(
-      <Avatar key={user.displayName} src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
+      <Tooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
+        <Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
+      </Tooltip>
     );
+    userNames.push(user.displayName);
   }
 
   return (
@@ -86,7 +92,7 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
       <Typography className={classes.docTitle} variant="h6">
         { docName }
       </Typography>
-      <AvatarGroup className={classes.avatarGroup} max={10} spacing="25">
+      <AvatarGroup className={classes.avatarGroup} max={6} spacing={10} usernames={userNames}>
         {userAvatars}
       </AvatarGroup>
       <IconButton onClick={() => setOpenChat(!openChat)} color="inherit" >
