@@ -60,15 +60,18 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
   const userAvatars = [];
   const userNames = [];
 
-  for (const user of awarenessState) {
-    // console.log('user: ', user)
-    userAvatars.push(
-      <Tooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
-        <Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
-      </Tooltip>
-    );
-    userNames.push(user.displayName);
+  if (awarenessState && awarenessState.length) {
+    for (const user of awarenessState) {
+      // console.log('user: ', user)
+      userAvatars.push(
+        <Tooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
+          <Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
+        </Tooltip>
+      );
+      userNames.push(user.displayName);
+    }
   }
+
 
   return (
     <AppBar
