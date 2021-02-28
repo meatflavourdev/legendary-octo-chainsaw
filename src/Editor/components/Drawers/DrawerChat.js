@@ -6,8 +6,6 @@ import Divider from '@material-ui/core/Divider';
 import ChatList from './ChatList';
 import ChatInput from './ChatInput';
 
-import { useAuth } from '../../../contexts/AuthContext';
-
 import config from '../../../config';
 
 const drawerWidth = config.editor.drawerWidth;
@@ -31,15 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
+export default function DrawerDocs({ openChat, wsSync, yDoc, awareness, user }) {
   const classes = useStyles();
-
-  const { currentUser } = useAuth();
-  const currentUserArr = {
-    displayName: currentUser.displayName,
-    photoURL: currentUser.photoURL,
-    uid: currentUser.uid,
-  };
 
   const chatListBottomRef = useRef(null);
 
@@ -65,7 +56,7 @@ export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
-      user: currentUserArr,
+      user: user,
       message: inputValue,
       creationTime: new Date().getTime(),
     };
