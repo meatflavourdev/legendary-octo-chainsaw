@@ -11,16 +11,7 @@ import { useAuth } from '../../contexts/AuthContext';
  * @param  {string} doc_id
  * @return []
  */
-const useYDoc = function (doc_id) {
-  const { currentUser } = useAuth();
-  const currentUserArr = {
-    displayName: currentUser.displayName,
-    //email: currentUser.email,
-    photoURL: currentUser.photoURL,
-    uid: currentUser.uid,
-    isAnonymous: currentUser.isAnonymous,
-  };
-
+const useYDoc = function (doc_id, currentUser) {
   // Create ref for yjs Y.Doc
   const yDoc = React.useRef(null);
 
@@ -37,7 +28,7 @@ const useYDoc = function (doc_id) {
       newValue.setLocalState({
         clientID: newValue.clientID,
         lastUpdated: newValue.meta.has(newValue.clientID) ? newValue.meta.get(newValue.clientID).lastUpdated : {},
-        ...currentUserArr
+        ...currentUser
       })
       const newState = Array.from(newValue.getStates().values());
       setAwarenessState(newState);
