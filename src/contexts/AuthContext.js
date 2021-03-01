@@ -27,13 +27,6 @@ export function AuthProvider({ children }) {
     return auth.sendPasswordResetEmail(email)
   }
 
-  function updateProfile(profile) {
-    return currentUser.updateProfile(profile)
-      .then(() => {
-        console.log('Successfully updated profile: ', auth.user);
-    });
-  }
-
   function updateEmail(email) {
     return currentUser.updateEmail(email)
   }
@@ -68,7 +61,6 @@ export function AuthProvider({ children }) {
     signup,
     logout,
     resetPassword,
-    updateProfile,
     updateEmail,
     updatePassword
   }
