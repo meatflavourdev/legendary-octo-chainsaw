@@ -7,6 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import { useAuth } from '../../../contexts/AuthContext';
+
+const ago = require('s-ago');
 
 const useStyles = makeStyles((theme) => ({
   chatMessageList: {
@@ -24,12 +27,25 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
     margin: 0,
-  }
+  },
+  messageBody: {
+    marginTop: '-3px',
+  },
+  messageTime: {
+    display: 'inline-block',
+    marginBottom: '3px',
+  },
+  messageText: {
+    display: 'inline-block',
+    marginTop: '0',
+  },
 }));
 
 
 export default function ChatList({ messages, chatListBottomRef }) {
   const classes = useStyles();
+
+  const { generateColor } = useAuth();
 
   // Scroll to bottom of chat list on change
   useEffect(() => {
@@ -42,25 +58,34 @@ export default function ChatList({ messages, chatListBottomRef }) {
     chatMessages.push(
       <Divider key={message.creationTime + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
+    const collabColor = message.collabColor || generateColor(message.user.displayName, message.collabColor?.seed || '3qPMzsB5uk3P5Qf52Qmbsa');
     chatMessages.push(
       <ListItem key={message.creationTime + '-message'} alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src={message.user.photoURL} />
+          <Avatar alt="Remy Sharp" style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
           </ListItemAvatar>
           <ListItemText
             primary={message.user.displayName}
             secondary={
-              <React.Fragment>
+              <div className={classes.messageBody}>
                 <Typography
                   component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
+                  variant="caption"
+                  className={classes.messageTime}
+                  color="textSecondary"
                 >
-                  {/* Person or Linked Comment can go here */}
+                  {ago(new Date(message.creationTime))}
                 </Typography>
-                {message.message}
-              </React.Fragment>
+                <br/>
+                <Typography
+                  component="span"
+                  variant="body"
+                  className={classes.messageText}
+                  color="textPrimary"
+                  >
+                  {message.message}
+                </Typography>
+              </div>
             }
         />
         </ListItem>

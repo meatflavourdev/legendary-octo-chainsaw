@@ -10,6 +10,8 @@ import { useAuth } from '../../../contexts/AuthContext';
 
 import config from '../../../config';
 
+const uuid62 = require("uuid62");
+
 const drawerWidth = config.editor.drawerWidth;
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +41,7 @@ export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
     displayName: currentUser.displayName,
     photoURL: currentUser.photoURL,
     uid: currentUser.uid,
+    collabColor: currentUser.collabColor,
   };
 
   const chatListBottomRef = useRef(null);
@@ -65,6 +68,7 @@ export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
+      id: uuid62.v4(),
       user: currentUserArr,
       message: inputValue,
       creationTime: new Date().getTime(),

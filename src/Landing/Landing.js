@@ -261,7 +261,7 @@ export default function Landing() {
   const classes = useStyles();
 
   const [error, setError] = useState('');
-  const { currentUser, logout } = useAuth();
+  const { logout } = useAuth();
   const history = useHistory();
 
   async function handleLogout() {
