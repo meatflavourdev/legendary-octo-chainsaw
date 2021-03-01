@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "../firebase"
+import { anonymousAnimalAvatar } from '../helpers/nameGenerators';
 
 const AuthContext = React.createContext()
 
@@ -8,6 +9,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
+  const [anonUser, setAnonUser] = useState()
+
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
 
@@ -38,10 +41,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       user && setCurrentUser({
-        displayName: user.displayName,
+        displayName: user.displayName|| anonUser.displayName || null,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        photoURL: user.photoURL,
+        photoURL: user.photoURL || anonUser.photoURL || null,
         providerId: user.providerId,
         uid: user.uid,
         emailVerified: user.emailVerified,
@@ -53,6 +56,14 @@ export function AuthProvider({ children }) {
     })
 
     return unsubscribe
+  }, [anonUser])
+
+  useEffect(() => {
+    const anonProfile = anonymousAnimalAvatar('./img/');
+    setAnonUser({
+      displayName: anonProfile.name,
+      photoURL: anonProfile.url,
+    });
   }, [])
 
   const value = {
