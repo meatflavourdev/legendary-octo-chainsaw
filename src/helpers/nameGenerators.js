@@ -660,8 +660,8 @@ const nounsAnimalAvatars = [
     url: 'avatar/svg/050-octopus_transparent.svg',
   },
   {
-    name: 'Green Glozo',
-    url: 'avatar/svg/051-green-glozo_transparent.svg',
+    name: 'Croodleweeper',
+    url: 'avatar/svg/051-croodleweeper_transparent.svg',
   },
   {
     name: 'Abgan Spaarg',
