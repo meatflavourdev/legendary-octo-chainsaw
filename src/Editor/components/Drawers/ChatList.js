@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   chatMessageList: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ChatList({ messages, chatListBottomRef }) {
   const classes = useStyles();
 
+  const { generateColor } = useAuth();
+
   // Scroll to bottom of chat list on change
   useEffect(() => {
     chatListBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -42,10 +45,11 @@ export default function ChatList({ messages, chatListBottomRef }) {
     chatMessages.push(
       <Divider key={message.creationTime + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
+    const collabColor = message.collabColor || generateColor(message.user.displayName, message.collabColor?.seed || '3qPMzsB5uk3P5Qf52Qmbsa');
     chatMessages.push(
       <ListItem key={message.creationTime + '-message'} alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src={message.user.photoURL} />
+          <Avatar alt="Remy Sharp" style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
           </ListItemAvatar>
           <ListItemText
             primary={message.user.displayName}
