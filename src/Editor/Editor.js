@@ -31,24 +31,7 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
-  const { currentUser, updateProfile } = useAuth();
-  //React.useEffect(() => {
-    console.log('currentUser: ', currentUser);
-    if (currentUser) {
-      console.log('No user found-- Signing user in anonymously...');
-      firebase
-        .auth()
-        .signInAnonymously()
-        .then(() => {
-          console.log('updating user profile..: ', currentUser);
-          updateProfile({
-            displayName: 'Test Name',
-            photoURL: null,
-          })
-      })
-    }
-  //}, [currentUser, updateProfile]);
-
+  const { currentUser } = useAuth();
 
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
   const [wsSync, yDoc, awarenessState] = useYDoc(doc_id, currentUser);
