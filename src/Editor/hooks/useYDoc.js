@@ -36,6 +36,11 @@ const useYDoc = function (doc_id, currentUser) {
   };
   const awarenessRef = useCallbackRef([], onAwarenessRefUpdate);
 
+  // Update awareness on currentUser change
+  useEffect(() => {
+    awarenessRef.current && awarenessRef.current.setLocalState && awarenessRef.current.setLocalState({...currentUser});
+  }, [currentUser])
+
   // Console log on state change
   useEffect(() => {
     console.log('awarenessState:', awarenessState);
