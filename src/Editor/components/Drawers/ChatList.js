@@ -67,7 +67,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
         <ListItemText
             primary={message.user.displayName}
             secondary={
-              <div className={classes.messageBody}>
+              <span className={classes.messageBody}>
                 <Typography
                   component="span"
                   variant="caption"
@@ -85,7 +85,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
                   >
                   {message.message}
                 </Typography>
-              </div>
+              </span>
             }
         />
         </ListItem>
