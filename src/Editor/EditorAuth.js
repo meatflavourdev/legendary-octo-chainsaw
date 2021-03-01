@@ -4,11 +4,11 @@ import Editor from './Editor';
 import { anonymousAnimalAvatar } from '../helpers/nameGenerators';
 
 import firebase from "firebase";
-import { useAuth, updateProfile } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function EditorAuth() {
 
-  const { currentUser, updateProfile } = useAuth();
+  const { currentUser } = useAuth();
 
   React.useEffect(() => {
     console.log('currentUser: ', currentUser);
