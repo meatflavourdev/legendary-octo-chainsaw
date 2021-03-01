@@ -458,6 +458,208 @@ const nounsAnimals = [
   'Yak',
   'Zebra',
 ];
+const nounsAnimalAvatars = [
+  {
+    name: 'parrot',
+    url: 'avatar/svg/001-parrot.svg',
+  },
+  {
+    name: 'penguin',
+    url: 'avatar/svg/002-penguin.svg',
+  },
+  {
+    name: 'giraffe',
+    url: 'avatar/svg/003-giraffe.svg',
+  },
+  {
+    name: 'bear',
+    url: 'avatar/svg/004-bear.svg',
+  },
+  {
+    name: 'puffer Fish',
+    url: 'avatar/svg/005-puffer-fish.svg',
+  },
+  {
+    name: 'sloth',
+    url: 'avatar/svg/006-sloth.svg',
+  },
+  {
+    name: 'gorilla',
+    url: 'avatar/svg/007-gorilla.svg',
+  },
+  {
+    name: 'fox',
+    url: 'avatar/svg/008-fox.svg',
+  },
+  {
+    name: 'zebra',
+    url: 'avatar/svg/009-zebra.svg',
+  },
+  {
+    name: 'bat',
+    url: 'avatar/svg/010-bat.svg',
+  },
+  {
+    name: 'owl',
+    url: 'avatar/svg/011-owl.svg',
+  },
+  {
+    name: 'crab',
+    url: 'avatar/svg/012-crab.svg',
+  },
+  {
+    name: 'llama',
+    url: 'avatar/svg/013-llama.svg',
+  },
+  {
+    name: 'snake',
+    url: 'avatar/svg/014-snake.svg',
+  },
+  {
+    name: 'wolf',
+    url: 'avatar/svg/015-wolf.svg',
+  },
+  {
+    name: 'lion',
+    url: 'avatar/svg/016-lion.svg',
+  },
+  {
+    name: 'goat',
+    url: 'avatar/svg/017-goat.svg',
+  },
+  {
+    name: 'rabbit',
+    url: 'avatar/svg/018-rabbit.svg',
+  },
+  {
+    name: 'ferret',
+    url: 'avatar/svg/019-ferret.svg',
+  },
+  {
+    name: 'mouse',
+    url: 'avatar/svg/020-mouse.svg',
+  },
+  {
+    name: 'turtle',
+    url: 'avatar/svg/021-turtle.svg',
+  },
+  {
+    name: 'hen',
+    url: 'avatar/svg/022-hen.svg',
+  },
+  {
+    name: 'pig',
+    url: 'avatar/svg/023-pig.svg',
+  },
+  {
+    name: 'hedgehog',
+    url: 'avatar/svg/024-hedgehog.svg',
+  },
+  {
+    name: 'walrus',
+    url: 'avatar/svg/025-walrus.svg',
+  },
+  {
+    name: 'skunk',
+    url: 'avatar/svg/026-skunk.svg',
+  },
+  {
+    name: 'frog',
+    url: 'avatar/svg/027-frog.svg',
+  },
+  {
+    name: 'chameleon',
+    url: 'avatar/svg/028-chameleon.svg',
+  },
+  {
+    name: 'squirrel',
+    url: 'avatar/svg/029-squirrel.svg',
+  },
+  {
+    name: 'rhino',
+    url: 'avatar/svg/030-rhino.svg',
+  },
+  {
+    name: 'ostrich',
+    url: 'avatar/svg/031-ostrich.svg',
+  },
+  {
+    name: 'hippopotamus',
+    url: 'avatar/svg/032-hippopotamus.svg',
+  },
+  {
+    name: 'koala',
+    url: 'avatar/svg/033-koala.svg',
+  },
+  {
+    name: 'camel',
+    url: 'avatar/svg/034-camel.svg',
+  },
+  {
+    name: 'beaver',
+    url: 'avatar/svg/035-beaver.svg',
+  },
+  {
+    name: 'dog',
+    url: 'avatar/svg/036-dog.svg',
+  },
+  {
+    name: 'turkey',
+    url: 'avatar/svg/037-turkey.svg',
+  },
+  {
+    name: 'deer',
+    url: 'avatar/svg/038-deer.svg',
+  },
+  {
+    name: 'cow',
+    url: 'avatar/svg/039-cow.svg',
+  },
+  {
+    name: 'elephant',
+    url: 'avatar/svg/040-elephant.svg',
+  },
+  {
+    name: 'chicken',
+    url: 'avatar/svg/041-chicken.svg',
+  },
+  {
+    name: 'duck',
+    url: 'avatar/svg/042-duck.svg',
+  },
+  {
+    name: 'wild Boar',
+    url: 'avatar/svg/043-wild-boar.svg',
+  },
+  {
+    name: 'bee',
+    url: 'avatar/svg/044-bee.svg',
+  },
+  {
+    name: 'horse',
+    url: 'avatar/svg/045-horse.svg',
+  },
+  {
+    name: 'sheep',
+    url: 'avatar/svg/046-sheep.svg',
+  },
+  {
+    name: 'panda',
+    url: 'avatar/svg/047-panda.svg',
+  },
+  {
+    name: 'monkey',
+    url: 'avatar/svg/048-monkey.svg',
+  },
+  {
+    name: 'cat',
+    url: 'avatar/svg/049-cat.svg',
+  },
+  {
+    name: 'octopus',
+    url: 'avatar/svg/050-octopus.svg',
+  },
+];
 
 const nounsConcepts = [
   'concept',
@@ -564,6 +766,15 @@ const anonymousAnimal = function () {
   return `${util.capitalizeFirstLetter(adjective)} ${util.capitalizeFirstLetter(noun)}`;
 };
 
+const anonymousAnimalAvatar = function (urlPrefix = './') {
+  const adjective = adjectivesAnonymous[util.aRandom(adjectivesAnonymous.length)];
+  const noun = nounsAnimalAvatars[util.aRandom(nounsAnimalAvatars.length)];
+  return {
+    name: `${util.capitalizeFirstLetter(adjective)} ${util.capitalizeFirstLetter(noun.name)}`,
+    url: `${urlPrefix}${noun.url}`,
+  };
+};
+
 const randomConcept = function () {
   const adjective = adjectivesConcepts[util.aRandom(adjectivesConcepts.length)];
   const noun = nounsConcepts[util.aRandom(nounsConcepts.length)];
@@ -573,5 +784,6 @@ const randomConcept = function () {
 export {
   randomAnimal,
   anonymousAnimal,
+  anonymousAnimalAvatar,
   randomConcept
 };
