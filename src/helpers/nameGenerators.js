@@ -461,203 +461,247 @@ const nounsAnimals = [
 const nounsAnimalAvatars = [
   {
     name: 'parrot',
-    url: 'avatar/svg/001-parrot.svg',
+    url: 'avatar/svg/001-parrot_transparent.svg',
   },
   {
     name: 'penguin',
-    url: 'avatar/svg/002-penguin.svg',
+    url: 'avatar/svg/002-penguin_transparent.svg',
   },
   {
     name: 'giraffe',
-    url: 'avatar/svg/003-giraffe.svg',
+    url: 'avatar/svg/003-giraffe_transparent.svg',
   },
   {
     name: 'bear',
-    url: 'avatar/svg/004-bear.svg',
+    url: 'avatar/svg/004-bear_transparent.svg',
   },
   {
     name: 'puffer Fish',
-    url: 'avatar/svg/005-puffer-fish.svg',
+    url: 'avatar/svg/005-puffer-fish_transparent.svg',
   },
   {
     name: 'sloth',
-    url: 'avatar/svg/006-sloth.svg',
+    url: 'avatar/svg/006-sloth_transparent.svg',
   },
   {
     name: 'gorilla',
-    url: 'avatar/svg/007-gorilla.svg',
+    url: 'avatar/svg/007-gorilla_transparent.svg',
   },
   {
     name: 'fox',
-    url: 'avatar/svg/008-fox.svg',
+    url: 'avatar/svg/008-fox_transparent.svg',
   },
   {
     name: 'zebra',
-    url: 'avatar/svg/009-zebra.svg',
+    url: 'avatar/svg/009-zebra_transparent.svg',
   },
   {
     name: 'bat',
-    url: 'avatar/svg/010-bat.svg',
+    url: 'avatar/svg/010-bat_transparent.svg',
   },
   {
     name: 'owl',
-    url: 'avatar/svg/011-owl.svg',
+    url: 'avatar/svg/011-owl_transparent.svg',
   },
   {
     name: 'crab',
-    url: 'avatar/svg/012-crab.svg',
+    url: 'avatar/svg/012-crab_transparent.svg',
   },
   {
     name: 'llama',
-    url: 'avatar/svg/013-llama.svg',
+    url: 'avatar/svg/013-llama_transparent.svg',
   },
   {
     name: 'snake',
-    url: 'avatar/svg/014-snake.svg',
+    url: 'avatar/svg/014-snake_transparent.svg',
   },
   {
     name: 'wolf',
-    url: 'avatar/svg/015-wolf.svg',
+    url: 'avatar/svg/015-wolf_transparent.svg',
   },
   {
     name: 'lion',
-    url: 'avatar/svg/016-lion.svg',
+    url: 'avatar/svg/016-lion_transparent.svg',
   },
   {
     name: 'goat',
-    url: 'avatar/svg/017-goat.svg',
+    url: 'avatar/svg/017-goat_transparent.svg',
   },
   {
     name: 'rabbit',
-    url: 'avatar/svg/018-rabbit.svg',
+    url: 'avatar/svg/018-rabbit_transparent.svg',
   },
   {
     name: 'ferret',
-    url: 'avatar/svg/019-ferret.svg',
+    url: 'avatar/svg/019-ferret_transparent.svg',
   },
   {
     name: 'mouse',
-    url: 'avatar/svg/020-mouse.svg',
+    url: 'avatar/svg/020-mouse_transparent.svg',
   },
   {
     name: 'turtle',
-    url: 'avatar/svg/021-turtle.svg',
+    url: 'avatar/svg/021-turtle_transparent.svg',
   },
   {
     name: 'hen',
-    url: 'avatar/svg/022-hen.svg',
+    url: 'avatar/svg/022-hen_transparent.svg',
   },
   {
     name: 'pig',
-    url: 'avatar/svg/023-pig.svg',
+    url: 'avatar/svg/023-pig_transparent.svg',
   },
   {
     name: 'hedgehog',
-    url: 'avatar/svg/024-hedgehog.svg',
+    url: 'avatar/svg/024-hedgehog_transparent.svg',
   },
   {
     name: 'walrus',
-    url: 'avatar/svg/025-walrus.svg',
+    url: 'avatar/svg/025-walrus_transparent.svg',
   },
   {
     name: 'skunk',
-    url: 'avatar/svg/026-skunk.svg',
+    url: 'avatar/svg/026-skunk_transparent.svg',
   },
   {
     name: 'frog',
-    url: 'avatar/svg/027-frog.svg',
+    url: 'avatar/svg/027-frog_transparent.svg',
   },
   {
     name: 'chameleon',
-    url: 'avatar/svg/028-chameleon.svg',
+    url: 'avatar/svg/028-chameleon_transparent.svg',
   },
   {
     name: 'squirrel',
-    url: 'avatar/svg/029-squirrel.svg',
+    url: 'avatar/svg/029-squirrel_transparent.svg',
   },
   {
     name: 'rhino',
-    url: 'avatar/svg/030-rhino.svg',
+    url: 'avatar/svg/030-rhino_transparent.svg',
   },
   {
     name: 'ostrich',
-    url: 'avatar/svg/031-ostrich.svg',
+    url: 'avatar/svg/031-ostrich_transparent.svg',
   },
   {
     name: 'hippopotamus',
-    url: 'avatar/svg/032-hippopotamus.svg',
+    url: 'avatar/svg/032-hippopotamus_transparent.svg',
   },
   {
     name: 'koala',
-    url: 'avatar/svg/033-koala.svg',
+    url: 'avatar/svg/033-koala_transparent.svg',
   },
   {
     name: 'camel',
-    url: 'avatar/svg/034-camel.svg',
+    url: 'avatar/svg/034-camel_transparent.svg',
   },
   {
     name: 'beaver',
-    url: 'avatar/svg/035-beaver.svg',
+    url: 'avatar/svg/035-beaver_transparent.svg',
   },
   {
     name: 'dog',
-    url: 'avatar/svg/036-dog.svg',
+    url: 'avatar/svg/036-dog_transparent.svg',
   },
   {
     name: 'turkey',
-    url: 'avatar/svg/037-turkey.svg',
+    url: 'avatar/svg/037-turkey_transparent.svg',
   },
   {
     name: 'deer',
-    url: 'avatar/svg/038-deer.svg',
+    url: 'avatar/svg/038-deer_transparent.svg',
   },
   {
     name: 'cow',
-    url: 'avatar/svg/039-cow.svg',
+    url: 'avatar/svg/039-cow_transparent.svg',
   },
   {
     name: 'elephant',
-    url: 'avatar/svg/040-elephant.svg',
+    url: 'avatar/svg/040-elephant_transparent.svg',
   },
   {
     name: 'chicken',
-    url: 'avatar/svg/041-chicken.svg',
+    url: 'avatar/svg/041-chicken_transparent.svg',
   },
   {
     name: 'duck',
-    url: 'avatar/svg/042-duck.svg',
+    url: 'avatar/svg/042-duck_transparent.svg',
   },
   {
     name: 'wild Boar',
-    url: 'avatar/svg/043-wild-boar.svg',
+    url: 'avatar/svg/043-wild-boar_transparent.svg',
   },
   {
     name: 'bee',
-    url: 'avatar/svg/044-bee.svg',
+    url: 'avatar/svg/044-bee_transparent.svg',
   },
   {
     name: 'horse',
-    url: 'avatar/svg/045-horse.svg',
+    url: 'avatar/svg/045-horse_transparent.svg',
   },
   {
     name: 'sheep',
-    url: 'avatar/svg/046-sheep.svg',
+    url: 'avatar/svg/046-sheep_transparent.svg',
   },
   {
     name: 'panda',
-    url: 'avatar/svg/047-panda.svg',
+    url: 'avatar/svg/047-panda_transparent.svg',
   },
   {
     name: 'monkey',
-    url: 'avatar/svg/048-monkey.svg',
+    url: 'avatar/svg/048-monkey_transparent.svg',
   },
   {
     name: 'cat',
-    url: 'avatar/svg/049-cat.svg',
+    url: 'avatar/svg/049-cat_transparent.svg',
   },
   {
     name: 'octopus',
-    url: 'avatar/svg/050-octopus.svg',
+    url: 'avatar/svg/050-octopus_transparent.svg',
+  },
+  {
+    name: 'Green Glozo',
+    url: 'avatar/svg/051-green-glozo_transparent.svg',
+  },
+  {
+    name: 'Abgan Spaarg',
+    url: 'avatar/svg/052-purple-spaarg_transparent.svg',
+  },
+  {
+    name: 'Gaseous Lifeform',
+    url: 'avatar/svg/053-gaseous-lifeform_transparent.svg',
+  },
+  {
+    name: "Dark Ka'flam",
+    url: 'avatar/svg/054-dark-kaflam_transparent.svg',
+  },
+  {
+    name: "Seeing P'kleb",
+    url: 'avatar/svg/055-seeing-pkleb_transparent.svg',
+  },
+  {
+    name: "MonoReplicator",
+    url: 'avatar/svg/056-monoreplicator_transparent.svg',
+  },
+  {
+    name: "Fiery Bopalorn",
+    url: 'avatar/svg/057-fiery-bopalorn_transparent.svg',
+  },
+  {
+    name: "Brain-Jar",
+    url: 'avatar/svg/058-brain-jar_transparent.svg',
+  },
+  {
+    name: "Opal ThwAAr'P",
+    url: 'avatar/svg/059-opal-thwaarp_transparent.svg',
+  },
+  {
+    name: "Three-eyed Klaxonian",
+    url: 'avatar/svg/060-three-eyed-klaxonian_transparent.svg',
+  },
+  {
+    name: "Yellow Bweeeb",
+    url: 'avatar/svg/061-yellow-bweeeb_transparent.svg',
   },
 ];
 
@@ -742,7 +786,6 @@ const nounsConcepts = [
   'communique',
   'theory',
 ];
-
 
 const util = {
   capitalizeFirstLetter: function (string) {
