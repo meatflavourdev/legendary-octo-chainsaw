@@ -19,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: "10px",
     position: "absolute",
     alignItems: "center",
+    pointerEvents: 'none',
     "& > *": {
       margin: theme.spacing(1),
+      pointerEvents: 'auto',
     },
   },
   toolbarGroup: {
