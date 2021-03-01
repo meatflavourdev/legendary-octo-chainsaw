@@ -74,7 +74,7 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
       }))(Tooltip);
 
       userAvatars.push(
-        <CustomTooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true} backgroundColor={user.collabColor.color}>
+        <CustomTooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
           <Avatar src={user.photoURL + ''} className={classes.userAvatar} style={{backgroundColor: user.collabColor.color, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
         </CustomTooltip>
       );
