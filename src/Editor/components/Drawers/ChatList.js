@@ -9,6 +9,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useAuth } from '../../../contexts/AuthContext';
 
+const ago = require('s-ago');
+
 const useStyles = makeStyles((theme) => ({
   chatMessageList: {
     width: '100%',
@@ -25,7 +27,18 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
     margin: 0,
-  }
+  },
+  messageBody: {
+    marginTop: '-3px',
+  },
+  messageTime: {
+    display: 'inline-block',
+    marginBottom: '3px',
+  },
+  messageText: {
+    display: 'inline-block',
+    marginTop: '0',
+  },
 }));
 
 
@@ -54,17 +67,25 @@ export default function ChatList({ messages, chatListBottomRef }) {
           <ListItemText
             primary={message.user.displayName}
             secondary={
-              <React.Fragment>
+              <div className={classes.messageBody}>
                 <Typography
                   component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
+                  variant="caption"
+                  className={classes.messageTime}
+                  color="textSecondary"
                 >
-                  {/* Person or Linked Comment can go here */}
+                  {ago(new Date(message.creationTime))}
                 </Typography>
-                {message.message}
-              </React.Fragment>
+                <br/>
+                <Typography
+                  component="span"
+                  variant="body"
+                  className={classes.messageText}
+                  color="textPrimary"
+                  >
+                  {message.message}
+                </Typography>
+              </div>
             }
         />
         </ListItem>
