@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     marginTop: '0',
   },
+
 }));
 
 
@@ -58,13 +59,12 @@ export default function ChatList({ messages, chatListBottomRef }) {
     chatMessages.push(
       <Divider key={message.creationTime + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
-    const collabColor = message.collabColor || generateColor(message.user.displayName, message.collabColor?.seed || '3qPMzsB5uk3P5Qf52Qmbsa');
     chatMessages.push(
       <ListItem key={message.creationTime + '-message'} alignItems="flex-start">
           <ListItemAvatar>
-          <Avatar alt="Remy Sharp" style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+          <Avatar alt={message.user.displayName} style={{backgroundColor: message.user.collabColor.color, color: message.user.collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
           </ListItemAvatar>
-          <ListItemText
+        <ListItemText
             primary={message.user.displayName}
             secondary={
               <div className={classes.messageBody}>
@@ -79,7 +79,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
                 <br/>
                 <Typography
                   component="span"
-                  variant="body"
+                  variant="body2"
                   className={classes.messageText}
                   color="textPrimary"
                   >

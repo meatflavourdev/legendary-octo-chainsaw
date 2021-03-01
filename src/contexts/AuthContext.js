@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
         isAnonymous: user.isAnonymous,
         creationTime: user.metadata.creationTime,
         lastSignInTime: user.metadata.lastSignInTime,
-        collabColor: user.displayName ? generateColor(user.displayName, seed) : anonUser.collabColor || null,
+        collabColor: generateColor(anonProfile.name, seed),
       })
       setLoading(false)
     })
