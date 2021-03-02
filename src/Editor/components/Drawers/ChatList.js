@@ -105,8 +105,17 @@ export default function ChatList({ messages, chatListBottomRef }) {
                   variant="body2"
                   className={classes.messageText}
                   color="textPrimary"
-                  >
-                  {message.message}
+                >
+                  {
+                      message.message.trim().split("\n").map(function(item, idx) {
+                          return (
+                              <span key={idx}>
+                                  {item}
+                                  <br/>
+                              </span>
+                          )
+                      })
+                  }
                 </Typography>
                 <br/>
                 <Typography
