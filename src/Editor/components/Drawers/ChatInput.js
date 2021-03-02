@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     width: '95%'
   },
   textfield: {
-    width:'95%'
+    width: '95%',
+    backgroundColor: 'white',
   },
   chatForm: {
     width: '100%',
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: '15px',
     paddingTop: '0.5em',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    backgroundColor: '#f6f6f6',
   }
 }));
 
