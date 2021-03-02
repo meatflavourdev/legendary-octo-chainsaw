@@ -53,7 +53,7 @@ export default function BasicTextFields({ submitMessage }) {
   const [value, setValue, input] = useTextFieldInput('outlined-basic', classes.textfield, 'Got something to say?', 'outlined', handleKeypress );
 
   const handleSendClick = () => {
-    console.log('handleSendClick called', value);
+    //console.log('handleSendClick called', value);
     submitMessage(value.replace(/\n\s*\n/g, '\n').trim());
     setValue('');
   };
