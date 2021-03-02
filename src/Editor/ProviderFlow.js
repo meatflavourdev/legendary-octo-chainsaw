@@ -194,6 +194,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         connectionMode="loose"
         connectionLineType="smoothstep"
         multiSelectionKeyCode="Control"
+        arrowHeadColor="#595A66"
       >
         <Controls />
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
