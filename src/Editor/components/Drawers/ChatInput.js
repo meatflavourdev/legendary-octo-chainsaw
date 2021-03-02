@@ -32,48 +32,38 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function useTextFieldInput(id, className, label, variant, defaultVal = '', multiline = true ) {
+function useTextFieldInput(id, className, label, variant, onKeyUp, defaultVal = '', multiline = true ) {
   const [value, setValue] = useState(defaultVal);
-  const input = <TextField id={id} className={className} label={label} variant={variant} multiline={multiline} value={value} onChange={(e) => setValue(e.target.value)} />;
-  return [value, input];
+  const input = <TextField id={id} className={className} label={label} variant={variant} multiline={multiline} value={value} onKeyUp={onKeyUp} onChange={(e) => setValue(e.target.value)} />;
+  return [value, setValue, input];
 }
 
 export default function BasicTextFields({ submitMessage }) {
   const classes = useStyles();
 
-  // State for the chat text input
-  const [inputValue, setInputValue] = useState('');
-
-  const handleSendClick = () => {
-    console.log('handleSendClick called', inputValue);
-    submitMessage(inputValue);
-    setInputValue('');
+  function handleKeypress(e) {
+    e.preventDefault();
+    if (e.which === 13 && !e.shiftKey) {
+      handleSendClick();
+    }
   };
 
-  function submitOnEnter(e){
-    if(e.which === 13 && !e.shiftKey){
-      console.log('inputValue: ', inputValue);
-    }
-  }
 
-  React.useEffect(() => {
-    document.getElementById("chatForm").addEventListener("keypress", submitOnEnter);
-  });
+  // State for the chat text input
+  const [value, setValue, input] = useTextFieldInput('outlined-basic', classes.textfield, 'Got something to say?', 'outlined', handleKeypress );
+
+  const handleSendClick = () => {
+    console.log('handleSendClick called', value);
+    submitMessage(value.trim());
+    setValue('');
+  };
 
   return (
     <form id="chatForm" className={classes.chatForm} onSubmit={(e) => {
       e.preventDefault();
       handleSendClick();
     }} noValidate>
-      <TextField
-        className={classes.textfield}
-        id="outlined-basic"
-        label="Got something to say?"
-        variant="outlined"
-        multiline={true}
-        value={inputValue}
-        onChange={handleChange}
-      />
+      {input}
       <Button
         variant="contained"
         color="primary"
