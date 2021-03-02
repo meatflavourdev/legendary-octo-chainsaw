@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+function useTextFieldInput(id, className, label, variant, defaultVal = '', multiline = true ) {
+  const [value, setValue] = useState(defaultVal);
+  const input = <TextField id={id} className={className} label={label} variant={variant} multiline={multiline} value={value} onChange={(e) => setValue(e.target.value)} />;
+  return [value, input];
+}
+
 export default function BasicTextFields({ submitMessage }) {
   const classes = useStyles();
 
@@ -39,20 +45,34 @@ export default function BasicTextFields({ submitMessage }) {
   const [inputValue, setInputValue] = useState('');
 
   const handleSendClick = () => {
+    console.log('handleSendClick called', inputValue);
     submitMessage(inputValue);
     setInputValue('');
   };
 
+  function submitOnEnter(e){
+    if(e.which === 13 && !e.shiftKey){
+      console.log('inputValue: ', inputValue);
+    }
+  }
+
+  React.useEffect(() => {
+    document.getElementById("chatForm").addEventListener("keypress", submitOnEnter);
+  });
+
   return (
-    <form className={classes.chatForm} onSubmit={(e) => e.preventDefault()} noValidate>
+    <form id="chatForm" className={classes.chatForm} onSubmit={(e) => {
+      e.preventDefault();
+      handleSendClick();
+    }} noValidate>
       <TextField
         className={classes.textfield}
         id="outlined-basic"
         label="Got something to say?"
         variant="outlined"
-        multiline
+        multiline={true}
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={handleChange}
       />
       <Button
         variant="contained"
