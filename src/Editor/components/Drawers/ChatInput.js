@@ -54,7 +54,7 @@ export default function BasicTextFields({ submitMessage }) {
 
   const handleSendClick = () => {
     console.log('handleSendClick called', value);
-    submitMessage(value.trim());
+    submitMessage(value.replace(/\n\s*\n/g, '\n').trim());
     setValue('');
   };
 

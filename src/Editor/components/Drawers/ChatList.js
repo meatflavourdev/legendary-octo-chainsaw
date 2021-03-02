@@ -107,7 +107,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
                   color="textPrimary"
                 >
                   {
-                      message.message.trim().split("\n").map(function(item, idx) {
+                      message.message.replace(/\n\s*\n/g, '\n').trim().split("\n").map(function(item, idx) {
                           return (
                               <span key={idx}>
                                   {item}
