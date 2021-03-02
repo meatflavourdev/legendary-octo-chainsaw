@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
+import ReactFlow, { addEdge, Controls, Background, useStoreState, useStoreActions } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/EditorToolbar';
 import AttributeToolbar from './components/AttributeToolbar';
@@ -30,6 +30,9 @@ const nodeTypes = {
 const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
+
+  const nodes = useStoreState((store) => store.nodes);
+  const transform = useStoreState((store) => store.transform);
 
   //Window Dimensions hook
   const { height, width } = useWindowDimensions();
@@ -89,6 +92,8 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   const onNodeDrag = (event, node) => {
     console.log('onNodeDrag-- event: ', event);
     console.log('onNodeDrag-- node: ', node);
+    console.log('Test-- storeState nodes: ', nodes)
+    console.log('Test-- storeState transform: ', transform)
     // onDrag, update the yDoc with the node's current position
     /*     const selectedIds = [];
     for (const elm of selectedElements) {
