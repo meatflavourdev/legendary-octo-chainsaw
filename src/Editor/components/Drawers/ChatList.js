@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
   item: {
-    paddingBottom: '1.5em',
+    paddingBottom: '1.75em',
     marginTop: '-1px',
-    paddingLeft: '10px',
+    paddingLeft: '0.8em',
+    paddingRight: '0.25em',
   },
   itemSelf: {
     borderLeft: '7px solid #795cfc',
@@ -41,7 +42,15 @@ const useStyles = makeStyles((theme) => ({
      '& span > span': {
       left: '0.9em',
       right: 'inherit',
-    }
+    },
+    '& div.MuiListItemAvatar-root': {
+      minWidth: '56px',
+      marginRight: '0',
+     }
+  },
+  avatarRoot: {
+    minWidth: '40px',
+    marginRight: '0.65em',
   },
   messageTitle: {
     direction: 'ltr',
@@ -92,7 +101,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
     const itemClass = currentUser.uid === message.user.uid ? classes.itemSelf : classes.item;
     chatMessages.push(
       <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
-          <ListItemAvatar>
+          <ListItemAvatar className={classes.avatarRoot}>
           <Avatar alt={message.user.displayName} style={{backgroundColor: message.user.collabColor.color, color: message.user.collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
           </ListItemAvatar>
         <ListItemText
