@@ -31,8 +31,9 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
-  const nodes = useStoreState((store) => store.nodes);
-  const transform = useStoreState((store) => store.transform);
+  const _rfSelectedElements = useStoreState((store) => store.selectedElements);
+  const _rfNodes = useStoreState((store) => store.nodes);
+  const selectedIds = React.useMemo(() => _rfSelectedElements && _rfSelectedElements.map(elm => elm.id));
 
   //Window Dimensions hook
   const { height, width } = useWindowDimensions();
@@ -90,20 +91,23 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   }, [doc_id, yDoc, wsSync]);
 
   const onNodeDrag = (event, node) => {
-    console.log('onNodeDrag-- event: ', event);
-    console.log('onNodeDrag-- node: ', node);
-    console.log('Test-- storeState nodes: ', nodes)
-    console.log('Test-- storeState transform: ', transform)
+    //console.log('onNodeDrag-- event: ', event);
+/*     console.log('onNodeDrag-- node: ', node);
+    console.log('Test-- storeState selectedElements: ', selectedElements)
+    console.log('Test-- storeState nodes: ', nodes) */
     // onDrag, update the yDoc with the node's current position
     /*     const selectedIds = [];
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     } */
-    for (const elmMap of yDoc.current.getArray('elements')) {
-      //if (selectedIds.includes(elmMap.get('id'))) {
-      //console.log(`Element type: ${typeof elmMap}`);
-      if (elmMap?.get('id') === node.id) {
-        elmMap.set('position', node.position);
+
+    console.log('selectedIds: ', selectedIds);
+    for (const elmYMap of yDoc.current.getArray('elements')) {
+      const currentID = elmYMap.get('id');
+      if (selectedIds && selectedIds.includes(currentID)) {
+        const node = _rfNodes.find(elm => elm.id === currentID);
+        console.log(`Setting YArray.elements.id: ${currentID}-- position: `, node.position);
+        elmYMap.set('position', node.position);
       }
     }
   };
