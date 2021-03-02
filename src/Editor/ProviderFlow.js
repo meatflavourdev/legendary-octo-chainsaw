@@ -87,6 +87,8 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   }, [doc_id, yDoc, wsSync]);
 
   const onNodeDrag = (event, node) => {
+    console.log('onNodeDrag-- event: ', event);
+    console.log('onNodeDrag-- node: ', node);
     // onDrag, update the yDoc with the node's current position
     /*     const selectedIds = [];
     for (const elm of selectedElements) {
@@ -99,6 +101,19 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         elmMap.set('position', node.position);
       }
     }
+  };
+
+  const onSelectionDrag = (event, nodes) => {
+    console.log('onSelectionDrag-- event: ', event);
+    console.log('onSelectionDrag-- nodes: ', nodes);
+  };
+  const onSelectionDragStart = (event, nodes) => {
+    console.log('onSelectionDrag-- event: ', event);
+    console.log('onSelectionDrag-- nodes: ', nodes);
+  };
+  const onSelectionDragStop = (event, nodes) => {
+    console.log('onSelectionDrag-- event: ', event);
+    console.log('onSelectionDrag-- nodes: ', nodes);
   };
 
   // Called when element deleted
@@ -170,6 +185,9 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         onLoad={onLoad}
         onPaneClick={handleDocsDrawerClose}
         onNodeDrag={onNodeDrag}
+        onSelectionDrag={onSelectionDrag}
+        onSelectionDragStart={onSelectionDragStart}
+        onSelectionDragStop={onSelectionDragStop}
         nodeTypes={nodeTypes}
         snapToGrid={true}
         snapGrid={[5, 5]}
