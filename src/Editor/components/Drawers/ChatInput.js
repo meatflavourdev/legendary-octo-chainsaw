@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     width: '95%'
   },
   textfield: {
-    width:'95%'
+    width: '95%',
+    backgroundColor: 'white',
   },
   chatForm: {
     width: '100%',
@@ -27,31 +28,42 @@ const useStyles = makeStyles((theme) => ({
     bottom: '15px',
     paddingTop: '0.5em',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    backgroundColor: '#f6f6f6',
   }
 }));
+
+function useTextFieldInput(id, className, label, variant, onKeyUp, defaultVal = '', multiline = true ) {
+  const [value, setValue] = useState(defaultVal);
+  const input = <TextField id={id} className={className} label={label} variant={variant} multiline={multiline} value={value} onKeyUp={onKeyUp} onChange={(e) => setValue(e.target.value)} />;
+  return [value, setValue, input];
+}
 
 export default function BasicTextFields({ submitMessage }) {
   const classes = useStyles();
 
+  function handleKeypress(e) {
+    e.preventDefault();
+    if (e.which === 13 && !e.shiftKey) {
+      handleSendClick();
+    }
+  };
+
+
   // State for the chat text input
-  const [inputValue, setInputValue] = useState('');
+  const [value, setValue, input] = useTextFieldInput('outlined-basic', classes.textfield, 'Got something to say?', 'outlined', handleKeypress );
 
   const handleSendClick = () => {
-    submitMessage(inputValue);
-    setInputValue('');
+    //console.log('handleSendClick called', value);
+    submitMessage(value.replace(/\n\s*\n/g, '\n').trim());
+    setValue('');
   };
 
   return (
-    <form className={classes.chatForm} onSubmit={(e) => e.preventDefault()} noValidate>
-      <TextField
-        className={classes.textfield}
-        id="outlined-basic"
-        label="Got something to say?"
-        variant="outlined"
-        multiline
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
+    <form id="chatForm" className={classes.chatForm} onSubmit={(e) => {
+      e.preventDefault();
+      handleSendClick();
+    }} noValidate>
+      {input}
       <Button
         variant="contained"
         color="primary"

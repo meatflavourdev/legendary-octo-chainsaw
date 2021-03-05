@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#FF6C52;}
+	.st3{opacity:0.33;}
+	.st4{fill:#414952;}
+	.st5{fill:#23272B;}
+	.st6{fill:#FFFFFF;}
+	.st7{fill:#E9EDF5;}
+	.st8{fill:#FFCE00;}
+	.st9{fill:#FDBA12;}
+	.st10{fill:#555A66;}
+	.st11{fill:#333940;}
+</style>
+<g>
+	<g class="st0">
+		<g class="st1">
+			<g>
+				<g>
+					<g>
+						<g>
+							<path class="st2" d="M130.9,479.4C52.8,435.6,0,351.9,0,256C0,114.6,114.6,0,256,0s256,114.6,256,256
+								c0,95.9-52.8,179.6-130.9,223.4L130.9,479.4z"/>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<path class="st3" d="M164.1,479.4h217C459.2,435.6,512,351.9,512,256c0-15.6-1.4-31-4.1-45.8L358.5,60.7l-76.5,88.5L180.7,47.9
+		l32.8,180.4L74.1,389.4L164.1,479.4z"/>
+	<g>
+		<path class="st4" d="M153.5,60.7l27.1-12.8l37.3,78.9l-27.1,12.8L153.5,60.7z"/>
+	</g>
+	<g>
+		<path class="st5" d="M294,126.9L331.3,48l27.1,12.8l-37.3,78.9L294,126.9z"/>
+	</g>
+	<g>
+		<g>
+			<ellipse class="st6" cx="141.2" cy="223.1" rx="98.2" ry="92.7"/>
+		</g>
+		<g>
+			<ellipse class="st7" cx="370.8" cy="223.1" rx="98.2" ry="92.7"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<ellipse class="st6" cx="137.3" cy="311.4" rx="101.5" ry="99.8"/>
+		</g>
+		<g>
+			<ellipse class="st7" cx="374.7" cy="311.4" rx="101.5" ry="99.8"/>
+		</g>
+	</g>
+	<g>
+		<path class="st8" d="M256,68.5c-69.1,0-125.1,56-125.1,125.1v285.8c37,20.8,79.7,32.6,125.1,32.6s88.1-11.8,125.1-32.6V193.6
+			C381.1,124.5,325.1,68.5,256,68.5L256,68.5z"/>
+	</g>
+	<g>
+		<path class="st9" d="M256,68.5V512c45.4,0,88.1-11.8,125.1-32.6V193.6C381.1,124.5,325.1,68.5,256,68.5L256,68.5z"/>
+	</g>
+	<g>
+		<path class="st10" d="M130.9,260h250.2v84.1H130.9L130.9,260z"/>
+	</g>
+	<g>
+		<path class="st11" d="M256,260h125.1v84.1H256V260z"/>
+	</g>
+	<g>
+		<path class="st10" d="M130.9,389.4h250.2v84.1H130.9L130.9,389.4z"/>
+	</g>
+	<g>
+		<path class="st11" d="M256,389.4h125.1v84.1H256V389.4z"/>
+	</g>
+	<g>
+		<g>
+			<ellipse class="st10" cx="198.5" cy="160.4" rx="17.3" ry="17.3"/>
+		</g>
+		<g>
+			<ellipse class="st11" cx="313.5" cy="160.4" rx="17.3" ry="17.3"/>
+		</g>
+	</g>
+</g>
+</svg>

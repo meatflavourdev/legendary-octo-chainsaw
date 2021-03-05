@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;fill:#C38778;}
+	.st1{display:none;}
+	.st2{display:inline;fill:#FDBA12;}
+	.st3{display:inline;fill:#FFA300;}
+	.st4{display:inline;fill:#FFCE00;}
+	.st5{display:inline;}
+	.st6{fill:#555A66;}
+	.st7{fill:#333940;}
+	.st8{fill:#414952;}
+	.st9{fill:#23272B;}
+	.st10{fill:#FFCE00;}
+	.st11{fill:#FDBA12;}
+	.st12{display:inline;fill:#FF9D00;}
+	.st13{display:inline;fill:#FE8205;}
+</style>
+<g>
+	<path class="st0" d="M343,496.8c98.6-35.6,169-130,169-240.8C512,114.6,397.4,0,256,0S0,114.6,0,256c0,110.8,70.4,205.2,169,240.8
+		H343z"/>
+	<g>
+		<path d="M169,270.5l-24.5,15l24.5,24.5V270.5z"/>
+		<path d="M169,222.7l130.7,25.7L343,496.8c98.6-35.6,169-130,169-240.8c0-13.9-1.1-27.5-3.2-40.7l-73.9-74.8l-91.4-90.5L312,153.3
+			L208.6,49.9L179.8,185l-88.3-4.7l77.5,77.5L169,222.7z"/>
+	</g>
+	<g class="st1">
+		<path class="st2" d="M168.6,496.7c27.3,9.9,56.7,15.3,87.4,15.3s60.2-5.4,87.4-15.3V215.4H168.6L168.6,496.7z"/>
+	</g>
+	<g class="st1">
+		<path class="st3" d="M256,215.4V512c30.7,0,60.2-5.4,87.4-15.3V215.4L256,215.4z"/>
+	</g>
+	<g class="st1">
+		<path class="st4" d="M389.2,230.1c0,64.8-59.6,88.6-133.2,88.6s-133.2-23.8-133.2-88.6c0-64.8,59.6-139.4,133.2-139.4
+			S389.2,165.3,389.2,230.1z"/>
+	</g>
+	<g class="st1">
+		<path class="st2" d="M256,90.6v228.1c73.6,0,133.2-23.8,133.2-88.6C389.2,165.3,329.6,90.6,256,90.6L256,90.6z"/>
+	</g>
+	<g class="st1">
+		<g class="st5">
+			<ellipse class="st6" cx="181.5" cy="204.7" rx="17.3" ry="17.3"/>
+		</g>
+		<g class="st5">
+			<ellipse class="st7" cx="330.9" cy="204.6" rx="17.3" ry="17.3"/>
+		</g>
+	</g>
+	<g class="st1">
+		<g class="st5">
+			<ellipse class="st8" cx="240.4" cy="265.5" rx="9.5" ry="9.5"/>
+		</g>
+		<g class="st5">
+			<ellipse class="st9" cx="271.8" cy="265.4" rx="9.5" ry="9.5"/>
+		</g>
+	</g>
+	<g class="st1">
+		<g class="st5">
+			<path class="st10" d="M168.6,65.6h40.1v78.2h-40.1V65.6z"/>
+		</g>
+		<g class="st5">
+			<path class="st11" d="M303.4,65.6h40.1v78.2h-40.1V65.6z"/>
+		</g>
+	</g>
+	<g class="st1">
+		<g class="st5">
+			<path class="st10" d="M168.4,187.4h-55.7c-19.7,0-35.6-15.9-35.6-35.6v-11.3h91.3L168.4,187.4L168.4,187.4z"/>
+		</g>
+		<g class="st5">
+			<path class="st11" d="M343.6,187.4h55.7c19.7,0,35.6-15.9,35.6-35.6v-11.3h-91.3V187.4z"/>
+		</g>
+	</g>
+	<g class="st1">
+		<circle class="st4" cx="188.6" cy="65.6" r="25.4"/>
+	</g>
+	<g class="st1">
+		<circle class="st2" cx="323.4" cy="65.6" r="25.4"/>
+	</g>
+	<g class="st1">
+		<path class="st12" d="M168.6,423.3l31.4-10.9l19.3-49.3l-50.7-9.5L168.6,423.3z"/>
+	</g>
+	<g class="st1">
+		<path class="st13" d="M343.4,426.3l-45.4-8.5l-11.6,55.7l57,16.1V426.3z"/>
+	</g>
+</g>
+</svg>

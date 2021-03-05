@@ -1,27 +1,23 @@
-import React from "react";
-import ReactFlow, {
-  addEdge,
-  Controls,
-  Background,
-} from "react-flow-renderer";
-import { useParams } from "react-router-dom";
-import EditorToolbar from "./components/EditorToolbar";
-import AttributeToolbar from "./components/AttributeToolbar";
-import ShapeNode from "./nodeTypes/ShapeNode";
-import HandleNode from "./nodeTypes/HandleNode";
-import ScreenBlockNode from "./nodeTypes/ScreenBlockNode";
-import AnnotationNode from "./nodeTypes/AnnotationNode";
-import useWindowDimensions from "./hooks/getWindowDimensions";
-import "./style/provider.css";
+import React from 'react';
+import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
+import { useParams } from 'react-router-dom';
+import EditorToolbar from './components/EditorToolbar';
+import AttributeToolbar from './components/AttributeToolbar';
+import ShapeNode from './nodeTypes/ShapeNode';
+import HandleNode from './nodeTypes/HandleNode';
+import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
+import AnnotationNode from './nodeTypes/AnnotationNode';
+import useWindowDimensions from './hooks/getWindowDimensions';
+import './style/provider.css';
 
 // Yjs Imports
-import * as Y from "yjs";
+import * as Y from 'yjs';
 
 //Elements loaded on new doc
-import initialElements from "./data/initialElements";
+import initialElements from './data/initialElements';
 
 // UUID generator
-const uuid62 = require("uuid62");
+const uuid62 = require('uuid62');
 
 //Custom node types go here
 const nodeTypes = {
@@ -31,13 +27,12 @@ const nodeTypes = {
   AnnotationNode,
 };
 
-const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
+const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
   //Window Dimensions hook
   const { height, width } = useWindowDimensions();
-
 
   // Close Doc Drawer
   const handleDocsDrawerClose = () => setOpenDocs(false);
@@ -62,7 +57,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
   React.useEffect(() => {
     if (wsSync) {
       //console.log(`wsProvider isSynced: ${wsSync}`);
-      const elementsYjs = yDoc.current.getArray("elements");
+      const elementsYjs = yDoc.current.getArray('elements');
 
       if (elementsYjs.toArray().length === 0) {
         //console.log(`empty array-- loading initial elements`);
@@ -71,7 +66,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
           for (let [k, v] of Object.entries(element)) {
             node.set(k, v);
           }
-          node.set("key", element.id);
+          node.set('key', element.id);
           elementsYjs.insert(index, [node]);
         });
         //console.log("Filled Array: ", elementsYjs.toJSON());
@@ -83,7 +78,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
       elementsYjs.observeDeep(() => {
         setElements(elementsYjs.toJSON());
       });
-    };
+    }
     if (!wsSync) {
       // Set the elements array to empty while loading elements from server
       //console.log(`wsProvider isSynced: ${wsSync}`);
@@ -97,28 +92,22 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     } */
-    for (const elmMap of yDoc.current.getArray("elements")) {
+    for (const elmMap of yDoc.current.getArray('elements')) {
       //if (selectedIds.includes(elmMap.get('id'))) {
       //console.log(`Element type: ${typeof elmMap}`);
-      if (elmMap?.get("id") === node.id) {
-        elmMap.set(
-          "position",
-          node.position
-        );
+      if (elmMap?.get('id') === node.id) {
+        elmMap.set('position', node.position);
       }
     }
   };
 
   // Called when element deleted
   const onElementsRemove = (elementsToRemove) => {
-    const elementsYjs = yDoc.current.getArray("elements");
+    const elementsYjs = yDoc.current.getArray('elements');
     for (const elm of elementsToRemove) {
-      for (const [i, elmMap] of yDoc.current
-        .getArray("elements")
-        .toArray()
-        .entries()) {
+      for (const [i, elmMap] of yDoc.current.getArray('elements').toArray().entries()) {
         //console.log(`elm type: ${typeof (elmMap)} value: `, elmMap);
-        if (elmMap.get("id") === elm.id) {
+        if (elmMap.get('id') === elm.id) {
           console.log(`Deleted node id: '${elm.id}' at elementsYjs[${i}]`);
           elementsYjs.delete(i, 1);
           break;
@@ -130,17 +119,14 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
 
   // Called when new edge connected
   const onConnect = (params) => {
-    const newEdges = addEdge(
-      { type: "smoothstep", ...params, arrowHeadType: "arrowclosed" },
-      []
-    );
+    const newEdges = addEdge({ type: 'smoothstep', ...params, arrowHeadType: 'arrowclosed' }, []);
     const yEdge = new Y.Map();
     for (let [k, v] of Object.entries(newEdges[0])) {
       yEdge.set(k, v);
     }
     console.log(`Attempting to add edge: `, newEdges[0]);
     //yEdge.set('id', newEdgeId);
-    yDoc.current.getArray("elements").push([yEdge]);
+    yDoc.current.getArray('elements').push([yEdge]);
   };
 
   const onEdgeUpdate = (oldEdge, newConnection) => {
@@ -158,19 +144,19 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
       id: newNodeId(),
       key: newNodeId(),
       type,
-      data: { ...customData, label: "New node" },
+      data: { ...customData, label: 'New node' },
       position: nodePosition,
     };
     const yNode = new Y.Map();
     for (let [k, v] of Object.entries(newNode)) {
       yNode.set(k, v);
     }
-    yDoc.current.getArray("elements").push([yNode]);
+    yDoc.current.getArray('elements').push([yNode]);
   };
 
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
-    console.log("click", element);
+    console.log('click', element);
   };
 
   return (
@@ -190,6 +176,7 @@ const ProviderFlow = ({yDoc, wsSync, setOpenDocs}) => {
             connectionMode="loose"
             connectionLineType="smoothstep"
             multiSelectionKeyCode="Control"
+            arrowHeadColor="#595A66"
           >
             <Controls />
             <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />

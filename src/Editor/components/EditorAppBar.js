@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -60,15 +60,28 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
   const userAvatars = [];
   const userNames = [];
 
-  for (const user of awarenessState) {
-    // console.log('user: ', user)
-    userAvatars.push(
-      <Tooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
-        <Avatar src={user.photoURL} className={classes.userAvatar} alt={user.displayName}></Avatar>
-      </Tooltip>
-    );
-    userNames.push(user.displayName);
+  if (awarenessState && awarenessState.length) {
+    for (const user of awarenessState) {
+
+      const CustomTooltip = withStyles((theme) => ({
+        tooltip: {
+          backgroundColor: user.collabColor.color,
+          color: user.collabColor.isLight ? '#000' : '#FFF',
+        },
+        arrow: {
+          color: user.collabColor.color,
+        }
+      }))(Tooltip);
+
+      userAvatars.push(
+        <CustomTooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
+          <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.color, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
+        </CustomTooltip>
+      );
+      userNames.push(user.displayName);
+    }
   }
+
 
   return (
     <AppBar
@@ -92,7 +105,7 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
       <Typography className={classes.docTitle} variant="h6">
         { docName }
       </Typography>
-      <AvatarGroup className={classes.avatarGroup} max={6} spacing={10} usernames={userNames}>
+      <AvatarGroup className={classes.avatarGroup} max={10} spacing={10} usernames={userNames}>
         {userAvatars}
       </AvatarGroup>
       <IconButton onClick={() => setOpenChat(!openChat)} color="inherit" >

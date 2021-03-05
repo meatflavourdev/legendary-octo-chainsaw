@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "../firebase"
 
+import { anonymousAnimalAvatar } from '../helpers/nameGenerators';
+import uniqolor from 'uniqolor';
+const uuid62 = require("uuid62");
+
 const AuthContext = React.createContext()
 
 export function useAuth() {
@@ -8,8 +12,17 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
+
+  const anonProfile = anonymousAnimalAvatar('./img/');
+  const [seed, setSeed] = useState(uuid62.v4());
+  const [anonUser, setAnonUser] = useState({
+    displayName: anonProfile.name,
+    photoURL: anonProfile.url,
+    collabColor: generateColor(anonProfile.name, seed),
+  });
+
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)
@@ -35,9 +48,28 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
+  function generateColor(input, seed = '', options = { saturation: 95, lightness: 60 }) {
+    return {
+      ...uniqolor(input + seed, options),
+      seed,
+  };
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
+      user && setCurrentUser({
+        displayName: user.displayName || anonUser.displayName || null,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        photoURL: user.photoURL || anonUser.photoURL || null,
+        providerId: user.providerId,
+        uid: user.uid,
+        emailVerified: user.emailVerified,
+        isAnonymous: user.isAnonymous,
+        creationTime: user.metadata.creationTime,
+        lastSignInTime: user.metadata.lastSignInTime,
+        collabColor: generateColor(anonProfile.name, seed),
+      })
       setLoading(false)
     })
 
@@ -46,6 +78,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    generateColor,
     login,
     signup,
     logout,

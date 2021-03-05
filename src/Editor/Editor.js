@@ -8,6 +8,10 @@ import DrawerChat from './components/Drawers/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/EditorAppBar.js';
 
+import { useHistory } from 'react-router-dom';
+import firebase from "firebase";
+import { useAuth } from '../contexts/AuthContext';
+
 import useYDoc from './hooks/useYDoc'
 
 const useStyles = makeStyles(() => ({
@@ -27,8 +31,10 @@ export default function Editor() {
   const [openDocs, setOpenDocs] = React.useState(false);
   const [openChat, setOpenChat] = React.useState(false);
 
+  const { currentUser } = useAuth();
+
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
-  const [wsSync, yDoc, awarenessState] = useYDoc(doc_id);
+  const [wsSync, yDoc, awarenessState] = useYDoc(doc_id, currentUser);
 
   // TODO: Move Document CRUD logic here
 
