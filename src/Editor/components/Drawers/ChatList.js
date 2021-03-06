@@ -99,7 +99,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
       <Divider id={message.id + '-divider'} key={message.id + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
     const itemClass = currentUser.uid === message.user.uid ? classes.itemSelf : classes.item;
-    const collabColor = message.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
+    const collabColor = message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
       <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
           <ListItemAvatar className={classes.avatarRoot}>
