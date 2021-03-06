@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth, generateColor } from '../../../contexts/AuthContext';
 
 const ago = require('s-ago');
 
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChatList({ messages, chatListBottomRef }) {
   const classes = useStyles();
 
-  const { currentUser } = useAuth();
+  const { currentUser, generateColor } = useAuth();
 
   // Scroll to bottom of chat list on change
   useEffect(() => {
@@ -99,10 +99,11 @@ export default function ChatList({ messages, chatListBottomRef }) {
       <Divider id={message.id + '-divider'} key={message.id + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
     const itemClass = currentUser.uid === message.user.uid ? classes.itemSelf : classes.item;
+    const collabColor = message.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
       <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
           <ListItemAvatar className={classes.avatarRoot}>
-          <Avatar alt={message.user.displayName} style={{backgroundColor: message.user.collabColor.color, color: message.user.collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+          <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
           </ListItemAvatar>
         <ListItemText
             className={classes.messageTitle}
