@@ -9,6 +9,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useAuth, generateColor } from '../../../contexts/AuthContext';
+import AvatarTooltip from './components/AvatarTooltip';
 
 const ago = require('s-ago');
 
@@ -98,12 +99,13 @@ export default function ChatList({ messages, chatListBottomRef }) {
     chatMessages.push(
       <Divider id={message.id + '-divider'} key={message.id + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
-    const itemClass = currentUser.uid === message.user.uid ? classes.itemSelf : classes.item;
     const collabColor = message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
       <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
-          <ListItemAvatar className={classes.avatarRoot}>
+        <ListItemAvatar className={classes.avatarRoot}>
+          <AvatarTooltip collabColor={collabColor} key={message.id || `${message.user.uid}-${message.creationTime}`} title={message.user.displayName} placement="left" arrow={true}>
           <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+        </AvatarTooltip>
           </ListItemAvatar>
         <ListItemText
             className={classes.messageTitle}

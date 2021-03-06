@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
-import DrawerDocs from './components/Drawers/DrawerDocs';
-import DrawerChat from './components/Drawers/DrawerChat';
+import DrawerDocs from './components/Avatar/DrawerDocs';
+import DrawerChat from './components/Avatar/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/EditorAppBar.js';
 
