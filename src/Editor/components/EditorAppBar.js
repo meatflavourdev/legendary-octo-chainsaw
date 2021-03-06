@@ -9,11 +9,12 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import AvatarGroup from './Drawers/components/AvatarGroup';
+import AvatarGroup from './Avatar/components/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import config from '../../config';
 import { Avatar, Tooltip } from '@material-ui/core';
+import AvatarTooltip from './Avatar/components/AvatarTooltip';
 
 const drawerWidth = config.editor.drawerWidth;
 
@@ -63,20 +64,10 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
   if (awarenessState && awarenessState.length) {
     for (const user of awarenessState) {
 
-      const CustomTooltip = withStyles((theme) => ({
-        tooltip: {
-          backgroundColor: user.collabColor.color,
-          color: user.collabColor.isLight ? '#000' : '#FFF',
-        },
-        arrow: {
-          color: user.collabColor.color,
-        }
-      }))(Tooltip);
-
       userAvatars.push(
-        <CustomTooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
+        <AvatarTooltip collabColor={user.collabColor} key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
           <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.color, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
-        </CustomTooltip>
+        </AvatarTooltip>
       );
       userNames.push(user.displayName);
     }
