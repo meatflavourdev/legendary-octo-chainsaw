@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
+import ReactFlow, { addEdge, Background } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/Toolbar/EditorToolbar';
 import AttributeToolbar from './components/Toolbar/AttributeToolbar';
@@ -8,6 +8,7 @@ import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
+import InfoDisplay from './components/Toolbar/InfoDisplay'
 import './style/provider.css';
 
 // Yjs Imports
@@ -160,29 +161,30 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   };
 
   return (
-        <div className="reactflow-wrapper">
-          <ReactFlow
-            elements={elements}
-            onElementClick={onElementClick}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onEdgeUpdate={onEdgeUpdate}
-            onLoad={onLoad}
-            onPaneClick={handleDocsDrawerClose}
-            onNodeDrag={onNodeDrag}
-            nodeTypes={nodeTypes}
-            snapToGrid={true}
-            snapGrid={[5, 5]}
-            connectionMode="loose"
-            connectionLineType="smoothstep"
-            multiSelectionKeyCode="Control"
-            arrowHeadColor="#595A66"
-          >
-            <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
-            <EditorToolbar addNode={onAdd} />
-            <Background variant="dots" gap="20" color="#484848" />
-          </ReactFlow>
-        </div>
+    <div className="reactflow-wrapper">
+      <ReactFlow
+        elements={elements}
+        onElementClick={onElementClick}
+        onConnect={onConnect}
+        onElementsRemove={onElementsRemove}
+        onEdgeUpdate={onEdgeUpdate}
+        onLoad={onLoad}
+        onPaneClick={handleDocsDrawerClose}
+        onNodeDrag={onNodeDrag}
+        nodeTypes={nodeTypes}
+        snapToGrid={true}
+        snapGrid={[5, 5]}
+        connectionMode="loose"
+        connectionLineType="smoothstep"
+        multiSelectionKeyCode="Control"
+        arrowHeadColor="#595A66"
+      >
+        <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
+        <EditorToolbar addNode={onAdd} />
+        <InfoDisplay />
+        <Background variant="dots" gap="20" color="#484848" />
+      </ReactFlow>
+    </div>
   );
 };
 
