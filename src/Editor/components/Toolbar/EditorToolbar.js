@@ -8,7 +8,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import "../style/editor.css";
+import "../../style/editor.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {

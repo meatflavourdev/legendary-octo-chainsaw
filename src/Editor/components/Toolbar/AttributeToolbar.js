@@ -11,7 +11,7 @@ import BorderClearIcon from '@material-ui/icons/BorderClear';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useStoreState } from 'react-flow-renderer';
-import '../style/editor.css';
+import '../../style/editor.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

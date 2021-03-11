@@ -8,8 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { useAuth, generateColor } from '../../../contexts/AuthContext';
-import AvatarTooltip from './components/AvatarTooltip';
+import { useAuth } from '../../../contexts/AuthContext';
+import AvatarTooltip from '../Avatar/AvatarTooltip';
 
 const ago = require('s-ago');
 

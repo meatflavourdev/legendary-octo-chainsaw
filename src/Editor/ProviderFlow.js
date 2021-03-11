@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
-import EditorToolbar from './components/EditorToolbar';
-import AttributeToolbar from './components/AttributeToolbar';
+import EditorToolbar from './components/Toolbar/EditorToolbar';
+import AttributeToolbar from './components/Toolbar/AttributeToolbar';
 import ShapeNode from './nodeTypes/ShapeNode';
 import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
@@ -178,7 +178,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
             multiSelectionKeyCode="Control"
             arrowHeadColor="#595A66"
           >
-            <Controls />
             <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />

@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
-import DrawerDocs from './components/Avatar/DrawerDocs';
-import DrawerChat from './components/Avatar/DrawerChat';
+import DrawerDocs from './components/Drawer/DrawerDocs';
+import DrawerChat from './components/Drawer/DrawerChat';
 import { ReactFlowProvider } from 'react-flow-renderer';
-import EditorAppBar from './components/EditorAppBar.js';
+import EditorAppBar from './components/AppBar/EditorAppBar';
 
 import { useHistory } from 'react-router-dom';
 import firebase from "firebase";
@@ -52,9 +52,9 @@ export default function Editor() {
         awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-        <ReactFlowProvider>
-          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
-        </ReactFlowProvider>
+      <ReactFlowProvider>
+        <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
+      </ReactFlowProvider>
       <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );
