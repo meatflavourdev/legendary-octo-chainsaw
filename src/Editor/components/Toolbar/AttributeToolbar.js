@@ -128,11 +128,6 @@ export default function AttributeToolbar({yDoc}) {
       {open && menu === 'fill' &&
       <ClickAwayListener onClickAway={handleClickAway}>
         <ButtonGroup id='fillPanel' className={classes.toolbarGroup} orientation="vertical" variant="outlined" color="default">
-          <Tooltip title="Dotted Edge" placement="right">
-            <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
-              <BorderClearIcon/>
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Filled" placement="right">
             <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'filled'})}>
               <StopIcon fontSize='large'/>
@@ -141,6 +136,11 @@ export default function AttributeToolbar({yDoc}) {
           <Tooltip title="Outlined" placement="right">
             <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'outlined'})}>
               <CheckBoxOutlineBlankIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Dotted Edge" placement="right">
+            <IconButton size='small' onClick={() => handleUpdateNodeData({fillStyle: 'dashed'})}>
+              <BorderClearIcon/>
             </IconButton>
           </Tooltip>
         </ButtonGroup>
