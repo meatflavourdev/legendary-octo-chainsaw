@@ -9,7 +9,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useAuth } from '../../../contexts/AuthContext';
-import AvatarTooltip from './components/AvatarTooltip';
+import AvatarTooltip from '../Avatar/AvatarTooltip';
 
 const ago = require('s-ago');
 

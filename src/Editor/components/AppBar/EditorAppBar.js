@@ -9,12 +9,12 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import AvatarGroup from './Avatar/components/AvatarGroup';
+import AvatarGroup from '../Avatar/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
-import config from '../../config';
+import config from '../../../config';
 import { Avatar, Tooltip } from '@material-ui/core';
-import AvatarTooltip from './Avatar/components/AvatarTooltip';
+import AvatarTooltip from '../Avatar/AvatarTooltip';
 
 const drawerWidth = config.editor.drawerWidth;
 

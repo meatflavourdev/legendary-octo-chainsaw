@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
-import EditorToolbar from './components/EditorToolbar';
-import AttributeToolbar from './components/AttributeToolbar';
+import EditorToolbar from './components/Toolbar/EditorToolbar';
+import AttributeToolbar from './components/Toolbar/AttributeToolbar';
 import ShapeNode from './nodeTypes/ShapeNode';
 import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
