@@ -92,11 +92,11 @@ export default function AttributeToolbar({yDoc}) {
             <TitleIcon/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Text Size" placement="right">
+{/*         <Tooltip title="Text Size" placement="right">
           <IconButton className={classes.attributeGroup} size='small' onClick={() => handleUpdateNodeData('default', 'screenblock')}>
             <FormatSizeIcon/>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </ButtonGroup>
 
       {/* Color picker */}
