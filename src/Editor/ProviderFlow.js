@@ -178,7 +178,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
             multiSelectionKeyCode="Control"
             arrowHeadColor="#595A66"
           >
-            <Controls />
             <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
             <EditorToolbar addNode={onAdd} />
             <Background variant="dots" gap="20" color="#484848" />
