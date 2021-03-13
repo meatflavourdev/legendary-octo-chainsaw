@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   infoDisplay: {
@@ -19,16 +19,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditorToolbar(props) {
+export default function EditorToolbar({ mousePosition, reactFlowInstance }) {
   const classes = useStyles();
+
+
+  let rfPosition = {
+    x: null,
+    y: null,
+  };
+  if (mousePosition.x && reactFlowInstance && reactFlowInstance.current) {
+    rfPosition = reactFlowInstance.current.project({ x: mousePosition.x, y: mousePosition.y });
+  }
+
+/*    React.useEffect(() => {
+    console.log('mousePosition: ', { x: mousePosition.x, y: mousePosition.y });
+    console.log('rfPosition: ', rfPosition);
+  }, [rfPosition, mousePosition.x, mousePosition.y]) */
 
   return (
       <Paper className={classes.infoDisplay} elevation={0}>
       <Typography className={classes.coordText} variant="overline" display="block">
-          <strong>px:</strong> 2346, 1300
+          <strong>px:</strong> {(mousePosition && mousePosition.x) || '0'}, {(mousePosition && mousePosition.y) || '0'}
         </Typography>
       <Typography className={classes.coordText} variant="overline" display="block">
-          <strong>rf:</strong> 2664, 1600
+          <strong>rf:</strong> {(rfPosition && rfPosition.x) || '0'}, {(rfPosition && rfPosition.y) || '0'}
         </Typography>
       </Paper>
   );

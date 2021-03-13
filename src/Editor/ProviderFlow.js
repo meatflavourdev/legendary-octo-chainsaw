@@ -9,6 +9,7 @@ import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import InfoDisplay from './components/Toolbar/InfoDisplay'
+import useMouse from '@react-hook/mouse-position';
 import './style/provider.css';
 
 // Yjs Imports
@@ -43,9 +44,11 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
 
   //Fires when React flow has loaded
   const reactFlowRef = React.useRef(null);
+  let rfInstance;
   const onLoad = (reactFlowInstance) => {
     //console.log("React Flow Loaded:", reactFlowInstance);
     reactFlowRef.current = reactFlowInstance;
+    rfInstance = reactFlowInstance;
   };
 
   // Selected Elements
@@ -155,13 +158,16 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
     yDoc.current.getArray('elements').push([yNode]);
   };
 
+  const ref = React.useRef(null);
+  const mousePosition = useMouse(ref, {});
+
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
     console.log('click', element);
   };
 
   return (
-    <div className="reactflow-wrapper">
+    <div ref={ref} className="reactflow-wrapper">
       <ReactFlow
         elements={elements}
         onElementClick={onElementClick}
@@ -181,10 +187,11 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
       >
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
         <EditorToolbar addNode={onAdd} />
-        <InfoDisplay />
+        <InfoDisplay mousePosition={mousePosition} reactFlowInstance={reactFlowRef} />
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>
+
   );
 };
 
