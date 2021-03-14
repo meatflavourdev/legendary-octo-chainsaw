@@ -7,6 +7,7 @@ import ShapeNode from './nodeTypes/ShapeNode';
 import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
+import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import InfoDisplay from './components/Toolbar/InfoDisplay'
 import useCursorPosition from './hooks/useCursorPosition';
@@ -27,6 +28,7 @@ const nodeTypes = {
   ScreenBlockNode,
   HandleNode,
   AnnotationNode,
+  CursorNode,
 };
 
 const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {

@@ -61,6 +61,11 @@
   background-size: contain;
 }
 
+.react-flow__node-CursorNode {
+  width: 24px;
+  height: 24px;
+}
+
 .react-flow__node.selected:before {
   content: '';
   position: absolute;
