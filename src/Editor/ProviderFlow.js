@@ -9,7 +9,7 @@ import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import InfoDisplay from './components/Toolbar/InfoDisplay'
-import useMouse from '@react-hook/mouse-position';
+import useCursorPosition from './hooks/useCursorPosition';
 import './style/provider.css';
 
 // Yjs Imports
@@ -43,12 +43,9 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   const newNodeId = () => `node_${uuid62.v4()}`;
 
   //Fires when React flow has loaded
-  const reactFlowRef = React.useRef(null);
-  let rfInstance;
-  const onLoad = (reactFlowInstance) => {
-    //console.log("React Flow Loaded:", reactFlowInstance);
-    reactFlowRef.current = reactFlowInstance;
-    rfInstance = reactFlowInstance;
+  const reactFlowInstance = React.useRef(null);
+  const onLoad = (_reactFlowInstance) => {
+    reactFlowInstance.current = _reactFlowInstance;
   };
 
   // Selected Elements
@@ -140,7 +137,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
 
   //CREATES NEW ELEMENTS
   const onAdd = (type, customData) => {
-    const nodePosition = reactFlowRef.current.project({
+    const nodePosition = reactFlowInstance.current.project({
       x: width / 2,
       y: height * 0.75,
     });
@@ -159,7 +156,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   };
 
   const ref = React.useRef(null);
-  const mousePosition = useMouse(ref, {});
+  const [mousePosition, rfPosition] = useCursorPosition(ref, reactFlowInstance);
 
   //Fires when an element is clicked
   const onElementClick = (event, element) => {
@@ -185,13 +182,12 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         multiSelectionKeyCode="Control"
         arrowHeadColor="#595A66"
       >
-        <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
+        <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />
-        <InfoDisplay mousePosition={mousePosition} reactFlowInstance={reactFlowRef} />
+        <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} />
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>
-
   );
 };
 

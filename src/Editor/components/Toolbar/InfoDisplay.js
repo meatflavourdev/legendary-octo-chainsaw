@@ -19,22 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditorToolbar({ mousePosition, reactFlowInstance }) {
+export default function EditorToolbar({ mousePosition, rfPosition }) {
   const classes = useStyles();
-
-
-  let rfPosition = {
-    x: null,
-    y: null,
-  };
-  if (mousePosition.x && reactFlowInstance && reactFlowInstance.current) {
-    rfPosition = reactFlowInstance.current.project({ x: mousePosition.x, y: mousePosition.y });
-  }
-
-/*    React.useEffect(() => {
-    console.log('mousePosition: ', { x: mousePosition.x, y: mousePosition.y });
-    console.log('rfPosition: ', rfPosition);
-  }, [rfPosition, mousePosition.x, mousePosition.y]) */
 
   return (
       <Paper className={classes.infoDisplay} elevation={0}>
