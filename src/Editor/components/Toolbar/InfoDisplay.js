@@ -24,9 +24,9 @@ export default function EditorToolbar({ mousePosition, rfPosition }) {
 
   return (
       <Paper className={classes.infoDisplay} elevation={0}>
-      <Typography className={classes.coordText} variant="overline" display="block">
+{/*       <Typography className={classes.coordText} variant="overline" display="block">
           <strong>px:</strong> {(mousePosition && mousePosition.x) || '0'}, {(mousePosition && mousePosition.y) || '0'}
-        </Typography>
+        </Typography> */}
       <Typography className={classes.coordText} variant="overline" display="block">
           <strong>rf:</strong> {(rfPosition && rfPosition.x) || '0'}, {(rfPosition && rfPosition.y) || '0'}
         </Typography>
