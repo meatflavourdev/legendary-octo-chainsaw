@@ -84,9 +84,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CursorNode({ data }) {
 
-  const { currentUser } = useAuth();
+  const { clientID } = useAuth();
 
-  const props = { thisUser: data.uid === currentUser.uid ? 'none' : 'inherit', backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white' }
+  const props = { thisUser: data.clientID === clientID ? 'none' : 'inherit', backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white' }
   const classes = useStyles(props);
 
   return (

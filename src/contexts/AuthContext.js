@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
   });
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [clientID, setClientID] = useState(null);
   const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
@@ -79,6 +80,8 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     generateColor,
+    clientID,
+    setClientID,
     login,
     signup,
     logout,

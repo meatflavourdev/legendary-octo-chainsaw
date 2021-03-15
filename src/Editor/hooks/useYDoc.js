@@ -3,6 +3,7 @@ import { useCallbackRef } from 'use-callback-ref';
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { WebrtcProvider } from 'y-webrtc'
+import { useAuth } from '../../contexts/AuthContext';
 import config from '../../config';
 
 /**
@@ -21,6 +22,8 @@ const useYDoc = function (doc_id, currentUser) {
   // Awareness protocol state
   const [awarenessState, setAwarenessState] = useState([]);
 
+  const { clientID, setClientID } = useAuth();
+
   // Awareness reference
   const onAwarenessRefUpdate = (newValue) => {
     if (newValue) {
@@ -32,6 +35,7 @@ const useYDoc = function (doc_id, currentUser) {
       });
       const newState = Array.from(newValue.getStates().values());
       setAwarenessState(newState);
+      setClientID(newValue.clientID)
       console.log('useYDoc.onAwarenessRefUpdate(): Updated currentUser fired', currentUser);
     }
   };
@@ -42,11 +46,12 @@ const useYDoc = function (doc_id, currentUser) {
     console.log('useYDoc.useEffect(): Updated currentUser fired', currentUser);
     if (awarenessRef.current && awarenessRef.current.setLocalState) {
       const newLocalState = {
+        clientID: clientID,
         collabColor: { ...currentUser.collabColor },
         cursorPosition: { ...currentUser.cursorPosition },
         ...currentUser,
       };
-      awarenessRef.current.setLocalState(currentUser);
+      awarenessRef.current.setLocalState(newLocalState);
     }
   }, [currentUser, awarenessRef]);
 
