@@ -1,34 +1,33 @@
 services:
-
-# A static site
-- type: web
-  name: entropy
-  env: static
-  buildCommand: yarn && yarn build
-  staticPublishPath: ./build
-  pullRequestPreviewsEnabled: true
-  autoDeploy: true
-  routes:
-  - type: rewrite
-    source: /*
-    destination: /index.html
-  domains:
-- entropy.meatflavour.com
+  - type: web
+    name: legendary-octo-chainsaw
+    env: static
+    repo: https://github.com/meatflavourdev/legendary-octo-chainsaw.git
+    buildCommand: yarn && yarn build
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    domains:
+      - entropy.meatflavour.dev
 
 envVarGroups:
-- name: production-entropy
-  envVars:
-  - key: REACT_APP_WSHOST
-    value: yjs.onrender.com
-  - key: REACT_APP_WSPORT
-    value: 80
-  - key: REACT_APP_WSPROTOCOL
-    value: wss
-- name: development-entropy
-  envVars:
-  - key: REACT_APP_WSHOST
-    value: yjsdev.onrender.com
-  - key: REACT_APP_WSPORT
-    value: 80
-  - key: REACT_APP_WSPROTOCOL
-    value: wss
+  - name: production-entropy
+    envVars:
+      - key: REACT_APP_WSHOST
+        value: yjs.onrender.com
+      - key: REACT_APP_WSPORT
+        value: 80
+      - key: REACT_APP_WSPROTOCOL
+        value: wss
+  - name: development-entropy
+    envVars:
+      - key: REACT_APP_WSHOST
+        value: yjsdev.onrender.com
+      - key: REACT_APP_WSPORT
+        value: 80
+      - key: REACT_APP_WSPROTOCOL
+        value: wss
