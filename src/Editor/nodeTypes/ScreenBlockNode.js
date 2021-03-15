@@ -12,7 +12,7 @@ export default function ScreenBlockNode({ data }) {
   });
 
   return (
-    <div style={{backgroundImage: `url(/screenblocks/page-${data.screenBlockID ? data.screenBlockID.toString().padStart(2, "0") : '01'}.svg)`}} className={nodeClasses}>
+    <div id={data.nodeKey} style={{backgroundImage: `url(/screenblocks/page-${data.screenBlockID ? data.screenBlockID.toString().padStart(2, "0") : '01'}.svg)`}} className={nodeClasses}>
       <Handle
         type="source"
         className="react-flow__handle-screenblocknode"

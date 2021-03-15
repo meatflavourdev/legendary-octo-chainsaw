@@ -6,8 +6,8 @@ export default function ScreenBlockNode({ data }) {
   data.isNode = true;
 
   return (
-    <div className='node-annotationnode' style={{backgroundImage:`url(/annotations/${data.annotation}-circle.svg)`}} >
-      
+    <div id={data.nodeKey} className='node-annotationnode' style={{backgroundImage:`url(/annotations/${data.annotation}-circle.svg)`}} >
+
     </div>
   );
 }
