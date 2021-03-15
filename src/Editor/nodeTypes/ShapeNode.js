@@ -24,7 +24,7 @@ export default function ShapeNode({ data }) {
   });
 
   return (
-    <div className={nodeClasses}>
+    <div id={data.nodeKey} className={nodeClasses}>
       <Handle
         type="source"
         className='react-flow__handle-shapenode'
