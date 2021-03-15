@@ -103,7 +103,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
     //console.log('localCurrentUser', localCurrentUser);
     const _prevPosition = prevPosition;
     // Check if the element doesn't exist and create
-    const key = `user-${localCurrentUser.uid}`;
+    const key = `user-${localCurrentUser.uid}-${clientID}`;
     const yElements = yDoc.current && yDoc.current.getArray('elements');
     const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
     //console.log('localCursorNodeIndex: ', localCursorNodeIndex);
