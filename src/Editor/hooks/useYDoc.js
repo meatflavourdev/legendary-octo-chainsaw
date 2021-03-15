@@ -64,7 +64,7 @@ const useYDoc = function (doc_id, currentUser) {
 
   //Environment variables
   const wsServerUrl = config.yjsws.wsServerUrl;
-  const roomName = doc_id;
+  const roomName = process.env.NODE_ENV === 'production' ? doc_id : `${doc_id}-development`;
 
   useEffect(() => {
     console.log(`------------------------------`);
