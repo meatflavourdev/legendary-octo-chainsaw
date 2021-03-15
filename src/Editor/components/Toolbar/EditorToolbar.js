@@ -177,7 +177,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Undo">
           <IconButton
             size="small"
-            onClick={() => createElement("CursorNode", {displayName: 'Display Name', collabColor: { color: "#e040fb", isLight: false }})}
+            onClick={() => {}}
           >
             <UndoIcon />
           </IconButton>
@@ -185,7 +185,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Redo">
           <IconButton
             size="small"
-            onClick={() => createElement("CursorNode", {displayName: 'Display Name', collabColor: { color: "#e040fb", isLight: false }})}
+            onClick={() => {}}
           >
             <RedoIcon />
           </IconButton>
