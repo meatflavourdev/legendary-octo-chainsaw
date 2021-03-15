@@ -64,6 +64,8 @@
 .react-flow__node-CursorNode {
   width: 24px;
   height: 24px;
+  z-index: 5000!important;
+  pointer-events: none;
 }
 
 .react-flow__node.selected:before {

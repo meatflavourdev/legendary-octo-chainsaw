@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     display: props => props.thisUser,
   },
   collabCursor: {
-    zIndex: '1500',
     position: 'absolute',
     top: '0',
     width: '100%',
@@ -41,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: '18px',
     left: '5px',
-    zIndex: '1500',
     pointerEvents: 'none',
   },
   tooltipBody: {
