@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import './nodestyles.css';
-import AvatarTooltip from '../components/Avatar/AvatarTooltip';
+import { useAuth } from '../../contexts/AuthContext';
 
 // UUID generator
 const uuid62 = require('uuid62');
@@ -13,8 +13,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     height: '100%',
+    pointerEvents: 'none',
+    cursor: 'pointer',
+    display: props => props.thisUser,
   },
   collabCursor: {
+    zIndex: '1500',
     position: 'absolute',
     top: '0',
     width: '100%',
@@ -22,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: props => props.backgroundColor,
     clipPath: `url(#${clipID})`,
     '-webkit-clip-path': `url(#${clipID})`,
+    pointerEvents: 'none',
+    cursor: 'pointer',
   },
   svgClipPath: {
     width: '0',
     height: '0',
+    pointerEvents: 'none',
   },
   noMaxWidth: {
     maxWidth: 'none',
@@ -77,11 +84,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CursorNode({ data }) {
 
-  const props = { backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white' }
+  const { currentUser } = useAuth();
+
+  const props = { thisUser: data.uid === currentUser.uid ? 'none' : 'inherit', backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white' }
   const classes = useStyles(props);
 
   return (
-    <React.Fragment className={classes.root}>
+    <div id={data.nodeKey} className={classes.root}>
       <svg className={classes.svgClipPath}>
         <clipPath id={clipID} clipPathUnits="objectBoundingBox">
           <path d="M0.005,0.108 c-0.024,-0.064,0.039,-0.127,0.103,-0.103 c0.209,0.077,0.045,0.017,0.839,0.31 c0.071,0.026,0.07,0.127,-0.001,0.152 c-0.193,0.067,-0.145,0.05,-0.32,0.111 c-0.023,0.008,-0.04,0.026,-0.048,0.048 L0.467,0.946 c-0.025,0.071,-0.125,0.072,-0.152,0.001 C0.024,0.158,0.109,0.39,0.005,0.108 L0.005,0.108"></path>
@@ -94,6 +103,6 @@ export default function CursorNode({ data }) {
           {/* <span className={classes.tooltipArrow}></span> */}
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
