@@ -53,7 +53,7 @@ export default function Editor() {
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
       <ReactFlowProvider>
-        <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
+        <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessState={awarenessState} />
       </ReactFlowProvider>
       <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
