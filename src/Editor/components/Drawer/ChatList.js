@@ -52,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
   avatarRoot: {
     minWidth: '40px',
     marginRight: '0.65em',
+    '& > *': {
+      //border: '1.99px solid rgba(255, 255, 255, 1)',
+      boxShadow: '1px 1px 6px rgba(0,0,0,0.22), 1px 2px 4px rgba(0,0,0,0.18)',
+    },
   },
   messageTitle: {
     direction: 'ltr',
@@ -84,7 +88,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ChatList({ messages, chatListBottomRef }) {
-  const classes = useStyles();
+
+  const cssProps = { };
+  const classes = useStyles(cssProps);
 
   const { currentUser, generateColor } = useAuth();
 
