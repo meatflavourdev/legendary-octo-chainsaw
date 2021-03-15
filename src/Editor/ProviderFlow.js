@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import ReactFlow, { addEdge, Background } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/Toolbar/EditorToolbar';
@@ -9,8 +9,11 @@ import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
 import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
-import InfoDisplay from './components/Toolbar/InfoDisplay'
+import InfoDisplay from './components/Toolbar/InfoDisplay';
 import useCursorPosition from './hooks/useCursorPosition';
+import { useThrottleCallback } from '@react-hook/throttle';
+import { useAuth } from '../contexts/AuthContext';
+import usePrevious from '@react-hook/previous'
 import './style/provider.css';
 
 // Yjs Imports
@@ -31,12 +34,9 @@ const nodeTypes = {
   CursorNode,
 };
 
-const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
+const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
-
-  //Window Dimensions hook
-  const { height, width } = useWindowDimensions();
 
   // Close Doc Drawer
   const handleDocsDrawerClose = () => setOpenDocs(false);
@@ -54,8 +54,9 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
   // Get a state array for React Flow's elements array.
-  // We'll use this to update React Flow from Yjs
   const [elements, setElements] = React.useState([]);
+
+  const throttledSetElements = useThrottleCallback((newElements) => setElements(newElements), 30, true);
 
   React.useEffect(() => {
     if (wsSync) {
@@ -72,14 +73,17 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
           node.set('key', element.id);
           elementsYjs.insert(index, [node]);
         });
-        //console.log("Filled Array: ", elementsYjs.toJSON());
-        setElements(elementsYjs.toJSON());
+        throttledSetElements(elementsYjs.toJSON());
+        console.log('ProviderFlow.useEffect(): Set initial elements from data');
       } else {
-        setElements(elementsYjs.toJSON());
+        throttledSetElements(elementsYjs.toJSON());
+        console.log('ProviderFlow.useEffect(): Set elements from state');
       }
       // Update state on changes to Yjs elements Array
-      elementsYjs.observeDeep(() => {
-        setElements(elementsYjs.toJSON());
+      elementsYjs.observeDeep((e) => {
+        throttledSetElements(elementsYjs.toJSON());
+        //console.log('ProviderFlow.useEffect(): Set elements from deep observation');
+        //console.log('beep');
       });
     }
     if (!wsSync) {
@@ -87,7 +91,61 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
       //console.log(`wsProvider isSynced: ${wsSync}`);
       setElements([]);
     }
-  }, [doc_id, yDoc, wsSync]);
+  }, [doc_id, yDoc, wsSync, throttledSetElements]);
+
+  const rfRef = React.useRef(null);
+
+  const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
+  const { currentUser } = useAuth();
+  const prevPosition = usePrevious(rfPosition);
+  useEffect(() => {
+    const localCurrentUser = currentUser;
+    // Check if the element doesn't exist and create
+    const key = `user-${localCurrentUser.uid}`;
+    const yElements = yDoc.current && yDoc.current.getArray('elements');
+    const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
+    //console.log('localCursorNodeIndex: ', localCursorNodeIndex);
+
+    if (reactFlowInstance.current && yDoc.current) {
+      if (localCursorNodeIndex === -1) {
+        if (rfPosition.x !== null && rfPosition.y !== null) {
+          const newNode = {
+            id: key,
+            key: key,
+            type: 'CursorNode',
+            data: {
+              nodeKey: key,
+              displayName: localCurrentUser.displayName,
+              uid: localCurrentUser.uid,
+              collabColor: localCurrentUser.collabColor,
+            },
+            selectable: false,
+            draggable: false,
+            connectable: false,
+            position: { x: rfPosition.x, y: rfPosition.y },
+          };
+          const yNode = new Y.Map();
+          for (let [k, v] of Object.entries(newNode)) {
+            yNode.set(k, v);
+          }
+          yElements.push([yNode]);
+          //console.log('add');
+        }
+      } else if (rfPosition.x !== prevPosition.x && rfPosition.y !== prevPosition.y) {
+        if (rfPosition.x === null || rfPosition.y === null) {
+          // Null values, remove the element
+          const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
+          yElements.delete(elmIndex, 1);
+          //console.log('delete');
+        } else {
+          // Update the position
+          const updateNode = yDoc.current.getArray('elements').get(localCursorNodeIndex);
+          updateNode && updateNode.set && updateNode.set('position', { x: rfPosition.x, y: rfPosition.y });
+        }
+      }
+    }
+    }, [rfPosition, currentUser, awarenessState, yDoc]);
+
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
@@ -97,8 +155,8 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
     } */
     for (const elmMap of yDoc.current.getArray('elements')) {
       //if (selectedIds.includes(elmMap.get('id'))) {
-      //console.log(`Element type: ${typeof elmMap}`);
-      if (elmMap?.get('id') === node.id) {
+      //console.log(`Element:`, elmMap.toJSON());
+      if (elmMap?.get && elmMap.get('id') === node.id) {
         elmMap.set('position', node.position);
       }
     }
@@ -117,7 +175,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         }
       }
     }
-    console.log(elementsToRemove);
   };
 
   // Called when new edge connected
@@ -138,17 +195,19 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   };
 
   //CREATES NEW ELEMENTS
+  const { height, width } = useWindowDimensions();
   const onAdd = (type, customData) => {
     const nodePosition = reactFlowInstance.current.project({
       x: width / 2,
       y: height * 0.75,
     });
+    const nodeKey = newNodeId();
     const newNode = {
-      id: newNodeId(),
-      key: newNodeId(),
+      id: nodeKey,
+      key: nodeKey,
       type,
-      data: { ...customData, label: 'New node' },
-      position: nodePosition,
+      data: { nodeKey: nodeKey, label: 'Node', ...customData },
+      position: { x: nodePosition.x, y: nodePosition.y },
     };
     const yNode = new Y.Map();
     for (let [k, v] of Object.entries(newNode)) {
@@ -157,19 +216,10 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
     yDoc.current.getArray('elements').push([yNode]);
   };
 
-  const ref = React.useRef(null);
-  const [mousePosition, rfPosition] = useCursorPosition(ref, reactFlowInstance);
-
-  //Fires when an element is clicked
-  const onElementClick = (event, element) => {
-    console.log('click', element);
-  };
-
   return (
-    <div ref={ref} className="reactflow-wrapper">
+    <div ref={rfRef} className="reactflow-wrapper">
       <ReactFlow
         elements={elements}
-        onElementClick={onElementClick}
         onConnect={onConnect}
         onElementsRemove={onElementsRemove}
         onEdgeUpdate={onEdgeUpdate}
@@ -186,7 +236,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
       >
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />
-        <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} />
+        {/* <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} /> */}
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>
