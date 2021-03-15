@@ -75,7 +75,7 @@ const useYDoc = function (doc_id, currentUser) {
     yDoc.current = new Y.Doc({ guid: doc_id });
 
     const wsProvider = new WebsocketProvider(wsServerUrl, roomName, yDoc.current);
-    //const rtcProvider = new WebrtcProvider(roomName, yDoc.current, {})
+    new WebrtcProvider(roomName, yDoc.current, {});
 
     //Get the awareness object from the websocket provider
     const awareness = wsProvider.awareness;
