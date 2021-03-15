@@ -82,7 +82,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
       // Update state on changes to Yjs elements Array
       elementsYjs.observeDeep((e) => {
         throttledSetElements(elementsYjs.toJSON());
-        //console.log('ProviderFlow.useEffect(): Set elements from deep observation');
+        //console.log('ProviderFlow.useEffect(): Set elements from deep observation', elementsYjs.toJSON());
         //console.log('beep');
       });
     }
@@ -96,55 +96,58 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   const rfRef = React.useRef(null);
 
   const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
-  const { currentUser } = useAuth();
+  const { currentUser, clientID } = useAuth();
   const prevPosition = usePrevious(rfPosition);
   useEffect(() => {
     const localCurrentUser = currentUser;
+    //console.log('localCurrentUser', localCurrentUser);
+    const _prevPosition = prevPosition;
     // Check if the element doesn't exist and create
     const key = `user-${localCurrentUser.uid}`;
     const yElements = yDoc.current && yDoc.current.getArray('elements');
     const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
     //console.log('localCursorNodeIndex: ', localCursorNodeIndex);
-
-    if (reactFlowInstance.current && yDoc.current) {
-      if (localCursorNodeIndex === -1) {
-        if (rfPosition.x !== null && rfPosition.y !== null) {
-          const newNode = {
-            id: key,
-            key: key,
-            type: 'CursorNode',
-            data: {
-              nodeKey: key,
-              displayName: localCurrentUser.displayName,
-              uid: localCurrentUser.uid,
-              collabColor: localCurrentUser.collabColor,
-            },
-            selectable: false,
-            draggable: false,
-            connectable: false,
-            position: { x: rfPosition.x, y: rfPosition.y },
-          };
-          const yNode = new Y.Map();
-          for (let [k, v] of Object.entries(newNode)) {
-            yNode.set(k, v);
+    if (rfPosition?.x !== _prevPosition?.x && rfPosition?.y !== _prevPosition?.y) {
+      if (reactFlowInstance.current && yDoc.current) {
+        if (localCursorNodeIndex === -1) {
+          if (rfPosition.x !== null && rfPosition.y !== null) {
+            const newNode = {
+              id: key,
+              key: key,
+              type: 'CursorNode',
+              data: {
+                nodeKey: key,
+                displayName: localCurrentUser.displayName,
+                clientID: clientID,
+                collabColor: localCurrentUser.collabColor,
+              },
+              selectable: false,
+              draggable: false,
+              connectable: false,
+              position: { x: rfPosition.x, y: rfPosition.y },
+            };
+            const yNode = new Y.Map();
+            for (let [k, v] of Object.entries(newNode)) {
+              yNode.set(k, v);
+            }
+            yElements.push([yNode]);
+            //console.log('add');
           }
-          yElements.push([yNode]);
-          //console.log('add');
-        }
-      } else if (rfPosition.x !== prevPosition.x && rfPosition.y !== prevPosition.y) {
-        if (rfPosition.x === null || rfPosition.y === null) {
-          // Null values, remove the element
-          const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
-          yElements.delete(elmIndex, 1);
-          //console.log('delete');
         } else {
-          // Update the position
-          const updateNode = yDoc.current.getArray('elements').get(localCursorNodeIndex);
-          updateNode && updateNode.set && updateNode.set('position', { x: rfPosition.x, y: rfPosition.y });
+          if (rfPosition.x === null || rfPosition.y === null) {
+            // Null values, remove the element
+            const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
+            yElements.delete(elmIndex, 1);
+            //console.log('delete');
+          } else {
+            // Update the position
+            const updateNode = yDoc.current.getArray('elements').get(localCursorNodeIndex);
+            updateNode && updateNode.set && updateNode.set('position', { x: rfPosition.x, y: rfPosition.y });
+          }
         }
       }
     }
-    }, [rfPosition, currentUser, awarenessState, yDoc]);
+    }, [prevPosition, rfPosition, currentUser, awarenessState, yDoc]);
 
 
   const onNodeDrag = (event, node) => {
@@ -236,7 +239,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
       >
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />
-        {/* <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} /> */}
+        <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} />
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>
