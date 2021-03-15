@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import './nodestyles.css';
+import { hexToCSSFilter } from 'hex-to-css-filter';
 import { useAuth } from '../../contexts/AuthContext';
+import './nodestyles.css';
 
 // UUID generator
 const uuid62 = require('uuid62');
@@ -20,13 +21,10 @@ const useStyles = makeStyles((theme) => ({
   collabCursor: {
     position: 'absolute',
     top: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: props => props.backgroundColor,
-    clipPath: `url(#${clipID})`,
-    '-webkit-clip-path': `url(#${clipID})`,
+    width: '24px',
+    height: '24px',
+    filter: props => props.filterData.filter,
     pointerEvents: 'none',
-    cursor: 'pointer',
   },
   svgClipPath: {
     width: '0',
@@ -84,17 +82,17 @@ export default function CursorNode({ data }) {
 
   const { clientID } = useAuth();
 
-  const props = { thisUser: data.clientID === clientID ? 'none' : 'inherit', backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white' }
-  const classes = useStyles(props);
+  const cssProps = {
+    thisUser: data.clientID === clientID ? 'none' : 'inherit',
+    backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white',
+    filterData: hexToCSSFilter(data.collabColor?.color) || 'none',
+  }
+  console.log('cssProps', cssProps);
+  const classes = useStyles(cssProps);
 
   return (
     <div id={data.nodeKey} className={classes.root}>
-      <svg className={classes.svgClipPath}>
-        <clipPath id={clipID} clipPathUnits="objectBoundingBox">
-          <path d="M0.005,0.108 c-0.024,-0.064,0.039,-0.127,0.103,-0.103 c0.209,0.077,0.045,0.017,0.839,0.31 c0.071,0.026,0.07,0.127,-0.001,0.152 c-0.193,0.067,-0.145,0.05,-0.32,0.111 c-0.023,0.008,-0.04,0.026,-0.048,0.048 L0.467,0.946 c-0.025,0.071,-0.125,0.072,-0.152,0.001 C0.024,0.158,0.109,0.39,0.005,0.108 L0.005,0.108"></path>
-        </clipPath>
-      </svg>
-        <div className={classes.collabCursor} />
+      <img src="./img/cursor/001-cursor-01-mask.svg" className={classes.collabCursor} />
       <div className={classes.tooltip}>
         <div className={classes.tooltipBody}>
           {data.displayName}
