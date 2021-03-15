@@ -1,8 +1,11 @@
 services:
+  # Entropy Frontend - Production
   - type: web
     name: legendary-octo-chainsaw
     env: static
     repo: https://github.com/meatflavourdev/legendary-octo-chainsaw.git
+    branch: main
+    healthCheckPath: /healthz
     buildCommand: yarn && yarn build
     staticPublishPath: ./build
     pullRequestPreviewsEnabled: true
@@ -13,9 +16,51 @@ services:
         destination: /index.html
     domains:
       - entropy.meatflavour.dev
+    envVars:
+      - fromGroup: frontend-production
+
+  # Entropy Frontend - Development
+  - type: web
+    name: ontological-binary-chainsaw
+    env: static
+    repo: https://github.com/meatflavourdev/legendary-octo-chainsaw.git
+    branch: dev
+    healthCheckPath: /healthz
+    buildCommand: yarn && yarn build
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - fromGroup: frontend-development
+
+  # Yjs Backend - Production
+  - type: web
+    name: yjs
+    env: node
+    repo: https://github.com/meatflavourdev/yjs-server.git
+    region: oregon
+    plan: starter
+    healthCheckPath: /
+    numInstances: 1
+    buildCommand: yarn
+    startCommand: node ./bin/server.js
+    pullRequestPreviewsEnabled: false
+    autoDeploy: true
+    disk:
+      name: data-leveldb
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - fromGroup: yjs-production
+
+# ----- Environment Variable Groups -----
 
 envVarGroups:
-  - name: production-entropy
+  - name: frontend-production
     envVars:
       - key: REACT_APP_WSHOST
         value: yjs.onrender.com
@@ -23,11 +68,21 @@ envVarGroups:
         value: 80
       - key: REACT_APP_WSPROTOCOL
         value: wss
-  - name: development-entropy
+  - name: frontend-development
     envVars:
       - key: REACT_APP_WSHOST
-        value: yjsdev.onrender.com
+        value: yjs.onrender.com
       - key: REACT_APP_WSPORT
         value: 80
       - key: REACT_APP_WSPROTOCOL
         value: wss
+  - name: yjs-production
+    envVars:
+      - key: GC
+        value: false
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 80
+      - key: YPERSISTENCE
+        value: /var/data/leveldb
