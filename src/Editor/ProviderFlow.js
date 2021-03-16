@@ -38,12 +38,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
-  // Close Doc Drawer
-  const handleDocsDrawerClose = () => setOpenDocs(false);
-
-  //Generates an ID for each new node
-  const newNodeId = () => `node_${uuid62.v4()}`;
-
   //Fires when React flow has loaded
   const reactFlowInstance = React.useRef(null);
   const onLoad = (_reactFlowInstance) => {
@@ -204,7 +198,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
       x: width / 2,
       y: height * 0.75,
     });
-    const nodeKey = newNodeId();
+    const nodeKey = `node_${uuid62.v4()}`;
     const newNode = {
       id: nodeKey,
       key: nodeKey,
@@ -227,7 +221,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
         onElementsRemove={onElementsRemove}
         onEdgeUpdate={onEdgeUpdate}
         onLoad={onLoad}
-        onPaneClick={handleDocsDrawerClose}
+        onPaneClick={() => setOpenDocs(false)}
         onNodeDrag={onNodeDrag}
         nodeTypes={nodeTypes}
         snapToGrid={true}
