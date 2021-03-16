@@ -53,7 +53,7 @@ const useYDoc = function (doc_id, currentUser) {
       };
       awarenessRef.current.setLocalState(newLocalState);
     }
-  }, [currentUser, awarenessRef]);
+  }, [currentUser, clientID, awarenessRef]);
 
   // Console log on state change
 /*     useEffect(() => {
@@ -66,11 +66,14 @@ const useYDoc = function (doc_id, currentUser) {
   const wsServerUrl = config.yjsws.wsServerUrl;
   const roomName = process.env.NODE_ENV === 'production' ? doc_id : `${doc_id}-development`;
 
+
   useEffect(() => {
-    console.log(`------------------------------`);
-    console.log(`Loading Y.Doc: ${doc_id}`);
-    console.log(`serverUrl: ${wsServerUrl} roomname: ${roomName}`);
-    console.log(`------------------------------`);
+    console.log(`────────────────────────────────────────────────`);
+    console.log(`%c doc_id: ${doc_id}`, 'color: green; font-weight: bold;');
+    console.log(`%c serverUrl: ${wsServerUrl}`, 'color: blue; font-weight: bold;');
+    console.log(`%c Environment: ${process.env.NODE_ENV} `, 'color: blue; font-weight: bold;');
+    console.log(`%c roomname: ${roomName}`, 'color: blue; font-weight: bold;');
+    console.log(`────────────────────────────────────────────────`);
 
     yDoc.current = new Y.Doc({ guid: doc_id });
 

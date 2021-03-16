@@ -87,12 +87,11 @@ export default function CursorNode({ data }) {
     backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white',
     filterData: hexToCSSFilter(data.collabColor?.color) || 'none',
   }
-  console.log('cssProps', cssProps);
   const classes = useStyles(cssProps);
 
   return (
     <div id={data.nodeKey} className={classes.root}>
-      <img src="./img/cursor/001-cursor-01-mask.svg" className={classes.collabCursor} />
+      <img src="./img/cursor/001-cursor-01-mask.svg" className={classes.collabCursor} alt="" />
       <div className={classes.tooltip}>
         <div className={classes.tooltipBody}>
           {data.displayName}
