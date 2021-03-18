@@ -91,8 +91,9 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
         className={clsx(classes.menuButton, openDocs && classes.hide)}
       >
         <MenuIcon style={{ fontSize: 30 }}/>
-      </IconButton>
-      <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 35 }}/>
+        </IconButton>
+
+      <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 24 }}/>
       <Typography className={classes.docTitle} variant="h6">
         { docName }
       </Typography>
