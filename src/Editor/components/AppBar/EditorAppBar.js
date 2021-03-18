@@ -9,6 +9,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import AvatarGroup from '../Avatar/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
@@ -104,9 +105,15 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
         <Badge badgeContent={'!'} color="secondary">
           <ChatIcon style={{ fontSize: 26 }}/>
         </Badge>
-      </IconButton>
+        </IconButton>
+
       <ShareMenu />
       <ProfileMenu />
+
+      <IconButton color="inherit" >
+        <MoreIcon style={{ fontSize: 26 }}/>
+      </IconButton>
+
     </Toolbar>
   </AppBar>
   );
