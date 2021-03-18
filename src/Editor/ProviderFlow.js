@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
-import ReactFlow, { addEdge, Background } from 'react-flow-renderer';
+import ReactFlow, { addEdge, Background, MiniMap } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/Toolbar/EditorToolbar';
 import AttributeToolbar from './components/Toolbar/AttributeToolbar';
@@ -75,9 +75,8 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   const prevTime = usePrevious(Date.now());
   useEffect(() => {
     const localCurrentUser = currentUser;
-    const _prevPosition = prevPosition;
 
-    const addElement = (key, localCurrentUser, clientID, newPosition) => {
+    const addCursorNode = (key, localCurrentUser, clientID, newPosition) => {
       const newNode = {
         id: key,
         key: key,
@@ -100,12 +99,12 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
       yElements.push([yNode]);
     };
 
-    const updateElement = (index, newPosition) => {
+    const updateCursorPosition = (index, newPosition) => {
       const updateNode = yDoc.current.getArray('elements').get(index);
       updateNode && updateNode.set && updateNode.set('position', { x: newPosition.x, y: newPosition.y });
     };
 
-    const deleteElement = (key, yElements) => {
+    const deleteCursorNode = (key, yElements) => {
       if (key && yElements) {
         const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
         return yElements.toArray().length > 0 && yElements.delete(elmIndex, 1);
@@ -117,17 +116,17 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
     const yElements = yDoc.current && yDoc.current.getArray('elements');
     const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
 
-    if (rfPosition?.x !== _prevPosition?.x && rfPosition?.y !== _prevPosition?.y) {
+    if (rfPosition?.x !== prevPosition?.x && rfPosition?.y !== prevPosition?.y) {
       if (reactFlowInstance.current && yDoc.current) {
         if (localCursorNodeIndex === -1) {
           if (rfPosition.x !== null && rfPosition.y !== null) {
-            addElement(key, localCurrentUser, clientID, rfPosition);
+            addCursorNode(key, localCurrentUser, clientID, rfPosition);
           }
         } else {
           if (rfPosition.x !== null || rfPosition.y !== null) {
-            updateElement(localCursorNodeIndex, rfPosition);
+            updateCursorPosition(localCursorNodeIndex, rfPosition);
           } else {
-            deleteElement(key, yElements);
+            deleteCursorNode(key, yElements);
           }
         }
       }
