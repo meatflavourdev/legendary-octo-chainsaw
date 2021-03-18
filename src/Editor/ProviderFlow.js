@@ -50,44 +50,21 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   // Get a state array for React Flow's elements array.
   const [elements, setElements] = React.useState([]);
 
-  const throttledSetElements = useThrottleCallback((newElements) => setElements(newElements), 30, true);
+  // Cursor Element Add/Update/Remove based on rfPosition ---------------
 
   React.useEffect(() => {
     if (wsSync) {
-      //console.log(`wsProvider isSynced: ${wsSync}`);
+      // Set elements array on YDoc synced & ready
       const elementsYjs = yDoc.current.getArray('elements');
+      setElements(elementsYjs.toJSON());
 
-      if (elementsYjs.toArray().length === 0) {
-        //console.log(`empty array-- loading initial elements`);
-        initialElements.forEach((element, index) => {
-          const node = new Y.Map();
-          for (let [k, v] of Object.entries(element)) {
-            node.set(k, v);
-          }
-          node.set('key', element.id);
-          elementsYjs.insert(index, [node]);
-        });
-        throttledSetElements(elementsYjs.toJSON());
-        console.log('ProviderFlow.useEffect(): Set initial elements from data');
-      } else {
-        throttledSetElements(elementsYjs.toJSON());
-        console.log('ProviderFlow.useEffect(): Set elements from state');
-      }
-      // Update state on changes to Yjs elements Array
+      // Observe elementsYjs & Update state on change
       elementsYjs.observeDeep((e) => {
-        throttledSetElements(elementsYjs.toJSON());
-        //console.log('ProviderFlow.useEffect(): Set elements from deep observation', elementsYjs.toJSON());
-        //console.log('beep');
+        setElements(elementsYjs.toJSON());
       });
     }
-    if (!wsSync) {
-      // Set the elements array to empty while loading elements from server
-      //console.log(`wsProvider isSynced: ${wsSync}`);
-      setElements([]);
-    }
-  }, [doc_id, yDoc, wsSync, throttledSetElements]);
+  }, [doc_id, yDoc, wsSync, setElements]);
 
-  const rfRef = React.useRef(null);
 
   const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
   const { currentUser, clientID } = useAuth();
