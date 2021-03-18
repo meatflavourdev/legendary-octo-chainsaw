@@ -66,67 +66,81 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   }, [doc_id, yDoc, wsSync, setElements]);
 
 
+  // Cursor Element Add/Update/Remove based on rfPosition ---------------
+
+  const rfRef = React.useRef(null);
   const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
   const { currentUser, clientID } = useAuth();
   const prevPosition = usePrevious(rfPosition);
+  const prevTime = usePrevious(Date.now());
   useEffect(() => {
     const localCurrentUser = currentUser;
-    //console.log('localCurrentUser', localCurrentUser);
     const _prevPosition = prevPosition;
-    // Check if the element doesn't exist and create
+
+    const addElement = (key, localCurrentUser, clientID, newPosition) => {
+      const newNode = {
+        id: key,
+        key: key,
+        type: 'CursorNode',
+        data: {
+          nodeKey: key,
+          displayName: localCurrentUser.displayName,
+          clientID: clientID,
+          collabColor: localCurrentUser.collabColor,
+        },
+        selectable: false,
+        draggable: false,
+        connectable: false,
+        position: { x: newPosition.x, y: newPosition.y },
+      };
+      const yNode = new Y.Map();
+      for (let [k, v] of Object.entries(newNode)) {
+        yNode.set(k, v);
+      }
+      yElements.push([yNode]);
+    };
+
+    const updateElement = (index, newPosition) => {
+      const updateNode = yDoc.current.getArray('elements').get(index);
+      updateNode && updateNode.set && updateNode.set('position', { x: newPosition.x, y: newPosition.y });
+    };
+
+    const deleteElement = (key, yElements) => {
+      if (key && yElements) {
+        const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
+        return yElements.toArray().length > 0 && yElements.delete(elmIndex, 1);
+      }
+      return console.error('ProviderFlow.useEffect().deleteElement(): key or yElements undefined', { key, yElements });
+    };
+
     const key = `user-${localCurrentUser.uid}-${clientID}`;
     const yElements = yDoc.current && yDoc.current.getArray('elements');
     const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
-    //console.log('localCursorNodeIndex: ', localCursorNodeIndex);
+
     if (rfPosition?.x !== _prevPosition?.x && rfPosition?.y !== _prevPosition?.y) {
       if (reactFlowInstance.current && yDoc.current) {
         if (localCursorNodeIndex === -1) {
           if (rfPosition.x !== null && rfPosition.y !== null) {
-            const newNode = {
-              id: key,
-              key: key,
-              type: 'CursorNode',
-              data: {
-                nodeKey: key,
-                displayName: localCurrentUser.displayName,
-                clientID: clientID,
-                collabColor: localCurrentUser.collabColor,
-              },
-              selectable: false,
-              draggable: false,
-              connectable: false,
-              position: { x: rfPosition.x, y: rfPosition.y },
-            };
-            const yNode = new Y.Map();
-            for (let [k, v] of Object.entries(newNode)) {
-              yNode.set(k, v);
-            }
-            yElements.push([yNode]);
-            //console.log('add');
+            addElement(key, localCurrentUser, clientID, rfPosition);
           }
         } else {
-          if (rfPosition.x === null || rfPosition.y === null) {
-            // Null values, remove the element
-            const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
-            yElements.delete(elmIndex, 1);
-            //console.log('delete');
+          if (rfPosition.x !== null || rfPosition.y !== null) {
+            updateElement(localCursorNodeIndex, rfPosition);
           } else {
-            // Update the position
-            const updateNode = yDoc.current.getArray('elements').get(localCursorNodeIndex);
-            updateNode && updateNode.set && updateNode.set('position', { x: rfPosition.x, y: rfPosition.y });
+            deleteElement(key, yElements);
           }
         }
       }
     }
-    }, [prevPosition, rfPosition, currentUser, awarenessState, yDoc]);
+  }, [prevPosition, rfPosition, currentUser, clientID, awarenessState, yDoc]);
 
 
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
-    /*     const selectedIds = [];
+/*     const selectedIds = [];
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
-    } */
+    }  */
     for (const elmMap of yDoc.current.getArray('elements')) {
       //if (selectedIds.includes(elmMap.get('id'))) {
       //console.log(`Element:`, elmMap.toJSON());
