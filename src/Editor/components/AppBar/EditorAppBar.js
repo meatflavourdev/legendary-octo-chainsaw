@@ -54,8 +54,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
 const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState}) {
   const classes = useStyles();
 
@@ -66,8 +64,8 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
     for (const user of awarenessState) {
 
       userAvatars.push(
-        <AvatarTooltip collabColor={user.collabColor} key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
-          <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.color, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
+        <AvatarTooltip collabColor={user.collabColor} key={`avatar-${user.clientID}`} title={user.displayName} placement="bottom" arrow={true}>
+          <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
         </AvatarTooltip>
       );
       userNames.push(user.displayName);

@@ -40,19 +40,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CursorNode({ id, data }) {
+export default function CursorNode({ data }) {
   const { clientID } = useAuth();
 
   const cssProps = {
     display: data.clientID === clientID ? 'none' : 'inherit',
-    backgroundColor: data.collabColor?.color || 'black', color: data.collabColor.isLight ? 'black' : 'white',
-    filterData: hexToCSSFilter(data.collabColor?.color) || 'none',
+    backgroundColor: data.collabColor?.hex || 'black', color: data.collabColor.isLight ? 'black' : 'white',
+    filterData: data.collabColor?.hex ? hexToCSSFilter(data.collabColor.hex).filter.slice(0, -1) : 'none',
   }
   const classes = useStyles(cssProps);
 
   return (
     <div id={data.nodeKey} className={classes.root}>
-      <img src="./img/cursor/001-cursor-01-mask.svg" className={classes.collabCursor} alt="" style={{ filter: cssProps.filterData.filter.slice(0, -1) }} />
+      <img src="./img/cursor/001-cursor-01-mask.svg" className={classes.collabCursor} alt="" style={{ filter: cssProps.filterData }} />
       <div className={classes.tooltip}>
         <div className={classes.tooltipBody}>
           {data.displayName}
