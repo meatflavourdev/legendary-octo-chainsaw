@@ -49,11 +49,11 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
-  function generateColor(input, seed = '', options = { saturation: 95, lightness: 60 }) {
+  function generateColor(input, seed = '', options = { saturation: 95, lightness: 60, differencePoint: 170 }) {
     return {
       ...uniqolor(input + seed, options),
       seed,
-  };
+    };
   }
 
   useEffect(() => {
