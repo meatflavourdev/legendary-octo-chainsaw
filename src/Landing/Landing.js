@@ -36,18 +36,23 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    color: '#fff',
-    backgroundColor: '#795cfc',
+    color: '#000000',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
   },
   toolbar: {
     flexWrap: 'wrap',
   },
   navlogo: {
-    marginRight: theme.spacing(1.5),
+    marginRight: "0.45em",
   },
-  toolbarTitle: {
+  entropyLogoText: {
     flexGrow: 1,
+    fontFamily: "\"Inter\", sans-serif",
+    fontWeight: 600,
+    fontSize: '1.33rem',
+    letterSpacing: '-0.04em',
+    lineHeight: '1.502',
   },
   link: {
     margin: theme.spacing(1, 1.5),
@@ -156,7 +161,7 @@ function NavButtonsNoAuth({googleSignin}) {
 
   return (
     <IfFirebaseUnAuthed>
-      <Button onClick={googleSignin} color="secondary" variant="contained" className={classes.link}>
+      <Button onClick={googleSignin} color="primary" variant="contained" className={classes.link}>
         Sign Up
       </Button>
     </IfFirebaseUnAuthed>
@@ -181,7 +186,7 @@ function NavButtonsAuth({handleLogout}) {
             <Typography variant="h6" color="inherit" noWrap className={classes.link}>
               {user.displayName}
             </Typography>
-            <Button onClick={handleLogout} color="secondary" variant="contained" className={classes.link}>
+            <Button onClick={handleLogout} color="primary" variant="contained" className={classes.link}>
               Sign Out
             </Button>
           </>
@@ -290,10 +295,10 @@ export default function Landing() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={4} className={classes.appBar}>
+      <AppBar position="static" color="default" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <img className={classes.navlogo} src={logo} alt="Entropy Logo" height="32" width="32" />
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+          <Typography variant="h6" color="inherit" noWrap className={classes.entropyLogoText}>
             Entropy
           </Typography>
           <NavButtonsAuth handleLogout={handleLogout} />
