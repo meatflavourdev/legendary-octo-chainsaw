@@ -107,11 +107,11 @@ export default function ChatList({ messages, chatListBottomRef }) {
     )
     const collabColor = message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
-      <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
+      <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
         <ListItemAvatar className={classes.avatarRoot}>
           <AvatarTooltip collabColor={collabColor} key={message.id || `${message.user.uid}-${message.creationTime}`} title={message.user.displayName} placement="left" arrow={true}>
-          <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
-        </AvatarTooltip>
+            <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.hex, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+          </AvatarTooltip>
           </ListItemAvatar>
         <ListItemText
             className={classes.messageTitle}

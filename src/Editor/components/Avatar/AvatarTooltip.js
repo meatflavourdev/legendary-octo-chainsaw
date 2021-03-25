@@ -5,11 +5,11 @@ const AvatarTooltip = ({ collabColor, children, ...props }) => {
 
   const ColorTooltip = withStyles((theme) => ({
     tooltip: {
-      backgroundColor: collabColor.color,
+      backgroundColor: collabColor.hex,
       color: collabColor.isLight ? '#000' : '#FFF',
     },
     arrow: {
-      color: collabColor.color,
+      color: collabColor.hex,
     }
   }))(Tooltip);
 

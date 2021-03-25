@@ -2,8 +2,6 @@ import React from 'react';
 import Editor from './Editor';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { anonymousAnimalAvatar } from '../helpers/nameGenerators';
-
 import firebase from "firebase";
 import { useAuth } from '../contexts/AuthContext';
 
@@ -34,7 +32,7 @@ export default function EditorAuth() {
     }
   }, [currentUser]);
 
-  function Authenticated() {
+  function AuthLoader() {
     const classes = useStyles();
 
       return (
@@ -49,7 +47,7 @@ export default function EditorAuth() {
     <>
     {currentUser
       ? <Editor />
-      : <Authenticated />
+      : <AuthLoader />
       }
     </>
   );

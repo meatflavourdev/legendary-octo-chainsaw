@@ -14,6 +14,7 @@ import useCursorPosition from './hooks/useCursorPosition';
 import { useThrottleCallback } from '@react-hook/throttle';
 import { useAuth } from '../contexts/AuthContext';
 import usePrevious from '@react-hook/previous'
+import { getColor } from '../helpers/goldenColorHash';
 import './style/provider.css';
 
 // Yjs Imports
@@ -70,7 +71,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
 
   const rfRef = React.useRef(null);
   const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
-  const { currentUser, clientID } = useAuth();
+  const { currentUser, clientID, colorSeed } = useAuth();
   const prevPosition = usePrevious(rfPosition);
   const prevTime = usePrevious(Date.now());
   useEffect(() => {
@@ -85,7 +86,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
           nodeKey: key,
           displayName: localCurrentUser.displayName,
           clientID: clientID,
-          collabColor: localCurrentUser.collabColor,
+          collabColor: getColor(50, colorSeed),
         },
         selectable: false,
         draggable: false,
