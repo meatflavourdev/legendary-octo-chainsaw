@@ -14,7 +14,7 @@ import config from '../../config';
  */
 const useYDoc = function (doc_id, currentUser) {
   // Create ref for yjs Y.Doc
-  const yDoc = React.useRef(null);
+  const yDoc = React.useRef(new Y.Doc());
 
   // Allow other components to react to websocket sync state
   const [wsSync, setWsSync] = useState(false);
