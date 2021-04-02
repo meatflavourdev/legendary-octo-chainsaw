@@ -9,19 +9,16 @@ import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
 import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
-import InfoDisplay from './components/Toolbar/InfoDisplay';
-import useCursorPosition from './hooks/useCursorPosition';
-import { useThrottleCallback } from '@react-hook/throttle';
-import { useAuth } from '../contexts/AuthContext';
-import usePrevious from '@react-hook/previous'
-import { getColor } from '../helpers/goldenColorHash';
+import MouseObserver from './components/Observers/MouseObserver';
+
 import './style/provider.css';
 
 // Yjs Imports
 import * as Y from 'yjs';
+import useHover from '@react-hook/hover';
 
 //Elements loaded on new doc
-import initialElements from './data/initialElements';
+//import initialElements from './data/initialElements';
 
 // UUID generator
 const uuid62 = require('uuid62');
@@ -35,7 +32,9 @@ const nodeTypes = {
   CursorNode,
 };
 
-const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
+const snapGrid = [5, 5];
+
+const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -48,7 +47,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
-  // Get a state array for React Flow's elements array.
   const [elements, setElements] = React.useState([]);
 
   // Cursor Element Add/Update/Remove based on rfPosition ---------------
@@ -66,78 +64,9 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
     }
   }, [doc_id, yDoc, wsSync, setElements]);
 
-
-  // Cursor Element Add/Update/Remove based on rfPosition ---------------
-
-  const rfRef = React.useRef(null);
-  const [mousePosition, rfPosition] = useCursorPosition(rfRef, reactFlowInstance);
-  const { currentUser, clientID, colorSeed } = useAuth();
-  const prevPosition = usePrevious(rfPosition);
-  const prevTime = usePrevious(Date.now());
-  useEffect(() => {
-    const localCurrentUser = currentUser;
-
-    const addCursorNode = (key, localCurrentUser, clientID, newPosition) => {
-      const newNode = {
-        id: key,
-        key: key,
-        type: 'CursorNode',
-        data: {
-          nodeKey: key,
-          displayName: localCurrentUser.displayName,
-          clientID: clientID,
-          collabColor: getColor(50, colorSeed),
-        },
-        selectable: false,
-        draggable: false,
-        connectable: false,
-        position: { x: newPosition.x, y: newPosition.y },
-      };
-      const yNode = new Y.Map();
-      for (let [k, v] of Object.entries(newNode)) {
-        yNode.set(k, v);
-      }
-      yElements.push([yNode]);
-    };
-
-    const updateCursorPosition = (index, newPosition) => {
-      const updateNode = yDoc.current.getArray('elements').get(index);
-      updateNode && updateNode.set && updateNode.set('position', { x: newPosition.x, y: newPosition.y });
-    };
-
-    const deleteCursorNode = (key, yElements) => {
-      if (key && yElements) {
-        const elmIndex = yElements.toJSON().findIndex((elm) => elm.id === key);
-        return yElements.toArray().length > 0 && yElements.delete(elmIndex, 1);
-      }
-      return console.error('ProviderFlow.useEffect().deleteElement(): key or yElements undefined', { key, yElements });
-    };
-
-    const key = `user-${localCurrentUser.uid}-${clientID}`;
-    const yElements = yDoc.current && yDoc.current.getArray('elements');
-    const localCursorNodeIndex = yDoc.current && yElements.toJSON().findIndex((elm) => elm.id === key);
-
-    if (rfPosition?.x !== prevPosition?.x && rfPosition?.y !== prevPosition?.y) {
-      if (reactFlowInstance.current && yDoc.current) {
-        if (localCursorNodeIndex === -1) {
-          if (rfPosition.x !== null && rfPosition.y !== null) {
-            addCursorNode(key, localCurrentUser, clientID, rfPosition);
-          }
-        } else {
-          if (rfPosition.x !== null || rfPosition.y !== null) {
-            updateCursorPosition(localCursorNodeIndex, rfPosition);
-          } else {
-            deleteCursorNode(key, yElements);
-          }
-        }
-      }
-    }
-  }, [prevPosition, rfPosition, currentUser, clientID, awarenessState, yDoc]);
-
-
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
-/*     const selectedIds = [];
+    /*     const selectedIds = [];
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
     }  */
@@ -204,8 +133,11 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
     yDoc.current.getArray('elements').push([yNode]);
   };
 
+  const parentRef = React.useRef(null);
+  const isHovering = useHover(parentRef);
+
   return (
-    <div ref={rfRef} className="reactflow-wrapper">
+    <div ref={parentRef} className="reactflow-wrapper">
       <ReactFlow
         elements={elements}
         onConnect={onConnect}
@@ -216,15 +148,21 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessState }) => {
         onNodeDrag={onNodeDrag}
         nodeTypes={nodeTypes}
         snapToGrid={true}
-        snapGrid={[5, 5]}
+        snapGrid={snapGrid}
         connectionMode="loose"
         connectionLineType="smoothstep"
         multiSelectionKeyCode="Control"
         arrowHeadColor="#595A66"
       >
+        <MouseObserver
+          parentRef={parentRef}
+          yDoc={yDoc}
+          reactFlowInstance={reactFlowInstance}
+          isHovering={isHovering}
+          awarenessRef={awarenessRef}
+        />
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />
-        <InfoDisplay mousePosition={mousePosition} rfPosition={rfPosition} />
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>

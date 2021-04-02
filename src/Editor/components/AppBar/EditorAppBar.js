@@ -54,24 +54,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState}) {
+const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState = []}) {
   const classes = useStyles();
 
-  const userAvatars = [];
-  const userNames = [];
-
-  if (awarenessState && awarenessState.length) {
-    for (const user of awarenessState) {
-
-      userAvatars.push(
-        <AvatarTooltip collabColor={user.collabColor} key={`avatar-${user.clientID}`} title={user.displayName} placement="bottom" arrow={true}>
-          <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
-        </AvatarTooltip>
-      );
-      userNames.push(user.displayName);
-    }
-  }
-
+  const userAvatars = awarenessState.map((user) => (
+    <AvatarTooltip collabColor={user.collabColor} key={`avatar-${user.clientID}`} title={user.displayName} placement="bottom" arrow={true}>
+      <Avatar src={user.photoURL} className={classes.userAvatar} style={{ backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
+    </AvatarTooltip>
+  ));
+  const userNames = awarenessState.map((user) => user.displayName);
 
   return (
     <AppBar
