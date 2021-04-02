@@ -34,7 +34,7 @@ const nodeTypes = {
 
 const snapGrid = [5, 5];
 
-const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
+const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
@@ -159,6 +159,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
           yDoc={yDoc}
           reactFlowInstance={reactFlowInstance}
           isHovering={isHovering}
+          awarenessRef={awarenessRef}
         />
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />

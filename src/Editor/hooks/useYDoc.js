@@ -4,6 +4,7 @@ import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { WebrtcProvider } from 'y-webrtc'
 import { useAuth } from '../../contexts/AuthContext';
+import * as awarenessProtocol from '../../y-protocols/awareness';
 import config from '../../config';
 
 /**
@@ -36,14 +37,18 @@ const useYDoc = function (doc_id, currentUser) {
       const newState = Array.from(newValue.getStates().values());
       setAwarenessState(newState);
       setClientID(newValue.clientID)
-      console.log('useYDoc.onAwarenessRefUpdate(): Updated currentUser fired', currentUser);
+      //console.log('useYDoc.onAwarenessRefUpdate(): Updated currentUser fired', currentUser);
     }
+    awarenessRef.current.on('change', () => {
+      //console.log('useYDoc.useEffect(): Awareness change fired');
+        setAwarenessState(Array.from(awarenessRef.current.getStates().values()));
+    });
   };
-  const awarenessRef = useCallbackRef([], onAwarenessRefUpdate);
+  const awarenessRef = useCallbackRef(new awarenessProtocol.Awareness(yDoc.current), onAwarenessRefUpdate);
 
   // Update awareness on currentUser change
   useEffect(() => {
-    console.log('useYDoc.useEffect(): Updated currentUser fired', currentUser);
+    //console.log('useYDoc.useEffect(): Updated currentUser fired', currentUser);
     if (awarenessRef.current && awarenessRef.current.setLocalState) {
       const newLocalState = {
         clientID: clientID,
@@ -53,7 +58,7 @@ const useYDoc = function (doc_id, currentUser) {
       };
       awarenessRef.current.setLocalState(newLocalState);
     }
-  }, [currentUser, clientID, awarenessRef]);
+  }, [currentUser, clientID]);
 
   // Console log on state change
 /*     useEffect(() => {
@@ -85,10 +90,7 @@ const useYDoc = function (doc_id, currentUser) {
     awarenessRef.current = awareness;
 
     // Observe when any user updates their awareness information
-     awareness.on('change', () => {
-      console.log('useYDoc.useEffect(): Awareness update fired');
-      setAwarenessState( Array.from(awareness.getStates().values()) );
-    });
+
 
     // Log connected status
     wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
@@ -99,10 +101,18 @@ const useYDoc = function (doc_id, currentUser) {
     // Set default sync state to false to invalidate previous states.
     setWsSync(false);
 
-    return () => wsProvider.destroy();
-  }, [doc_id, wsServerUrl, roomName, awarenessRef]);
+    return () => {
+      wsProvider.destroy();
+    }
+  }, [doc_id, wsServerUrl, roomName]);
 
-  return [wsSync, yDoc, awarenessState];
+  useEffect(() => {
+    return () => {
+      awarenessRef.current.destroy();
+    };
+  }, []);
+
+  return [wsSync, yDoc, awarenessState, awarenessRef];
 };
 
 export default useYDoc;

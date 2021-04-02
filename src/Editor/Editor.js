@@ -30,7 +30,7 @@ export default function Editor() {
   const { currentUser } = useAuth();
 
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
-  const [wsSync, yDoc, awarenessState] = useYDoc(doc_id, currentUser);
+  const [wsSync, yDoc, awarenessState, awarenessRef] = useYDoc(doc_id, currentUser);
 
   // TODO: Move Document CRUD logic here
 
@@ -48,7 +48,7 @@ export default function Editor() {
         awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-      <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
+      <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessRef={awarenessRef} />
       <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );
