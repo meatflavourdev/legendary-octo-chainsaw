@@ -15,6 +15,7 @@ import './style/provider.css';
 
 // Yjs Imports
 import * as Y from 'yjs';
+import useHover from '@react-hook/hover';
 
 //Elements loaded on new doc
 //import initialElements from './data/initialElements';
@@ -132,11 +133,11 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
     yDoc.current.getArray('elements').push([yNode]);
   };
 
-    // Cursor Element Add/Update/Remove based on rfPosition ---------------
-    const rfRef = React.useRef(null);
+  const parentRef = React.useRef(null);
+  const isHovering = useHover(parentRef);
 
   return (
-    <div ref={rfRef} className="reactflow-wrapper">
+    <div ref={parentRef} className="reactflow-wrapper">
       <ReactFlow
         elements={elements}
         onConnect={onConnect}
@@ -153,9 +154,14 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         multiSelectionKeyCode="Control"
         arrowHeadColor="#595A66"
       >
+        <MouseObserver
+          parentRef={parentRef}
+          yDoc={yDoc}
+          reactFlowInstance={reactFlowInstance}
+          isHovering={isHovering}
+        />
         <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
         <EditorToolbar addNode={onAdd} />
-        <MouseObserver rfRef={rfRef} yDoc={yDoc} reactFlowInstance={reactFlowInstance} />
         <Background variant="dots" gap="20" color="#484848" />
       </ReactFlow>
     </div>
