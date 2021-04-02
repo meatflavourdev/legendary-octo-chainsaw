@@ -5,14 +5,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
 import DrawerDocs from './components/Drawer/DrawerDocs';
 import DrawerChat from './components/Drawer/DrawerChat';
-import { ReactFlowProvider } from 'react-flow-renderer';
 import EditorAppBar from './components/AppBar/EditorAppBar';
-
-import { useHistory } from 'react-router-dom';
-import firebase from "firebase";
 import { useAuth } from '../contexts/AuthContext';
 
-import useYDoc from './hooks/useYDoc'
+import useYDoc from './hooks/useYDoc';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -52,9 +48,7 @@ export default function Editor() {
         awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-      <ReactFlowProvider>
-        <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessState={awarenessState} />
-      </ReactFlowProvider>
+      <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
       <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );

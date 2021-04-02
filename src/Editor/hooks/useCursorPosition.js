@@ -1,4 +1,5 @@
 import useMouse from '@react-hook/mouse-position';
+import useMousePosition from '../hooks/useMousePosition';
 
 const projectWithoutSnap = ({ x, y }, [tx, ty, tScale]) => {
   const position = {
@@ -9,7 +10,7 @@ const projectWithoutSnap = ({ x, y }, [tx, ty, tScale]) => {
 };
 
 const useCursorPosition = function (ref, reactFlowInstance) {
-  const mousePosition = useMouse(ref, {});
+  const mousePosition = useMousePosition();
   const transform =
     mousePosition && reactFlowInstance && reactFlowInstance.current
       ? [
@@ -18,8 +19,10 @@ const useCursorPosition = function (ref, reactFlowInstance) {
           reactFlowInstance.current.toObject().zoom,
         ]
       : null;
-  const rfPosition = (transform && projectWithoutSnap(mousePosition, transform)) || { x: null, y: null };
-
+  const rfPosition =
+    transform && mousePosition.x !== null && mousePosition.y !== null
+      ? projectWithoutSnap(mousePosition, transform)
+      : { x: null, y: null };
   return [mousePosition, rfPosition];
 };
 
