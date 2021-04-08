@@ -96,7 +96,7 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
 
   // Called when new edge connected
   const onConnect = (params) => {
-    const newEdges = addEdge({ type: 'smoothstep', ...params, arrowHeadType: 'arrowclosed' }, []);
+    const newEdges = addEdge({ type: 'smoothstep', selectable: true, ...params, arrowHeadType: 'arrowclosed' }, []);
     const yEdge = new Y.Map();
     for (let [k, v] of Object.entries(newEdges[0])) {
       yEdge.set(k, v);
