@@ -104,6 +104,7 @@ const useYDoc = function (doc_id, currentUser) {
     setWsSync(false);
 
     return () => {
+      yDoc.current.destroy();
       awareness.destroy();
       wsProvider.destroy();
     }
