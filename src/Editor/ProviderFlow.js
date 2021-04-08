@@ -74,20 +74,6 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
       });
     }
   }, [doc_id, yDoc, wsSync, setElements]); */
-  const onNodeDrag = (event, node) => {
-    // onDrag, update the yDoc with the node's current position
-    /*     const selectedIds = [];
-    for (const elm of selectedElements) {
-      selectedIds.push(elm.id);
-    }  */
-    for (const elmMap of yDoc.current.getArray('elements')) {
-      //if (selectedIds.includes(elmMap.get('id'))) {
-      //console.log(`Element:`, elmMap.toJSON());
-      if (elmMap?.get && elmMap.get('id') === node.id) {
-        elmMap.set('position', node.position);
-      }
-    }
-  };
 
   // Called when element deleted
   const onElementsRemove = (elementsToRemove) => {
@@ -147,35 +133,36 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   const isHovering = useHover(parentRef);
 
   return (
-    <div ref={parentRef} className="reactflow-wrapper">
-      <ReactFlow
-        elements={elements}
-        onConnect={onConnect}
-        onElementsRemove={onElementsRemove}
-        onEdgeUpdate={onEdgeUpdate}
-        onLoad={onLoad}
-        onPaneClick={() => setOpenDocs(false)}
-        onNodeDrag={onNodeDrag}
-        nodeTypes={nodeTypes}
-        snapToGrid={true}
-        snapGrid={snapGrid}
-        connectionMode="loose"
-        connectionLineType="smoothstep"
-        multiSelectionKeyCode="Control"
-        arrowHeadColor="#595A66"
-      >
-        <MouseObserver
-          parentRef={parentRef}
-          yDoc={yDoc}
-          reactFlowInstance={reactFlowInstance}
-          isHovering={isHovering}
-          awarenessRef={awarenessRef}
-        />
-        <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
-        <EditorToolbar addNode={onAdd} />
-        <Background variant="dots" gap="20" color="#484848" />
-      </ReactFlow>
-    </div>
+    <ReactFlowProvider>
+      <div ref={parentRef} className="reactflow-wrapper">
+        <ReactFlow
+          elements={elements}
+          onConnect={onConnect}
+          onElementsRemove={onElementsRemove}
+          onEdgeUpdate={onEdgeUpdate}
+          onLoad={onLoad}
+          onPaneClick={() => setOpenDocs(false)}
+          nodeTypes={nodeTypes}
+          snapToGrid={true}
+          snapGrid={snapGrid}
+          connectionMode="loose"
+          connectionLineType="smoothstep"
+          multiSelectionKeyCode="Control"
+          arrowHeadColor="#595A66"
+        >
+          <MouseObserver
+            parentRef={parentRef}
+            yDoc={yDoc}
+            reactFlowInstance={reactFlowInstance}
+            isHovering={isHovering}
+            awarenessRef={awarenessRef}
+          />
+          <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
+          <EditorToolbar addNode={onAdd} />
+          <Background variant="dots" gap="20" color="#484848" />
+        </ReactFlow>
+      </div>
+    </ReactFlowProvider>
   );
 };
 
