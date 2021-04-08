@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
-import ReactFlow, { addEdge, Background, MiniMap } from 'react-flow-renderer';
+import ReactFlow, { addEdge, Background, MiniMap, ReactFlowProvider } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/Toolbar/EditorToolbar';
 import AttributeToolbar from './components/Toolbar/AttributeToolbar';
@@ -10,6 +10,7 @@ import AnnotationNode from './nodeTypes/AnnotationNode';
 import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import MouseObserver from './components/Observers/MouseObserver';
+import useYArray from './hooks/useYArray';
 
 import './style/provider.css';
 
@@ -47,23 +48,32 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
-  const [elements, setElements] = React.useState([]);
+  //const [elements, setElements] = React.useState([]);
+  const [elements, setElements] = useYArray(yDoc.current, 'elements');
 
   // Cursor Element Add/Update/Remove based on rfPosition ---------------
 
-  React.useEffect(() => {
+  /*   React.useEffect(() => {
     if (wsSync) {
       // Set elements array on YDoc synced & ready
       const elementsYjs = yDoc.current.getArray('elements');
       setElements(elementsYjs.toJSON());
 
       // Observe elementsYjs & Update state on change
-      elementsYjs.observeDeep((e) => {
-        setElements(elementsYjs.toJSON());
+      elementsYjs.observeDeep((event) => {
+        setElements((prevState) => elementsYjs.toJSON());
+        // TODO: Observe granular Yjs state changes and update only what has changed maintainging immutable reference data structures
+        // NOTE: Should these bi-directional updated be done inside an Node component wrapper?
+
+        const changeDelta = event.changes.delta;
+        const index = changeDelta[0].retain + 1;
+        const op = Object.keys(changeDelta[1]);
+        const node = Object.values(changeDelta[1])[0];
+        console.log(`Observed change -- index: ${index} op: ${op} node: `, node);
+
       });
     }
-  }, [doc_id, yDoc, wsSync, setElements]);
-
+  }, [doc_id, yDoc, wsSync, setElements]); */
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
     /*     const selectedIds = [];
