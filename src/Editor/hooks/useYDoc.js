@@ -89,6 +89,7 @@ const useYDoc = function (doc_id, currentUser) {
     //Get the awareness object from the websocket provider
     const awareness = wsProvider.awareness;
     awarenessRef.current = awareness;
+    window.awareness = wsProvider.awareness;
 
     // Observe when any user updates their awareness information
 
