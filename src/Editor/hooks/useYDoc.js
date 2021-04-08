@@ -26,7 +26,7 @@ const useYDoc = function (doc_id, currentUser) {
   const { clientID, setClientID } = useAuth();
 
   // Awareness reference
-  const onAwarenessRefUpdate = (newValue) => {
+  const onAwarenessRefUpdate = (newValue, lastValue) => {
     if (newValue) {
       newValue.setLocalState({
         clientID: newValue.clientID,
@@ -39,8 +39,9 @@ const useYDoc = function (doc_id, currentUser) {
       setClientID(newValue.clientID)
       //console.log('useYDoc.onAwarenessRefUpdate(): Updated currentUser fired', currentUser);
     }
-    awarenessRef.current.on('change', () => {
-      //console.log('useYDoc.useEffect(): Awareness change fired');
+    lastValue.destroy();
+    newValue.on('change', () => {
+      console.log('useYDoc.useEffect(): Awareness change fired', awarenessRef.current.getStates());
         setAwarenessState(Array.from(awarenessRef.current.getStates().values()));
     });
   };
@@ -102,15 +103,10 @@ const useYDoc = function (doc_id, currentUser) {
     setWsSync(false);
 
     return () => {
+      awareness.destroy();
       wsProvider.destroy();
     }
   }, [doc_id, wsServerUrl, roomName]);
-
-  useEffect(() => {
-    return () => {
-      awarenessRef.current.destroy();
-    };
-  }, []);
 
   return [wsSync, yDoc, awarenessState, awarenessRef];
 };
