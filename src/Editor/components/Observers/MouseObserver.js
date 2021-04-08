@@ -118,21 +118,13 @@ export default function MouseObserver({ parentRef, yDoc, reactFlowInstance, isHo
         deleteCursorNode(elm.id, yDoc.current.getArray('elements'));
       });
     },
-    5000,
+    2500,
     {
       autoStart: true,
       immediate: true,
       selfCorrecting: false,
     }
   );
-
-  useEffect(() => {
-    if (windowFocused) {
-      start();
-    } else {
-      stop();
-    }
-  }, [windowFocused]);
 
   const target = React.useRef(null);
 
