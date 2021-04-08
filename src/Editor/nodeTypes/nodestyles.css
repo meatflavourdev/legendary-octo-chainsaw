@@ -68,7 +68,7 @@
   pointer-events: none;
 }
 
-.react-flow__node.selected:before {
+.react-flow__node.selectable.selected:before {
   content: '';
   position: absolute;
   top: -15px;
@@ -91,7 +91,7 @@
   display: none;
 }
 
-.shapeDecision.selected:before {
+.shapeDecision.selectable.selected:before {
   border-radius: 100%;
 }
 
