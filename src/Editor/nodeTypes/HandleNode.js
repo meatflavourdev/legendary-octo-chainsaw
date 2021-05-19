@@ -8,7 +8,7 @@ export default function HandleNode({ data }) {
   data.idNode = true;
 
   return (
-    <div className='node-handlenode'>
+    <div id={data.nodeKey} className='node-handlenode'>
       <div style={{width:'30px', height:'30px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '100%', backgroundColor: 'rgba(0,0,255,0.1)'}}>
         <div style={{width:'20px', height:'20px', display: 'flex', alignItems: 'center', borderRadius: '100%', backgroundColor: 'rgba(0,0,255,0.2)'}}>
           <Handle

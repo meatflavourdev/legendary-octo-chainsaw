@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactFlow, { addEdge, Controls, Background } from 'react-flow-renderer';
+import React, { useEffect, useMemo, useCallback } from 'react';
+import ReactFlow, { addEdge, Background, MiniMap, ReactFlowProvider } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
-import EditorToolbar from './components/EditorToolbar';
-import AttributeToolbar from './components/AttributeToolbar';
+import EditorToolbar from './components/Toolbar/EditorToolbar';
+import AttributeToolbar from './components/Toolbar/AttributeToolbar';
 import ShapeNode from './nodeTypes/ShapeNode';
 import HandleNode from './nodeTypes/HandleNode';
 import ScreenBlockNode from './nodeTypes/ScreenBlockNode';
 import AnnotationNode from './nodeTypes/AnnotationNode';
+import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
+import MouseObserver from './components/Observers/MouseObserver';
+import useYArray from './hooks/useYArray';
+
 import './style/provider.css';
 
 // Yjs Imports
 import * as Y from 'yjs';
+import useHover from '@react-hook/hover';
 
 //Elements loaded on new doc
-import initialElements from './data/initialElements';
+//import initialElements from './data/initialElements';
 
 // UUID generator
 const uuid62 = require('uuid62');
@@ -25,77 +30,60 @@ const nodeTypes = {
   ScreenBlockNode,
   HandleNode,
   AnnotationNode,
+  CursorNode,
 };
 
-const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
+const snapGrid = [5, 5];
+
+const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
-  //Window Dimensions hook
-  const { height, width } = useWindowDimensions();
-
-  // Close Doc Drawer
-  const handleDocsDrawerClose = () => setOpenDocs(false);
-
-  //Generates an ID for each new node
-  const newNodeId = () => `node_${uuid62.v4()}`;
-
   //Fires when React flow has loaded
-  const reactFlowRef = React.useRef(null);
-  const onLoad = (reactFlowInstance) => {
-    //console.log("React Flow Loaded:", reactFlowInstance);
-    reactFlowRef.current = reactFlowInstance;
+  const reactFlowInstance = React.useRef(null);
+  const onLoad = (_reactFlowInstance) => {
+    reactFlowInstance.current = _reactFlowInstance;
   };
 
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
 
-  // Get a state array for React Flow's elements array.
-  // We'll use this to update React Flow from Yjs
-  const [elements, setElements] = React.useState([]);
+  //const [elements, setElements] = React.useState([]);
+  const [elements, setElements] = useYArray(yDoc.current, 'elements');
 
-  React.useEffect(() => {
+  // Cursor Element Add/Update/Remove based on rfPosition ---------------
+
+  /*   React.useEffect(() => {
     if (wsSync) {
-      //console.log(`wsProvider isSynced: ${wsSync}`);
+      // Set elements array on YDoc synced & ready
       const elementsYjs = yDoc.current.getArray('elements');
+      setElements(elementsYjs.toJSON());
 
-      if (elementsYjs.toArray().length === 0) {
-        //console.log(`empty array-- loading initial elements`);
-        initialElements.forEach((element, index) => {
-          const node = new Y.Map();
-          for (let [k, v] of Object.entries(element)) {
-            node.set(k, v);
-          }
-          node.set('key', element.id);
-          elementsYjs.insert(index, [node]);
-        });
-        //console.log("Filled Array: ", elementsYjs.toJSON());
-        setElements(elementsYjs.toJSON());
-      } else {
-        setElements(elementsYjs.toJSON());
-      }
-      // Update state on changes to Yjs elements Array
-      elementsYjs.observeDeep(() => {
-        setElements(elementsYjs.toJSON());
+      // Observe elementsYjs & Update state on change
+      elementsYjs.observeDeep((event) => {
+        setElements((prevState) => elementsYjs.toJSON());
+        // TODO: Observe granular Yjs state changes and update only what has changed maintainging immutable reference data structures
+        // NOTE: Should these bi-directional updated be done inside an Node component wrapper?
+
+        const changeDelta = event.changes.delta;
+        const index = changeDelta[0].retain + 1;
+        const op = Object.keys(changeDelta[1]);
+        const node = Object.values(changeDelta[1])[0];
+        console.log(`Observed change -- index: ${index} op: ${op} node: `, node);
+
       });
     }
-    if (!wsSync) {
-      // Set the elements array to empty while loading elements from server
-      //console.log(`wsProvider isSynced: ${wsSync}`);
-      setElements([]);
-    }
-  }, [doc_id, yDoc, wsSync]);
-
+  }, [doc_id, yDoc, wsSync, setElements]); */
   const onNodeDrag = (event, node) => {
     // onDrag, update the yDoc with the node's current position
     /*     const selectedIds = [];
     for (const elm of selectedElements) {
       selectedIds.push(elm.id);
-    } */
+    }  */
     for (const elmMap of yDoc.current.getArray('elements')) {
       //if (selectedIds.includes(elmMap.get('id'))) {
-      //console.log(`Element type: ${typeof elmMap}`);
-      if (elmMap?.get('id') === node.id) {
+      //console.log(`Element:`, elmMap.toJSON());
+      if (elmMap?.get && elmMap.get('id') === node.id) {
         elmMap.set('position', node.position);
       }
     }
@@ -114,12 +102,11 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
         }
       }
     }
-    console.log(elementsToRemove);
   };
 
   // Called when new edge connected
   const onConnect = (params) => {
-    const newEdges = addEdge({ type: 'smoothstep', ...params, arrowHeadType: 'arrowclosed' }, []);
+    const newEdges = addEdge({ type: 'smoothstep', selectable: true, ...params, arrowHeadType: 'arrowclosed' }, []);
     const yEdge = new Y.Map();
     for (let [k, v] of Object.entries(newEdges[0])) {
       yEdge.set(k, v);
@@ -135,17 +122,19 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
   };
 
   //CREATES NEW ELEMENTS
+  const { height, width } = useWindowDimensions();
   const onAdd = (type, customData) => {
-    const nodePosition = reactFlowRef.current.project({
+    const nodePosition = reactFlowInstance.current.project({
       x: width / 2,
       y: height * 0.75,
     });
+    const nodeKey = `node_${uuid62.v4()}`;
     const newNode = {
-      id: newNodeId(),
-      key: newNodeId(),
+      id: nodeKey,
+      key: nodeKey,
       type,
-      data: { ...customData, label: 'New node' },
-      position: nodePosition,
+      data: { nodeKey: nodeKey, label: 'Node', ...customData },
+      position: { x: nodePosition.x, y: nodePosition.y },
     };
     const yNode = new Y.Map();
     for (let [k, v] of Object.entries(newNode)) {
@@ -154,36 +143,39 @@ const ProviderFlow = ({ yDoc, wsSync, setOpenDocs }) => {
     yDoc.current.getArray('elements').push([yNode]);
   };
 
-  //Fires when an element is clicked
-  const onElementClick = (event, element) => {
-    console.log('click', element);
-  };
+  const parentRef = React.useRef(null);
+  const isHovering = useHover(parentRef);
 
   return (
-        <div className="reactflow-wrapper">
-          <ReactFlow
-            elements={elements}
-            onElementClick={onElementClick}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onEdgeUpdate={onEdgeUpdate}
-            onLoad={onLoad}
-            onPaneClick={handleDocsDrawerClose}
-            onNodeDrag={onNodeDrag}
-            nodeTypes={nodeTypes}
-            snapToGrid={true}
-            snapGrid={[5, 5]}
-            connectionMode="loose"
-            connectionLineType="smoothstep"
-            multiSelectionKeyCode="Control"
-            arrowHeadColor="#595A66"
-          >
-            <Controls />
-            <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowRef} />
-            <EditorToolbar addNode={onAdd} />
-            <Background variant="dots" gap="20" color="#484848" />
-          </ReactFlow>
-        </div>
+    <div ref={parentRef} className="reactflow-wrapper">
+      <ReactFlow
+        elements={elements}
+        onConnect={onConnect}
+        onElementsRemove={onElementsRemove}
+        onEdgeUpdate={onEdgeUpdate}
+        onLoad={onLoad}
+        onPaneClick={() => setOpenDocs(false)}
+        onNodeDrag={onNodeDrag}
+        nodeTypes={nodeTypes}
+        snapToGrid={true}
+        snapGrid={snapGrid}
+        connectionMode="loose"
+        connectionLineType="smoothstep"
+        multiSelectionKeyCode="Control"
+        arrowHeadColor="#595A66"
+      >
+        <MouseObserver
+          parentRef={parentRef}
+          yDoc={yDoc}
+          reactFlowInstance={reactFlowInstance}
+          isHovering={isHovering}
+          awarenessRef={awarenessRef}
+        />
+        <AttributeToolbar yDoc={yDoc} reactFlowRef={reactFlowInstance} />
+        <EditorToolbar addNode={onAdd} />
+        <Background variant="dots" gap="20" color="#484848" />
+      </ReactFlow>
+    </div>
   );
 };
 

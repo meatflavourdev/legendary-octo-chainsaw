@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerDocs({ openChat, wsSync, yDoc, awareness }) {
+export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
   const classes = useStyles();
 
   const { currentUser } = useAuth();

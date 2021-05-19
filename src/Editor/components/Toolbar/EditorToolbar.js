@@ -1,6 +1,6 @@
 import React from "react";
-import { IconButton, ButtonGroup, Tooltip} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { IconButton, ButtonGroup, Tooltip} from "@material-ui/core";
 import Crop75Icon from "@material-ui/icons/Crop75";
 import UndoIcon from "@material-ui/icons/Undo";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
@@ -8,7 +8,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import RedoIcon from "@material-ui/icons/Redo";
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import "../style/editor.css";
+import "../../style/editor.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -177,7 +177,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Undo">
           <IconButton
             size="small"
-            onClick={() => createElement("default", "decision")}
+            onClick={() => {}}
           >
             <UndoIcon />
           </IconButton>
@@ -185,7 +185,7 @@ export default function EditorToolbar(props) {
         <Tooltip title="Redo">
           <IconButton
             size="small"
-            onClick={() => createElement("default", "terminator")}
+            onClick={() => {}}
           >
             <RedoIcon />
           </IconButton>

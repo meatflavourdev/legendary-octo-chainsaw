@@ -9,11 +9,13 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatIcon from '@material-ui/icons/Chat';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import AvatarGroup from './Drawers/components/AvatarGroup';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import AvatarGroup from '../Avatar/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
-import config from '../../config';
+import config from '../../../config';
 import { Avatar, Tooltip } from '@material-ui/core';
+import AvatarTooltip from '../Avatar/AvatarTooltip';
 
 const drawerWidth = config.editor.drawerWidth;
 
@@ -52,36 +54,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
-const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState}) {
+const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState = []}) {
   const classes = useStyles();
 
-  const userAvatars = [];
-  const userNames = [];
-
-  if (awarenessState && awarenessState.length) {
-    for (const user of awarenessState) {
-
-      const CustomTooltip = withStyles((theme) => ({
-        tooltip: {
-          backgroundColor: user.collabColor.color,
-          color: user.collabColor.isLight ? '#000' : '#FFF',
-        },
-        arrow: {
-          color: user.collabColor.color,
-        }
-      }))(Tooltip);
-
-      userAvatars.push(
-        <CustomTooltip key={user.clientID} title={user.displayName} placement="bottom" arrow={true}>
-          <Avatar src={user.photoURL} className={classes.userAvatar} style={{backgroundColor: user.collabColor.color, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
-        </CustomTooltip>
-      );
-      userNames.push(user.displayName);
-    }
-  }
-
+  const userAvatars = awarenessState.map((user) => (
+    <AvatarTooltip collabColor={user.collabColor} key={`avatar-${user.clientID}`} title={user.displayName} placement="bottom" arrow={true}>
+      <Avatar src={user.photoURL} className={classes.userAvatar} style={{ backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
+    </AvatarTooltip>
+  ));
+  const userNames = awarenessState.map((user) => user.displayName);
 
   return (
     <AppBar
@@ -100,8 +81,9 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
         className={clsx(classes.menuButton, openDocs && classes.hide)}
       >
         <MenuIcon style={{ fontSize: 30 }}/>
-      </IconButton>
-      <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 35 }}/>
+        </IconButton>
+
+      <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 24 }}/>
       <Typography className={classes.docTitle} variant="h6">
         { docName }
       </Typography>
@@ -112,9 +94,15 @@ const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpe
         <Badge badgeContent={'!'} color="secondary">
           <ChatIcon style={{ fontSize: 26 }}/>
         </Badge>
-      </IconButton>
+        </IconButton>
+
       <ShareMenu />
       <ProfileMenu />
+
+      <IconButton color="inherit" >
+        <MoreIcon style={{ fontSize: 26 }}/>
+      </IconButton>
+
     </Toolbar>
   </AppBar>
   );

@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import LinkIcon from '@material-ui/icons/Link';
-import SendIcon from '@material-ui/icons/Send';
+import ShareIcon from '@material-ui/icons/Share';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -63,7 +63,7 @@ export default function ProfileMenu() {
   return (
     <div>
       <IconButton onClick={handleClick} color="inherit">
-        <SendIcon  style={{ fontSize: 26 }}/>
+        <ShareIcon  style={{ fontSize: 26 }}/>
       </IconButton>
 
       <StyledMenu
@@ -95,4 +95,3 @@ export default function ProfileMenu() {
     </div>
   );
 }
-

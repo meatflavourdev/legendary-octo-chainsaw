@@ -8,7 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { useAuth, generateColor } from '../../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
+import AvatarTooltip from '../Avatar/AvatarTooltip';
 
 const ago = require('s-ago');
 
@@ -51,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
   avatarRoot: {
     minWidth: '40px',
     marginRight: '0.65em',
+    '& > *': {
+      //border: '1.99px solid rgba(255, 255, 255, 1)',
+      boxShadow: '1px 1px 6px rgba(0,0,0,0.22), 1px 2px 4px rgba(0,0,0,0.18)',
+    },
   },
   messageTitle: {
     direction: 'ltr',
@@ -83,7 +88,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ChatList({ messages, chatListBottomRef }) {
-  const classes = useStyles();
+
+  const cssProps = { };
+  const classes = useStyles(cssProps);
 
   const { currentUser, generateColor } = useAuth();
 
@@ -98,12 +105,13 @@ export default function ChatList({ messages, chatListBottomRef }) {
     chatMessages.push(
       <Divider id={message.id + '-divider'} key={message.id + '-divider'} className={classes.listDivider} variant="inset" component="li" />
     )
-    const itemClass = currentUser.uid === message.user.uid ? classes.itemSelf : classes.item;
     const collabColor = message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
-      <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } /* style={{borderLeftColor: currentUser.collabColor.color}} */ id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
-          <ListItemAvatar className={classes.avatarRoot}>
-          <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.color, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+      <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
+        <ListItemAvatar className={classes.avatarRoot}>
+          <AvatarTooltip collabColor={collabColor} key={message.id || `${message.user.uid}-${message.creationTime}`} title={message.user.displayName} placement="left" arrow={true}>
+            <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.hex, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+          </AvatarTooltip>
           </ListItemAvatar>
         <ListItemText
             className={classes.messageTitle}

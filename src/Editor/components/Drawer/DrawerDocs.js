@@ -50,10 +50,22 @@ const useStyles = makeStyles((theme) => ({
     width: "32px",
     height: "32px",
     marginLeft: "0.8em",
-    marginRight: "0.5em",
+    marginRight: "0.45em",
   },
-  entropyLogoText: {},
-  docFolder: {},
+  entropyLogoText: {
+    fontFamily: "\"Inter\", sans-serif",
+    fontWeight: 600,
+    fontSize: '1.33rem',
+    letterSpacing: '-0.05em',
+    color: 'black',
+    lineHeight: '1.502',
+  },
+  docFolder: {
+    marginTop: '0.45em',
+    '& > span': {
+      fontWeight: 500,
+    },
+  },
   docFileName: {
     lineClamp: 1,
     overflow: 'hidden',
@@ -91,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
   docListHeaderList: {
     paddingBottom: '0.15em',
     paddingTop: '0.5em',
+    '& .MuiListItemIcon-root': {
+      minWidth: '38px',
+    },
   },
   docList: {
     paddingTop: 0,
@@ -98,6 +113,10 @@ const useStyles = makeStyles((theme) => ({
   docListItem: {
     paddingTop: '0.45em',
     paddingBottom: '0.45em',
+    paddingLeft: '1.75em',
+    '& .MuiListItemIcon-root': {
+      minWidth: '38px',
+    },
   },
 }));
 
@@ -137,7 +156,6 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
           <Typography
             className={classes.entropyLogoText}
             variant="h6"
-            className={classes.title}
           >
             Entropy
           </Typography>

@@ -3,16 +3,12 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProviderFlow from './ProviderFlow';
-import DrawerDocs from './components/Drawers/DrawerDocs';
-import DrawerChat from './components/Drawers/DrawerChat';
-import { ReactFlowProvider } from 'react-flow-renderer';
-import EditorAppBar from './components/EditorAppBar.js';
-
-import { useHistory } from 'react-router-dom';
-import firebase from "firebase";
+import DrawerDocs from './components/Drawer/DrawerDocs';
+import DrawerChat from './components/Drawer/DrawerChat';
+import EditorAppBar from './components/AppBar/EditorAppBar';
 import { useAuth } from '../contexts/AuthContext';
 
-import useYDoc from './hooks/useYDoc'
+import useYDoc from './hooks/useYDoc';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,7 +30,7 @@ export default function Editor() {
   const { currentUser } = useAuth();
 
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
-  const [wsSync, yDoc, awarenessState] = useYDoc(doc_id, currentUser);
+  const [wsSync, yDoc, awarenessState, awarenessRef] = useYDoc(doc_id, currentUser);
 
   // TODO: Move Document CRUD logic here
 
@@ -52,9 +48,7 @@ export default function Editor() {
         awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-        <ReactFlowProvider>
-          <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} />
-        </ReactFlowProvider>
+      <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessRef={awarenessRef} />
       <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );
