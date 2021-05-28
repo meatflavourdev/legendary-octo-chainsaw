@@ -101,6 +101,10 @@ export default function ChatList({ messages, chatListBottomRef }) {
 
   const chatMessages = [];
 
+  function handleUserLocate(name, uid) {
+    console.log(`Locate ${name} : ${uid}`);
+  }
+
   for (const message of messages) {
     chatMessages.push(
       <Divider id={message.id + '-divider'} key={message.id + '-divider'} className={classes.listDivider} variant="inset" component="li" />
@@ -110,7 +114,7 @@ export default function ChatList({ messages, chatListBottomRef }) {
       <ListItem className={ clsx(classes.item, (currentUser.uid === message.user.uid) && classes.itemSelf ) } id={message.id + '-message'} key={message.id + '-message'} alignItems="flex-start">
         <ListItemAvatar className={classes.avatarRoot}>
           <AvatarTooltip collabColor={collabColor} key={message.id || `${message.user.uid}-${message.creationTime}`} title={message.user.displayName} placement="left" arrow={true}>
-            <Avatar alt={message.user.displayName} style={{backgroundColor: collabColor.hex, color: collabColor.isLight ? '#000' : '#FFF' }}  src={message.user.photoURL} />
+            <Avatar alt={message.user.displayName} style={{ backgroundColor: collabColor.hex, color: collabColor.isLight ? '#000' : '#FFF' }} src={message.user.photoURL} onClick={(e) => handleUserLocate(message.user.displayName, message.user.uid)} />
           </AvatarTooltip>
           </ListItemAvatar>
         <ListItemText
