@@ -4,7 +4,7 @@ import { Easing, Tween, autoPlay } from 'es6-tween';
 
 autoPlay(true);
 
-const TRANSITION_TIME = 300;
+const TRANSITION_TIME = 500;
 const EASING = Easing.Quadratic.Out;
 
 export default function LocateObserver(reactFlowInstance) {

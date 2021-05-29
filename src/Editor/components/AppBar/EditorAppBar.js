@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   scaleLoader: {
     padding: '1em',
     '& > div': {
-      height: '15px',
+      height: '16px',
+      opacity: 0.97
     },
   },
   titleIcon: {
