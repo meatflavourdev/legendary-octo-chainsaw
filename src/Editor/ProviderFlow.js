@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
-import ReactFlow, { addEdge, Background, MiniMap, ReactFlowProvider } from 'react-flow-renderer';
+import ReactFlow, { addEdge, Background, useStore, useZoomPanHelper } from 'react-flow-renderer';
 import { useParams } from 'react-router-dom';
 import EditorToolbar from './components/Toolbar/EditorToolbar';
 import AttributeToolbar from './components/Toolbar/AttributeToolbar';
@@ -10,7 +10,9 @@ import AnnotationNode from './nodeTypes/AnnotationNode';
 import CursorNode from './nodeTypes/CursorNode';
 import useWindowDimensions from './hooks/getWindowDimensions';
 import MouseObserver from './components/Observers/MouseObserver';
+import LocateObserver from './components/Observers/LocateObserver';
 import useYArray from './hooks/useYArray';
+import { useListener } from 'react-bus'
 
 import './style/provider.css';
 
@@ -39,12 +41,10 @@ const ProviderFlow = ({ reactFlowInstance, yDoc, wsSync, setOpenDocs, awarenessR
   // Get doc_id from router
   let { doc_id } = useParams();
 
-
   //Fires when React flow has loaded
   const onLoad = (_reactFlowInstance) => {
     reactFlowInstance.current = _reactFlowInstance;
   };
-
 
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);
@@ -165,6 +165,7 @@ const ProviderFlow = ({ reactFlowInstance, yDoc, wsSync, setOpenDocs, awarenessR
         multiSelectionKeyCode="Control"
         arrowHeadColor="#595A66"
       >
+        <LocateObserver reactFlowInstance={reactFlowInstance} />
         <MouseObserver
           parentRef={parentRef}
           yDoc={yDoc}

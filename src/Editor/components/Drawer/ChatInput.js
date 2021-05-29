@@ -101,8 +101,8 @@ export default function ChatInput({ reactFlowInstance, submitMessage, submitLoca
     // If the instance reference isn't defined yet, ignore the button press
     // TODO: Gracefully handle this error(?)
     if (!reactFlowInstance.current) return;
-    const currentInstance = reactFlowInstance.current.toObject();
-    submitLocation(currentInstance.position);
+    const instanceObject = reactFlowInstance.current.toObject();
+    submitLocation(instanceObject.position, instanceObject.zoom);
     // Create function to record new message type
   };
 

@@ -7,7 +7,7 @@ import DrawerDocs from './components/Drawer/DrawerDocs';
 import DrawerChat from './components/Drawer/DrawerChat';
 import EditorAppBar from './components/AppBar/EditorAppBar';
 import { useAuth } from '../contexts/AuthContext';
-import { Provider as EventBusProvider, useBus } from 'react-bus';
+import { Provider as EventBusProvider } from 'react-bus';
 
 import useYDoc from './hooks/useYDoc';
 

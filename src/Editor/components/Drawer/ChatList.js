@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { useAuth } from '../../../contexts/AuthContext';
 import AvatarTooltip from '../Avatar/AvatarTooltip';
 import { useZoomPanHelper } from 'react-flow-renderer';
+import { useBus } from 'react-bus'
 
 const ago = require('s-ago');
 
@@ -103,6 +104,8 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
 
   const { currentUser, generateColor } = useAuth();
 
+  const bus = useBus();
+
   // Scroll to bottom of chat list on change
   useEffect(() => {
     chatListBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -110,16 +113,16 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
 
   const chatMessages = [];
 
-/*   function handleUserLocate(name, uid) {
+   function handleAvatarLocate(name, uid) {
     console.log(`Locate ${name} : ${uid}`);
     // Locate user coords
     // SetCenter to user
-  } */
+  }
 
-  function handleUserLocate(name, uid) {
-    console.log(`Locate ${name} : ${uid}`);
-    // Locate user coords
-    // SetCenter to user
+  function handleChatLocate(position, zoom) {
+    console.log(`handleChatLocate - position: ${position} zoom: ${zoom}`);
+    // Broadcase locate event to event bus with coords
+    bus.emit('goLocation', {position, zoom});
   }
 
   function chatMessage(message, collabColor) {
@@ -142,7 +145,7 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
               alt={message.user.displayName}
               style={{ backgroundColor: collabColor.hex, color: collabColor.isLight ? '#000' : '#FFF' }}
               src={message.user.photoURL}
-              onClick={(e) => handleUserLocate(message.user.displayName, message.user.uid)}
+              onClick={(e) => handleAvatarLocate(message.user.displayName, message.user.uid)}
             />
           </AvatarTooltip>
         </ListItemAvatar>
@@ -183,7 +186,7 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
         id={message.id + '-message'}
         key={message.id + '-message'}
         alignItems="flex-start"
-        onClick={(e) => handleUserLocate(message.user.displayName, message.user.uid)}
+        onClick={(e) => handleChatLocate(message.position, message.zoom)}
       >
         <ListItemAvatar className={classes.avatarRoot}>
           <AvatarTooltip

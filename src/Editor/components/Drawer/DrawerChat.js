@@ -77,9 +77,9 @@ export default function DrawerChat({ reactFlowInstance, openChat, wsSync, yDoc, 
     wsSync && messagesYArray.push([newMessage]);
   };
 
-  const submitLocation = function (inputPosition) {
-    console.log(`submitLocation called, x: ${inputPosition[0]} y: ${inputPosition[1]}`);
-    if (!inputPosition || inputPosition.length < 2) return;
+  const submitLocation = function (inputPosition, inputZoom) {
+    console.log(`submitLocation called, x: ${inputPosition[0]} y: ${inputPosition[1]} zoom: ${inputZoom}`);
+    if (!inputPosition || inputPosition.length < 2 || !inputZoom || isNaN(inputZoom)) return;
     const messagesYArray = yDoc.current.getArray("messages");
 
     let messageArr = [
@@ -100,6 +100,7 @@ export default function DrawerChat({ reactFlowInstance, openChat, wsSync, yDoc, 
       id: uuid62.v4(),
       user: currentUserArr,
       position: inputPosition,
+      zoom: inputZoom,
       message: messageArr[Math.floor(Math.random() * messageArr.length)],
       creationTime: new Date().getTime(),
     };
