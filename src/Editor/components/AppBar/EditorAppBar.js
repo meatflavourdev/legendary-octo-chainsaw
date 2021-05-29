@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   scaleLoader: {
     padding: '1em',
     '& > div': {
-      height: '16px',
+      height: '23px',
       opacity: 0.97
     },
   },
@@ -91,19 +91,14 @@ const EditorAppBar = function ({ docName, openDocs, openChat, setOpenDocs, setOp
   const [docTitle, setDocTitle] = useState(false);
 
   // Listen for doc loaded and update navbar docTitle
-  const updateDocTitle = React.useCallback(
-    function ({ doc }) {
-      setDocTitle();
-    },
-    [setDocTitle]
-  );
-  useListener('docLoaded', updateDocTitle);
+  useListener('docLoaded', (doc) => setDocTitle(doc?.name));
+  useListener('docUnloaded', () => setDocTitle(false));
 
   const scaleLoader = (docTitle) => {
     if (docTitle === false) {
       return (
         <div className={classes.scaleLoader}>
-          <ScaleLoader height="12" width="8" color="#FFFFFF" />
+          <ScaleLoader height="20" width="8" color="#FFFFFF" />
         </div>
       );
     }
@@ -145,9 +140,9 @@ const EditorAppBar = function ({ docName, openDocs, openChat, setOpenDocs, setOp
         <ShareMenu />
         <ProfileMenu />
 
-        <IconButton color="inherit">
+{/*         <IconButton color="inherit">
           <MoreIcon style={{ fontSize: 26 }} />
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </AppBar>
   );
