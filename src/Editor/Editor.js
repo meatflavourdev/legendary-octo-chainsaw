@@ -7,7 +7,6 @@ import DrawerDocs from './components/Drawer/DrawerDocs';
 import DrawerChat from './components/Drawer/DrawerChat';
 import EditorAppBar from './components/AppBar/EditorAppBar';
 import { useAuth } from '../contexts/AuthContext';
-import { Provider as EventBusProvider } from 'react-bus';
 
 import useYDoc from './hooks/useYDoc';
 
@@ -41,7 +40,6 @@ export default function Editor() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <EventBusProvider>
         <EditorAppBar
           docName={doc_id}
           openDocs={openDocs}
@@ -61,7 +59,6 @@ export default function Editor() {
           awarenessRef={awarenessRef}
         />
         <DrawerChat reactFlowInstance={reactFlowInstance} openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
-      </EventBusProvider>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import firebase from 'firebase';
 import { useAuth } from '../contexts/AuthContext';
 import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
+import { Provider as EventBusProvider } from 'react-bus';
 
 const useStyles = makeStyles(() => ({
   editorAuth: {
@@ -36,5 +37,5 @@ export default function EditorAuth() {
     );
   }
 
-  return <>{currentUser ? <Editor /> : <AuthLoader />}</>;
+  return <>{currentUser ? <EventBusProvider><Editor /></EventBusProvider> : <AuthLoader />}</>;
 }
