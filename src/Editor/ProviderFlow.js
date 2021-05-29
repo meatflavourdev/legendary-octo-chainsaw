@@ -12,7 +12,6 @@ import useWindowDimensions from './hooks/getWindowDimensions';
 import MouseObserver from './components/Observers/MouseObserver';
 import LocateObserver from './components/Observers/LocateObserver';
 import useYArray from './hooks/useYArray';
-import { useListener } from 'react-bus'
 
 import './style/provider.css';
 

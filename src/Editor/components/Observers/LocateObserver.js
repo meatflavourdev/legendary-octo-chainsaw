@@ -8,7 +8,6 @@ const TRANSITION_TIME = 300;
 const EASING = Easing.Quadratic.Out;
 
 export default function LocateObserver(reactFlowInstance) {
-  //const { setCenter } = useZoomPanHelper();
 
   const handleTransform = useCallback(
     (transform, instanceObject) => {
