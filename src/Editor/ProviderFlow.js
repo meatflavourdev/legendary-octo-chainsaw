@@ -44,6 +44,8 @@ const ProviderFlow = ({ reactFlowInstance, yDoc, wsSync, setOpenDocs, awarenessR
   //Fires when React flow has loaded
   const onLoad = (_reactFlowInstance) => {
     reactFlowInstance.current = _reactFlowInstance;
+    // HACK: Put reactFlowInstance in window because prop drill to LocateObserver callback non-functional
+    window.reactFlowInstance = _reactFlowInstance;
   };
 
   // Selected Elements
