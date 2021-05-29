@@ -36,6 +36,7 @@
     "random-animal-name": "^0.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
+    "react-bus": "^3.0.0",
     "react-dom": "^17.0.1",
     "react-firebase-hooks": "^2.2.0",
     "react-flow-renderer": "^8.7.0",

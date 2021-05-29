@@ -7,6 +7,7 @@ import DrawerDocs from './components/Drawer/DrawerDocs';
 import DrawerChat from './components/Drawer/DrawerChat';
 import EditorAppBar from './components/AppBar/EditorAppBar';
 import { useAuth } from '../contexts/AuthContext';
+import { Provider as EventBusProvider, useBus } from 'react-bus';
 
 import useYDoc from './hooks/useYDoc';
 
@@ -40,19 +41,27 @@ export default function Editor() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <EditorAppBar
-        docName={doc_id}
-        openDocs={openDocs}
-        openChat={openChat}
-        setOpenDocs={setOpenDocs}
-        setOpenChat={setOpenChat}
-        wsSync={wsSync}
-        yDoc={yDoc}
-        awarenessState={awarenessState}
-      />
-      <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-      <ProviderFlow reactFlowInstance={reactFlowInstance} setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessRef={awarenessRef} />
-      <DrawerChat reactFlowInstance={reactFlowInstance} openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
+      <EventBusProvider>
+        <EditorAppBar
+          docName={doc_id}
+          openDocs={openDocs}
+          openChat={openChat}
+          setOpenDocs={setOpenDocs}
+          setOpenChat={setOpenChat}
+          wsSync={wsSync}
+          yDoc={yDoc}
+          awarenessState={awarenessState}
+        />
+        <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
+        <ProviderFlow
+          reactFlowInstance={reactFlowInstance}
+          setOpenDocs={setOpenDocs}
+          yDoc={yDoc}
+          wsSync={wsSync}
+          awarenessRef={awarenessRef}
+        />
+        <DrawerChat reactFlowInstance={reactFlowInstance} openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
+      </EventBusProvider>
     </div>
   );
 }
