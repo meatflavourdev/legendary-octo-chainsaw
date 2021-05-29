@@ -1,7 +1,24 @@
-import { FirestoreCollection, FirestoreDocument, FirestoreMutation } from '@react-firebase/firestore';
-import firebase from 'firebase';
+import React from 'react';
+import { useCollection } from '@metamist/swr-firestore';
 
-function cloudFirestore() {
+export default function UserList() {
+  const { data, update, error } = useCollection('/users/fqBjpB7hBGN1cME5G95garsEfqM2/docs/');
+
+  console.log(data)
+
+  if (error) return <div>Error!</div>;
+  if (!data) return <div>Loading...</div>;
+
+  return data.sort((a, b) => {
+    return (a.is_public && !b.is_public) || (a.is_public && b.is_public && a.name > b.name) ? 1 : -1;
+  }).map((user) => {
+    console.log(user)
+    return <div key={user.id}>{user.name} : {user.is_public ? 'public' : 'private'}</div>
+  });
+}
+
+
+/* function cloudFirestore() {
   return (
     <>
       <FirestoreCollection path="/docs/" limit={100}>
@@ -52,6 +69,4 @@ function cloudFirestore() {
 </FirestoreMutation>
     </>
   );
-}
-
-export default cloudFirestore;
+} */
