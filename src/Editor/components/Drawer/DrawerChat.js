@@ -68,9 +68,39 @@ export default function DrawerChat({ reactFlowInstance, openChat, wsSync, yDoc, 
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
+      type: 'message',
       id: uuid62.v4(),
       user: currentUserArr,
       message: inputValue,
+      creationTime: new Date().getTime(),
+    };
+    wsSync && messagesYArray.push([newMessage]);
+  };
+
+  const submitLocation = function (inputPosition) {
+    console.log(`submitLocation called, x: ${inputPosition[0]} y: ${inputPosition[1]}`);
+    if (!inputPosition || inputPosition.length < 2) return;
+    const messagesYArray = yDoc.current.getArray("messages");
+
+    let messageArr = [
+      'requests your attention',
+      'needs you to take a look',
+      'has something for you to see',
+      'is working on something of note',
+      'is calling you over',
+      'wants you to check this out',
+      'thinks you should see this',
+      'needs your keen eye',
+      'has flagged this location',
+      'asks you to join',
+    ];
+
+    const newMessage = {
+      type: 'location',
+      id: uuid62.v4(),
+      user: currentUserArr,
+      position: inputPosition,
+      message: messageArr[Math.floor(Math.random() * messageArr.length)],
       creationTime: new Date().getTime(),
     };
     wsSync && messagesYArray.push([newMessage]);
