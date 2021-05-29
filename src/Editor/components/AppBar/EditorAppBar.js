@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { useListener } from 'react-bus';
 import clsx from 'clsx';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,8 +15,9 @@ import AvatarGroup from '../Avatar/AvatarGroup';
 import ProfileMenu from './ProfileMenu';
 import ShareMenu from './ShareMenu';
 import config from '../../../config';
-import { Avatar, Tooltip } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import AvatarTooltip from '../Avatar/AvatarTooltip';
+import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
 
 const drawerWidth = config.editor.drawerWidth;
 
@@ -35,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  scaleLoader: {
+    padding: '1em',
+    '& > div': {
+      height: '15px',
+    },
+  },
+  titleIcon: {
+    fill: (props) => props.titleIconFill,
+  },
   docTitle: {
     marginLeft: '0.75em',
     flexGrow: 1,
@@ -51,60 +62,93 @@ const useStyles = makeStyles((theme) => ({
   userAvatar: {
     boxShadow: '0 3px 6px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.12)',
     backgroundColor: '#03a9f4',
-  }
+  },
 }));
 
-const EditorAppBar = function ({docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState = []}) {
-  const classes = useStyles();
+const EditorAppBar = function ({ docName, openDocs, openChat, setOpenDocs, setOpenChat, awarenessState = [] }) {
+  const cssProps = { titleIconFill: '#00e676' };
+  const classes = useStyles(cssProps);
 
   const userAvatars = awarenessState.map((user) => (
-    <AvatarTooltip collabColor={user.collabColor} key={`avatar-${user.clientID}`} title={user.displayName} placement="bottom" arrow={true}>
-      <Avatar src={user.photoURL} className={classes.userAvatar} style={{ backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }} alt={user.displayName}></Avatar>
+    <AvatarTooltip
+      collabColor={user.collabColor}
+      key={`avatar-${user.clientID}`}
+      title={user.displayName}
+      placement="bottom"
+      arrow={true}
+    >
+      <Avatar
+        src={user.photoURL}
+        className={classes.userAvatar}
+        style={{ backgroundColor: user.collabColor.hex, color: user.collabColor.isLight ? '#000' : '#FFF' }}
+        alt={user.displayName}
+      ></Avatar>
     </AvatarTooltip>
   ));
   const userNames = awarenessState.map((user) => user.displayName);
 
+  const [docTitle, setDocTitle] = useState(false);
+
+  // Listen for doc loaded and update navbar docTitle
+  const updateDocTitle = React.useCallback(
+    function ({ doc }) {
+      setDocTitle();
+    },
+    [setDocTitle]
+  );
+  useListener('docLoaded', updateDocTitle);
+
+  const scaleLoader = (docTitle) => {
+    if (docTitle === false) {
+      return (
+        <div className={classes.scaleLoader}>
+          <ScaleLoader height="12" width="8" color="#FFFFFF" />
+        </div>
+      );
+    }
+    return <></>;
+  };
+
   return (
     <AppBar
-    position="fixed"
-    elevation={3}
-    className={clsx(classes.appBar, {
-      [classes.appBarShift]: openDocs,
-    })}
-  >
-    <Toolbar>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={() => setOpenDocs(!openDocs)}
-        edge="start"
-        className={clsx(classes.menuButton, openDocs && classes.hide)}
-      >
-        <MenuIcon style={{ fontSize: 30 }}/>
+      position="fixed"
+      elevation={3}
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: openDocs,
+      })}
+    >
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={() => setOpenDocs(!openDocs)}
+          edge="start"
+          className={clsx(classes.menuButton, openDocs && classes.hide)}
+        >
+          <MenuIcon style={{ fontSize: 30 }} />
+        </IconButton>
+        <Brightness4RoundedIcon className={classes.titleIcon} style={{ fontSize: 24 }} />
+        {scaleLoader(docTitle)}
+        <Typography className={classes.docTitle} variant="h6">
+          {docTitle}
+        </Typography>
+        <AvatarGroup className={classes.avatarGroup} max={10} spacing={10} usernames={userNames}>
+          {userAvatars}
+        </AvatarGroup>
+        <IconButton onClick={() => setOpenChat(!openChat)} color="inherit">
+          <Badge badgeContent={'!'} color="secondary">
+            <ChatIcon style={{ fontSize: 26 }} />
+          </Badge>
         </IconButton>
 
-      <Brightness4RoundedIcon color='secondary'  style={{ fontSize: 24 }}/>
-      <Typography className={classes.docTitle} variant="h6">
-        { docName }
-      </Typography>
-      <AvatarGroup className={classes.avatarGroup} max={10} spacing={10} usernames={userNames}>
-        {userAvatars}
-      </AvatarGroup>
-      <IconButton onClick={() => setOpenChat(!openChat)} color="inherit" >
-        <Badge badgeContent={'!'} color="secondary">
-          <ChatIcon style={{ fontSize: 26 }}/>
-        </Badge>
+        <ShareMenu />
+        <ProfileMenu />
+
+        <IconButton color="inherit">
+          <MoreIcon style={{ fontSize: 26 }} />
         </IconButton>
-
-      <ShareMenu />
-      <ProfileMenu />
-
-      <IconButton color="inherit" >
-        <MoreIcon style={{ fontSize: 26 }}/>
-      </IconButton>
-
-    </Toolbar>
-  </AppBar>
+      </Toolbar>
+    </AppBar>
   );
 };
 
