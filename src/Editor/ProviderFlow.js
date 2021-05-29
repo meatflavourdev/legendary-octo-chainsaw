@@ -35,15 +35,16 @@ const nodeTypes = {
 
 const snapGrid = [5, 5];
 
-const ProviderFlow = ({ yDoc, wsSync, setOpenDocs, awarenessRef }) => {
+const ProviderFlow = ({ reactFlowInstance, yDoc, wsSync, setOpenDocs, awarenessRef }) => {
   // Get doc_id from router
   let { doc_id } = useParams();
 
+
   //Fires when React flow has loaded
-  const reactFlowInstance = React.useRef(null);
   const onLoad = (_reactFlowInstance) => {
     reactFlowInstance.current = _reactFlowInstance;
   };
+
 
   // Selected Elements
   //const selectedElements = useStoreState((state) => state.selectedElements);

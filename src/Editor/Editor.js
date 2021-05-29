@@ -32,6 +32,9 @@ export default function Editor() {
   // Get a reference to Yjs yDoc, awareness, and the websocket sync state boolean
   const [wsSync, yDoc, awarenessState, awarenessRef] = useYDoc(doc_id, currentUser);
 
+  //Fires when React flow has loaded
+  const reactFlowInstance = React.useRef(null);
+
   // TODO: Move Document CRUD logic here
 
   return (
@@ -48,8 +51,8 @@ export default function Editor() {
         awarenessState={awarenessState}
       />
       <DrawerDocs openDocs={openDocs} setOpenDocs={setOpenDocs} />
-      <ProviderFlow setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessRef={awarenessRef} />
-      <DrawerChat openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
+      <ProviderFlow reactFlowInstance={reactFlowInstance} setOpenDocs={setOpenDocs} yDoc={yDoc} wsSync={wsSync} awarenessRef={awarenessRef} />
+      <DrawerChat reactFlowInstance={reactFlowInstance} openChat={openChat} yDoc={yDoc} wsSync={wsSync} />
     </div>
   );
 }

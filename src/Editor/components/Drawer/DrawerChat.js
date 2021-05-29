@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
+export default function DrawerChat({ reactFlowInstance, openChat, wsSync, yDoc, awareness }) {
   const classes = useStyles();
 
   const { currentUser } = useAuth();
@@ -88,8 +88,8 @@ export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
   >
     <div className={classes.drawerHeaderChat}></div>
     <Divider />
-      <ChatList messages={messages} chatListBottomRef={chatListBottomRef} />
-      <ChatInput submitMessage={submitMessage} />
+      <ChatList reactFlowInstance={reactFlowInstance} messages={messages} chatListBottomRef={chatListBottomRef} />
+      <ChatInput reactFlowInstance={reactFlowInstance} submitMessage={submitMessage} submitLocation={submitLocation} />
   </Drawer>
   );
 };
