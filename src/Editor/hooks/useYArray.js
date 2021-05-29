@@ -26,10 +26,10 @@ const useYArray = (yDoc, yArrayName) => {
       //const node = Object.values(changesDelta[1])[0];
         //console.log(`Observed change -- index: ${index} op: ${op} node: `, node); */
       //}
-      console.log('yArrayObserver: ', yArrayEvent, transaction);
+      //console.log('yArrayObserver: ', yArrayEvent, transaction);
 
       requestAnimationFrame(() => {
-        console.log('yArray Conversion: ', yArray.toArray(), yArray.toJSON());
+        //console.log('yArray Conversion: ', yArray.toArray(), yArray.toJSON());
         setYArrayState(yArray.toJSON());
       });
     };

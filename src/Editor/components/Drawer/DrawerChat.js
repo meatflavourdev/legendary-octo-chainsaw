@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
+export default function DrawerChat({ reactFlowInstance, openChat, wsSync, yDoc, awareness }) {
   const classes = useStyles();
 
   const { currentUser } = useAuth();
@@ -68,9 +68,40 @@ export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
     if (!inputValue) return;
     const messagesYArray = yDoc.current.getArray("messages");
     const newMessage = {
+      type: 'message',
       id: uuid62.v4(),
       user: currentUserArr,
       message: inputValue,
+      creationTime: new Date().getTime(),
+    };
+    wsSync && messagesYArray.push([newMessage]);
+  };
+
+  const submitLocation = function (inputPosition, inputZoom) {
+    console.log(`submitLocation called, x: ${inputPosition[0]} y: ${inputPosition[1]} zoom: ${inputZoom}`);
+    if (!inputPosition || inputPosition.length < 2 || !inputZoom || isNaN(inputZoom)) return;
+    const messagesYArray = yDoc.current.getArray("messages");
+
+    let messageArr = [
+      'requests your attention',
+      'needs you to take a look',
+      'has something for you to see',
+      'is working on something of note',
+      'is calling you over',
+      'wants you to check this out',
+      'thinks you should see this',
+      'needs your keen eye',
+      'has flagged this location',
+      'asks you to join',
+    ];
+
+    const newMessage = {
+      type: 'location',
+      id: uuid62.v4(),
+      user: currentUserArr,
+      position: inputPosition,
+      zoom: inputZoom,
+      message: messageArr[Math.floor(Math.random() * messageArr.length)],
       creationTime: new Date().getTime(),
     };
     wsSync && messagesYArray.push([newMessage]);
@@ -88,8 +119,8 @@ export default function DrawerChat({ openChat, wsSync, yDoc, awareness }) {
   >
     <div className={classes.drawerHeaderChat}></div>
     <Divider />
-      <ChatList messages={messages} chatListBottomRef={chatListBottomRef} />
-      <ChatInput submitMessage={submitMessage} />
+      <ChatList reactFlowInstance={reactFlowInstance} messages={messages} chatListBottomRef={chatListBottomRef} />
+      <ChatInput reactFlowInstance={reactFlowInstance} submitMessage={submitMessage} submitLocation={submitLocation} />
   </Drawer>
   );
 };
