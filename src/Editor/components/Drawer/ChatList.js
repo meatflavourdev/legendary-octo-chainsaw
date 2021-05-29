@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { useAuth } from '../../../contexts/AuthContext';
 import AvatarTooltip from '../Avatar/AvatarTooltip';
 import { useZoomPanHelper } from 'react-flow-renderer';
-import { useBus } from 'react-bus'
+import { useBus } from 'react-bus';
 
 const ago = require('s-ago');
 
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
   itemLocation: {
     paddingBottom: '1em',
-  }
+  },
 }));
 
 export default function ChatList({ reactFlowInstance, messages, chatListBottomRef }) {
@@ -113,7 +113,7 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
 
   const chatMessages = [];
 
-   function handleAvatarLocate(name, uid) {
+  function handleAvatarLocate(name, uid) {
     console.log(`Locate ${name} : ${uid}`);
     // Locate user coords
     // SetCenter to user
@@ -122,7 +122,7 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
   function handleChatLocate(position, zoom) {
     console.log(`handleChatLocate - position: ${position} zoom: ${zoom}`);
     // Broadcase locate event to event bus with coords
-    bus.emit('goLocation', {position, zoom});
+    bus.emit('goLocation', { position, zoom });
   }
 
   function chatMessage(message, collabColor) {
@@ -196,16 +196,19 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
             placement="left"
             arrow={true}
           >
-            <LocationIcon
-              collabColor={collabColor}
-            />
+            <LocationIcon collabColor={collabColor} />
           </AvatarTooltip>
         </ListItemAvatar>
         <ListItemText
           className={classes.messageTitle}
           secondary={
             <span className={classes.messageBody}>
-              <Typography component="span" variant="body2" className={clsx(classes.messageText, classes.locationText)} color="textPrimary">
+              <Typography
+                component="span"
+                variant="body2"
+                className={clsx(classes.messageText, classes.locationText)}
+                color="textPrimary"
+              >
                 {message.message
                   .replace(/\n\s*\n/g, '\n')
                   .trim()
@@ -228,19 +231,19 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
 
   for (const message of messages) {
     const collabColor =
-    message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
+      message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
       message.type === 'location' ? chatLocation(message, collabColor) : chatMessage(message, collabColor)
-      );
-      chatMessages.push(
-        <Divider
-          id={message.id + '-divider'}
-          key={message.id + '-divider'}
-          className={classes.listDivider}
-          variant="inset"
-          component="li"
-        />
-      );
+    );
+    chatMessages.push(
+      <Divider
+        id={message.id + '-divider'}
+        key={message.id + '-divider'}
+        className={classes.listDivider}
+        variant="inset"
+        component="li"
+      />
+    );
   }
   return (
     <List id="chatMessageListScroller" className={classes.chatMessageList}>
