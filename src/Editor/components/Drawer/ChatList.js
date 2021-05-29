@@ -227,20 +227,20 @@ export default function ChatList({ reactFlowInstance, messages, chatListBottomRe
   }
 
   for (const message of messages) {
-    chatMessages.push(
-      <Divider
-        id={message.id + '-divider'}
-        key={message.id + '-divider'}
-        className={classes.listDivider}
-        variant="inset"
-        component="li"
-      />
-    );
     const collabColor =
-      message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
+    message.user.collabColor || generateColor(message.user.displayName + currentUser.lastSignInTime);
     chatMessages.push(
       message.type === 'location' ? chatLocation(message, collabColor) : chatMessage(message, collabColor)
-    );
+      );
+      chatMessages.push(
+        <Divider
+          id={message.id + '-divider'}
+          key={message.id + '-divider'}
+          className={classes.listDivider}
+          variant="inset"
+          component="li"
+        />
+      );
   }
   return (
     <List id="chatMessageListScroller" className={classes.chatMessageList}>
