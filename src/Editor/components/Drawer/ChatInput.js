@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Defines the multiline text input
 function useTextFieldInput(id, className, label, variant, onKeyUp, defaultVal = '', multiline = true) {
   const [value, setValue] = useState(defaultVal);
   const input = (
@@ -70,7 +71,7 @@ function useTextFieldInput(id, className, label, variant, onKeyUp, defaultVal = 
   return [value, setValue, input];
 }
 
-export default function BasicTextFields({ submitMessage }) {
+export default function ChatInput({ reactFlowInstance, submitMessage, submitLocation }) {
   const classes = useStyles();
 
   function handleKeypress(e) {
@@ -96,8 +97,13 @@ export default function BasicTextFields({ submitMessage }) {
   };
 
   const handleLocationClick = () => {
-    //console.log('handleLocationClick called', value);
-    submitMessage('Over here guys!');
+    console.log('handleLocationClick called');
+    // If the instance reference isn't defined yet, ignore the button press
+    // TODO: Gracefully handle this error(?)
+    if (!reactFlowInstance.current) return;
+    const currentInstance = reactFlowInstance.current.toObject();
+    submitLocation(currentInstance.position);
+    // Create function to record new message type
   };
 
   return (
