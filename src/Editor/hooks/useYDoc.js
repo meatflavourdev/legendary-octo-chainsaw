@@ -6,6 +6,7 @@ import { WebrtcProvider } from 'y-webrtc'
 import { useAuth } from '../../contexts/AuthContext';
 import * as awarenessProtocol from '../../y-protocols/awareness';
 import config from '../../config';
+import { useBus } from 'react-bus';
 
 /**
  * Sets up the yDoc and
@@ -16,6 +17,8 @@ import config from '../../config';
 const useYDoc = function (doc_id, currentUser) {
   // Create ref for yjs Y.Doc
   const yDoc = React.useRef(new Y.Doc());
+
+  const bus = useBus();
 
   // Allow other components to react to websocket sync state
   const [wsSync, setWsSync] = useState(false);
@@ -59,7 +62,7 @@ const useYDoc = function (doc_id, currentUser) {
       };
       awarenessRef.current.setLocalState(newLocalState);
     }
-  }, [currentUser, clientID]);
+  }, [currentUser, clientID, awarenessRef]);
 
   // Console log on state change
 /*     useEffect(() => {
@@ -98,7 +101,10 @@ const useYDoc = function (doc_id, currentUser) {
     wsProvider.on('sync', (status) => console.log(`Websocket status: ${status ? 'Connected' : 'Not Connected'}`));
 
     // Update synced state on websocket sync
-    wsProvider.on('sync', (isSynced) => setWsSync(isSynced));
+    wsProvider.on('sync', (isSynced) => {
+      setWsSync(isSynced)
+      bus.emit('socketSync', true);
+    });
 
     // Set default sync state to false to invalidate previous states.
     setWsSync(false);
@@ -108,7 +114,7 @@ const useYDoc = function (doc_id, currentUser) {
       awareness.destroy();
       wsProvider.destroy();
     }
-  }, [doc_id, wsServerUrl, roomName]);
+  }, [bus, doc_id, wsServerUrl, roomName, awarenessRef]);
 
   return [wsSync, yDoc, awarenessState, awarenessRef];
 };
