@@ -6,6 +6,7 @@ import { WebrtcProvider } from 'y-webrtc'
 import { useAuth } from '../../contexts/AuthContext';
 import * as awarenessProtocol from '../../y-protocols/awareness';
 import config from '../../config';
+//import { withContext } from 'react-easier';
 import { useBus } from 'react-bus';
 
 /**
@@ -87,7 +88,7 @@ const useYDoc = function (doc_id, currentUser) {
     yDoc.current = new Y.Doc({ guid: doc_id });
 
     const wsProvider = new WebsocketProvider(wsServerUrl, roomName, yDoc.current);
-    new WebrtcProvider(roomName, yDoc.current, {});
+    //new WebrtcProvider(roomName, yDoc.current, {});
 
     //Get the awareness object from the websocket provider
     const awareness = wsProvider.awareness;

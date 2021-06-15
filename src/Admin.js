@@ -24,12 +24,6 @@ function Admin() {
             <Link to="/error">Error Page (placeholder)</Link>
           </li>
           <li>
-            <Link to="/yjstest">Yjs Integration Test</Link>
-          </li>
-          <li>
-            <Link to="/yjsflowtest">Yjs Integration Test</Link>
-          </li>
-          <li>
             <Link to="/firebaseauth">Firebase Auth Test</Link>
           </li>
           <li>

@@ -132,7 +132,7 @@ const EditorAppBar = function ({ docName, openDocs, openChat, setOpenDocs, setOp
           {userAvatars}
         </AvatarGroup>
         <IconButton onClick={() => setOpenChat(!openChat)} color="inherit">
-          <Badge badgeContent={'!'} color="secondary">
+          <Badge badgeContent={''} color="transparent">
             <ChatIcon style={{ fontSize: 26 }} />
           </Badge>
         </IconButton>

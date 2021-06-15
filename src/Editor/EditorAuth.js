@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { useAuth } from '../contexts/AuthContext';
 import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
 import { Provider as EventBusProvider } from 'react-bus';
+import LogRocket from 'logrocket';
 
 const useStyles = makeStyles(() => ({
   editorAuth: {
@@ -24,7 +25,13 @@ export default function EditorAuth() {
     console.log('currentUser: ', currentUser);
     if (!currentUser?.displayName) {
       console.log('No user found-- Generating anonymous user...');
-      firebase.auth().signInAnonymously();
+      firebase.auth().signInAnonymously().then((user) => {
+        LogRocket.identify(user.uid, {
+          name: user.displayName,
+          email: user.email,
+          isAnonymous: user.isAnonymous,
+        });
+      });
     }
   }, [currentUser]);
 

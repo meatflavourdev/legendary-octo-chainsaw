@@ -31,6 +31,9 @@ import FolderSharedRoundedIcon from '@material-ui/icons/FolderSharedRounded';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 
+/* import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import arrayMove from 'array-move'; */
+
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { randomConcept } from '../../../helpers/nameGenerators';
 import config from '../../../config';
@@ -200,6 +203,28 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
     );
   };
 
+  const deleteButton = () => {
+    return (
+      <>
+        <svg xmlns="http://www.w3.org/2000/svg" className="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" className="" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </>
+    );
+  };
+
   const listData = function (data) {
     return (
       data &&
@@ -208,20 +233,19 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
           return a.created_date < b.created_date ? -1 : 1;
         })
         .map((doc, index) => (
-        <Link className="docListLink" to={`/${doc.url}`} key={doc.url}>
-          <ListItem button className={classes.docListItem}>
-            <ListItemIcon>
-              <DescriptionRoundedIcon className={classes.docFileIcon} />
-            </ListItemIcon>
-            <ListItemText className={classes.docFileName} secondary={doc.name} />
-            <CreateIcon className="docListLinkDelete" onClick={handleEditButton} />
-            <DeleteForeverRoundedIcon
-              className="docListLinkDelete"
-              onClick={(e) => handleDeleteButton(e, `/users/${doc.uid}/docs/${doc.id}`)}
-            />
-          </ListItem>
-        </Link>
-      ))
+          <Link className="docListLink" to={`/${doc.url}`} key={doc.url}>
+            <ListItem button className={classes.docListItem}>
+              <ListItemIcon>
+                <DescriptionRoundedIcon className={classes.docFileIcon} />
+              </ListItemIcon>
+              <ListItemText className={classes.docFileName} secondary={doc.name} />
+              <DeleteForeverRoundedIcon
+                className="docListLinkDelete"
+                onClick={(e) => handleDeleteButton(e, `/users/${doc.uid}/docs/${doc.id}`)}
+              />
+            </ListItem>
+          </Link>
+        ))
     );
   };
 
@@ -259,44 +283,44 @@ export default function DrawerDocs({ openDocs, setOpenDocs }) {
   };
 
   return (
-      <Drawer
-        ref={drawerRef}
-        className={classes.drawerDocs}
-        variant="persistent"
-        anchor="left"
-        open={openDocs}
-        classes={{
-          paper: classes.drawerPaperDocs,
+    <Drawer
+      ref={drawerRef}
+      className={classes.drawerDocs}
+      variant="persistent"
+      anchor="left"
+      open={openDocs}
+      classes={{
+        paper: classes.drawerPaperDocs,
+      }}
+    >
+      {drawerHeader}
+      <Divider />
+      {scaleLoader(listPublic.data, listPrivate.data)}
+      {listHeader('Public', (e) => handleAddButton(e, true))}
+      {listData(listPublic.data)}
+      <Divider />
+      {listHeader('Private', (e) => handleAddButton(e, false))}
+      {listData(listPrivate.data)}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
-      >
-        {drawerHeader}
-        <Divider />
-        {scaleLoader(listPublic.data, listPrivate.data)}
-        {listHeader('Public', (e) => handleAddButton(e, true))}
-        {listData(listPublic.data)}
-        <Divider />
-        {listHeader('Private', (e) => handleAddButton(e, false))}
-        {listData(listPrivate.data)}
-          <Snackbar
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            message="POW! Document Removed."
-            action={
-              <React.Fragment>
-                <Button color="secondary" size="small" onClick={handleClose}>
-                  UNDO
-                </Button>
-                <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
-          />
-      </Drawer>
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="POW! Document Removed."
+        action={
+          <React.Fragment>
+            <Button color="secondary" size="small" onClick={handleClose}>
+              UNDO
+            </Button>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
+    </Drawer>
   );
 }
