@@ -30,7 +30,7 @@
     "firebase": "^8.2.3",
     "firestore-export-import": "^0.9.0",
     "hex-to-css-filter": "^3.1.2",
-    "immer": "^9.0.1",
+    "immer": "^9.0.6",
     "immutable": "^4.0.0-rc.12",
     "logrocket": "^1.0.14",
     "random-animal-name": "^0.1.0",
