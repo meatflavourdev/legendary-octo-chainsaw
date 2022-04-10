@@ -50,7 +50,7 @@
     "use-window-focus": "^1.2.0",
     "uuid62": "^1.0.1",
     "web-vitals": "^0.2.4",
-    "xstate": "^4.17.1",
+    "xstate": "^4.30.6",
     "y-indexeddb": "^9.0.6",
     "y-leveldb": "^0.1.0",
     "y-webrtc": "^10.1.8",
