@@ -55,7 +55,7 @@
     "y-leveldb": "^0.1.0",
     "y-webrtc": "^10.1.8",
     "y-websocket": "^1.3.9",
-    "yjs": "^13.4.12"
+    "yjs": "^13.5.28"
   },
   "scripts": {
     "dev": "HOST=0.0.0.0 REACT_APP_WSPROTOCOL='ws' REACT_APP_WSHOST='localhost' REACT_APP_WSPORT=5001 react-scripts start",
