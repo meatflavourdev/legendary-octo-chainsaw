@@ -14064,10 +14064,10 @@ xmlhttprequest@1.8.0:
   resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
   integrity sha1-Z/4HXFwk/vOfnWX197f+dRcZaPw=
 
-xstate@^4.17.1:
-  version "4.17.1"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.17.1.tgz#f027b51ee35dae28954d27ad09f37b4d5d5ce40f"
-  integrity sha512-3q7so9qAKFnz9/t7BNQXQtV+9fwDATCOkC+0tAvVqczboEbu6gz2dvPPVCCkj55Hyzgro9aSOntGSPGLei82BA==
+xstate@^4.30.6:
+  version "4.31.0"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.31.0.tgz#039cf6f865dd9e104012eb76a14df757c988ec58"
+  integrity sha512-UK5m6OqUsTlPuKWkfRR5cR9/Yt7sysFyEg+PVIbEH9mwHSf9zuCvWO7rRvhBq7T+3pEXLKTEMfaqmLxl9Ob1pw==
 
 xtend@^4.0.0, xtend@^4.0.2, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.2"
