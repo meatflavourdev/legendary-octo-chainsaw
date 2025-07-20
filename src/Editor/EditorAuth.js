@@ -1,9 +1,19 @@
 import React from 'react';
 import Editor from './Editor';
 import { makeStyles } from '@material-ui/core/styles';
-import firebase from 'firebase';
 import { useAuth } from '../contexts/AuthContext';
-import ScaleLoader from '@bit/davidhu2000.react-spinners.scale-loader';
+import { useLocalDb } from '../contexts/LocalDbContext';
+import { ScaleLoader } from 'react-spinners';
+
+// Conditionally import Firebase
+let firebase;
+try {
+  firebase = require('firebase/app');
+  require('firebase/auth');
+} catch (error) {
+  console.log("Firebase not available, using local auth");
+  firebase = null;
+}
 
 const useStyles = makeStyles(() => ({
   editorAuth: {
@@ -18,14 +28,23 @@ const useStyles = makeStyles(() => ({
 
 export default function EditorAuth() {
   const { currentUser } = useAuth();
+  const localDb = useLocalDb();
+  const isLocalMode = localDb ? true : false;
 
   React.useEffect(() => {
     console.log('currentUser: ', currentUser);
     if (!currentUser?.displayName) {
       console.log('No user found-- Generating anonymous user...');
-      firebase.auth().signInAnonymously();
+      
+      if (isLocalMode && localDb) {
+        // Use local anonymous sign-in
+        localDb.signInAnonymously();
+      } else if (firebase) {
+        // Use Firebase anonymous sign-in
+        firebase.auth().signInAnonymously();
+      }
     }
-  }, [currentUser]);
+  }, [currentUser, isLocalMode, localDb]);
 
   function AuthLoader() {
     const classes = useStyles();

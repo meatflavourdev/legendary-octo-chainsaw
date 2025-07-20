@@ -1,5 +1,5 @@
 # Entropy
-A real-time collaborative diagram editor using WebSockets and React. Entropy enables users to communicate visually in real-time.
+A real-time collaborative diagram editor using WebRTC and React. Entropy enables users to communicate visually in real-time with a local-first approach.
 
 ## ![entropy-social01](./public/img/entropy-social-01.png)
 
@@ -10,11 +10,38 @@ Install node package dependencies
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in local-first mode.\
+Open [http://localhost:12000](http://localhost:12000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### Local-First Mode
+
+By default, Entropy now runs in local-first mode, which:
+
+- Uses WebRTC for peer-to-peer connections between collaborators
+- Stores document data in your browser's IndexedDB
+- Works without requiring a Firebase account
+- Allows sharing documents via URLs that others can join
+
+To share a document with others:
+1. Create a new document
+2. Click the "Share" button to get a shareable URL
+3. Send this URL to collaborators
+4. They can join directly without needing to sign up
+
+For the best experience in local-first mode, collaborators should be on the same network or have direct connectivity.
+
+### Cloud Mode
+
+If you prefer to use the cloud-based version with Firebase:
+
+```
+yarn start:cloud
+```
+
+This will run the app with Firebase authentication and storage, and use WebSockets for collaboration.
 
 ### `yarn test`
 
@@ -23,8 +50,13 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder in local-first mode.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+To build for cloud mode:
+```
+yarn build:cloud
+```
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!

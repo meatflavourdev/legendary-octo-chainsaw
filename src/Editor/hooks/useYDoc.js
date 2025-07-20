@@ -3,7 +3,9 @@ import { useCallbackRef } from "use-callback-ref";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { WebrtcProvider } from "y-webrtc";
+import { IndexeddbPersistence } from 'y-indexeddb';
 import { useAuth } from "../../contexts/AuthContext";
+import { useLocalDb } from "../../contexts/LocalDbContext";
 import * as awarenessProtocol from "../../y-protocols/awareness";
 import config from "../../config";
 
@@ -17,13 +19,17 @@ const useYDoc = function (doc_id, currentUser) {
   // Create ref for yjs Y.Doc
   const yDoc = React.useRef(new Y.Doc());
 
-  // Allow other components to react to websocket sync state
-  const [wsSync, setWsSync] = useState(false);
+  // Allow other components to react to sync state
+  const [syncState, setSyncState] = useState(false);
 
   // Awareness protocol state
   const [awarenessState, setAwarenessState] = useState([]);
 
+  // Get auth context
   const { clientID, setClientID } = useAuth();
+  
+  // Get local DB context to check if we're in local mode
+  const { isLocalMode } = useLocalDb ? useLocalDb() : { isLocalMode: true };
 
   // Awareness reference
   const onAwarenessRefUpdate = (newValue, lastValue) => {
@@ -84,6 +90,7 @@ const useYDoc = function (doc_id, currentUser) {
   useEffect(() => {
     console.log(`────────────────────────────────────────────────`);
     console.log(`%c doc_id: ${doc_id}`, "color: green; font-weight: bold;");
+    console.log(`%c Local Mode: ${isLocalMode}`, "color: green; font-weight: bold;");
     console.log(
       `%c serverUrl: ${wsServerUrl}`,
       "color: blue; font-weight: bold;"
@@ -96,40 +103,102 @@ const useYDoc = function (doc_id, currentUser) {
     console.log(`────────────────────────────────────────────────`);
 
     yDoc.current = new Y.Doc({ guid: doc_id });
+    
+    // Set up IndexedDB persistence for offline support
+    const indexeddbProvider = new IndexeddbPersistence(roomName, yDoc.current);
+    indexeddbProvider.on('synced', () => {
+      console.log('Content from IndexedDB loaded');
+    });
 
-    const wsProvider = new WebsocketProvider(
-      wsServerUrl,
-      roomName,
-      yDoc.current
-    );
-    new WebrtcProvider(roomName, yDoc.current, {});
+    // Set up providers based on mode
+    let wsProvider;
+    let webrtcProvider;
+    let awareness;
+    
+    // In local mode, prioritize WebRTC
+    if (isLocalMode) {
+      // Create WebRTC provider first (for local p2p connections)
+      webrtcProvider = new WebrtcProvider(roomName, yDoc.current, {
+        signaling: ['wss://signaling.yjs.dev', 'wss://y-webrtc-signaling-eu.herokuapp.com', 'wss://y-webrtc-signaling-us.herokuapp.com'],
+        password: null, // No password required for the demo
+        awareness: awarenessRef.current,
+        maxConns: 20, // Maximum number of connections
+        filterBcConns: true, // Filter broadcast connections
+        peerOpts: {}, // Peer connection options
+      });
+      
+      // Use WebRTC awareness
+      awareness = webrtcProvider.awareness;
+      
+      // Update sync state when peers connect/disconnect
+      webrtcProvider.on('peers', (peers) => {
+        console.log('WebRTC peers:', peers);
+        setSyncState(peers.length > 0);
+      });
+      
+      // Also create WebSocket provider as fallback, but don't connect immediately
+      wsProvider = new WebsocketProvider(
+        wsServerUrl,
+        roomName,
+        yDoc.current,
+        { connect: false } // Don't connect immediately
+      );
+      
+      // Connect to WebSocket only if WebRTC fails after a timeout
+      setTimeout(() => {
+        if (!syncState) {
+          console.log('WebRTC connection not established, connecting to WebSocket as fallback');
+          wsProvider.connect();
+          
+          // Update sync state based on WebSocket connection
+          wsProvider.on('sync', (isSynced) => {
+            console.log(`WebSocket fallback status: ${isSynced ? "Connected" : "Not Connected"}`);
+            setSyncState(isSynced);
+          });
+        }
+      }, 5000); // Wait 5 seconds for WebRTC to connect
+    } else {
+      // In cloud mode, use WebSocket provider
+      wsProvider = new WebsocketProvider(
+        wsServerUrl,
+        roomName,
+        yDoc.current
+      );
+      
+      // Also create WebRTC provider for peer-to-peer connections
+      webrtcProvider = new WebrtcProvider(roomName, yDoc.current, {
+        signaling: ['wss://signaling.yjs.dev', 'wss://y-webrtc-signaling-eu.herokuapp.com', 'wss://y-webrtc-signaling-us.herokuapp.com'],
+        password: null,
+        awareness: awarenessRef.current,
+      });
+      
+      // Use WebSocket awareness
+      awareness = wsProvider.awareness;
+      
+      // Update sync state based on WebSocket connection
+      wsProvider.on('sync', (isSynced) => {
+        console.log(`WebSocket status: ${isSynced ? "Connected" : "Not Connected"}`);
+        setSyncState(isSynced);
+      });
+    }
 
-    //Get the awareness object from the websocket provider
-    const awareness = wsProvider.awareness;
+    // Set awareness reference
     awarenessRef.current = awareness;
-    window.awareness = wsProvider.awareness;
+    window.awareness = awareness;
 
-    // Observe when any user updates their awareness information
-
-    // Log connected status
-    wsProvider.on("sync", (status) =>
-      console.log(`Websocket status: ${status ? "Connected" : "Not Connected"}`)
-    );
-
-    // Update synced state on websocket sync
-    wsProvider.on("sync", (isSynced) => setWsSync(isSynced));
-
-    // Set default sync state to false to invalidate previous states.
-    setWsSync(false);
+    // Set default sync state to false to invalidate previous states
+    setSyncState(false);
 
     return () => {
       yDoc.current.destroy();
       awareness.destroy();
-      wsProvider.destroy();
+      if (wsProvider) wsProvider.destroy();
+      if (webrtcProvider) webrtcProvider.destroy();
+      if (indexeddbProvider) indexeddbProvider.destroy();
     };
-  }, [doc_id, wsServerUrl, roomName]);
+  }, [doc_id, wsServerUrl, roomName, isLocalMode]);
 
-  return [wsSync, yDoc, awarenessState, awarenessRef];
+  return [syncState, yDoc, awarenessState, awarenessRef];
 };
 
 export default useYDoc;
