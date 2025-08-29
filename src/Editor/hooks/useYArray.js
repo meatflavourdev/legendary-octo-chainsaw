@@ -1,5 +1,5 @@
-import React from "react";
-import * as Y from "yjs";
+import React from 'react';
+import * as Y from 'yjs';
 
 const useYArray = (yDoc, yArrayName) => {
   const [yArrayState, setYArrayState] = React.useState([]);
@@ -8,9 +8,10 @@ const useYArray = (yDoc, yArrayName) => {
     const yArray = yDoc.getArray(yArrayName);
 
     const yArrayObserver = (yArrayEvent, transaction) => {
+
       //console.log('yEvent: ', yEvent);
 
-      /*       const changeIndex = yEvent.delta[0].retain;
+/*       const changeIndex = yEvent.delta[0].retain;
 
       if (yEvent.changes.added.size) {
         const elements = yEvent.delta[1].insert;
@@ -23,12 +24,12 @@ const useYArray = (yDoc, yArrayName) => {
       //if (yEvent instanceof Y.YArrayEvent) {
       //const op = Object.keys(changesDelta[1]);
       //const node = Object.values(changesDelta[1])[0];
-      //console.log(`Observed change -- index: ${index} op: ${op} node: `, node); */
+        //console.log(`Observed change -- index: ${index} op: ${op} node: `, node); */
       //}
-      //console.log('yArrayObserver: ', yArrayEvent, transaction);
+      console.log('yArrayObserver: ', yArrayEvent, transaction);
 
       requestAnimationFrame(() => {
-        //console.log("yArray Conversion: ", yArray.toArray(), yArray.toJSON());
+        console.log('yArray Conversion: ', yArray.toArray(), yArray.toJSON());
         setYArrayState(yArray.toJSON());
       });
     };
